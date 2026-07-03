@@ -2,7 +2,7 @@ import os
 
 # إعدادات البوت الأساسية (سيتم جلبها بشكل آمن من البيئة المحيطة أو كتابتها هنا)
 BOT_TOKEN = os.getenv("BOT_TOKEN", "8684922805:AAGKNQDBVfmRoYX3DDS6Om_d1nu5Sv0O6bM")
-WEBAPP_URL = os.getenv("WEBAPP_URL", "https://google.com")
+WEBAPP_URL = os.getenv("WEBAPP_URL", "https://hashemshlabe1-sketch.github.io/imam-malik-platform/")
 
 # الداتا المهيكلة للقنوات والمجموعات لتسهيل الصيانة والتحديث مستقبلاً
 PLATFORM_DATA = {
