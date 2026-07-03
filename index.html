@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> منصة الإمام مالك التعليمية </title>
-    <!-- استدعاء خطوط مريحة للقراءة وأيقونات FontAwesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>منصة الإمام مالك التعليمية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- استدعاء السكريبت الرسمي لـ Telegram WebApp لربط الواجهة ببيئة التليجرام -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
         :root {
-            --bg-color: #faf8f5; /* خلفية ناعمة مريحة للعين ومتناسقة مع الصورة */
-            --card-bg: #ffffff;
-            --primary-green: #1b4d3e; /* الأخضر الغامق التراثي والمطابق لشعار المنصة */
-            --accent-green: #2c6b56;
-            --text-dark: #2d3748;
-            --text-muted: #718096; /* اللون الرمادي المخصص للنصوص الفرعية */
-            --border-gold: #e2d1b3;
+            --bg-color: #f5f3ef; /* خلفية كريمية دافئة وهادئة تبرز عناصر التصميم الزجاجي */
+            --card-bg: rgba(255, 255, 255, 0.75); /* أساس تأثير الزجاج المحفور */
+            --primary-green: #143e32; /* أخضر ملكي تراثي أعمق */
+            --accent-green: #225a47; /* أخضر وسيط متناسق */
+            --text-dark: #1a202c;
+            --text-muted: #4a5568; /* رمادي داكن واضح للقراءة للأوصاف الفرعية */
+            --border-gold: #d4af37; /* لون ذهبي دافئ للأزرار النشطة */
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --shadow-sm: 0 4px 10px rgba(20, 62, 50, 0.03);
+            --shadow-md: 0 8px 20px rgba(20, 62, 50, 0.06);
         }
 
         * {
@@ -31,11 +32,14 @@
 
         body {
             background-color: var(--bg-color);
+            background-image: radial-gradient(at 0% 0%, rgba(212, 175, 55, 0.05) 0px, transparent 50%),
+                              radial-gradient(at 100% 100%, rgba(34, 90, 71, 0.05) 0px, transparent 50%);
             color: var(--text-dark);
             padding: 20px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
 
         .container {
@@ -43,105 +47,117 @@
             max-width: 500px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 16px;
         }
 
-        /* حاوية الشعار الدائري الأنيق */
+        /* حاوية الشعار الدائري مع ظل ناعم */
         .logo-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 10px;
-            margin-bottom: 5px;
+            margin-top: 5px;
+            margin-bottom: 2px;
         }
 
         .app-logo {
-            width: 110px;
-            height: 110px;
+            width: 115px;
+            height: 115px;
             border-radius: 50%;
             object-fit: cover;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            border: 3px solid #ffffff;
+            box-shadow: var(--shadow-md);
             background-color: #ffffff;
-            padding: 4px;
+            padding: 2px;
         }
 
         /* تنسيق النصوص والعناوين أسفل الشعار */
         .brand-header {
             text-align: center;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
 
         .main-title {
-            font-size: 1.55rem;
-            font-weight: 700;
+            font-size: 1.6rem;
+            font-weight: 800;
             color: var(--primary-green);
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+            letter-spacing: -0.3px;
         }
 
         .sub-title {
             font-size: 0.95rem;
             color: var(--text-muted);
-            font-weight: 400;
+            font-weight: 600;
             line-height: 1.4;
         }
 
         /* الفاصل الخفيف أسفل العنوان */
         .header-divider {
             border: none;
-            border-top: 1px solid #e2e8f0;
-            margin: 5px auto;
-            width: 95%;
+            border-top: 1px solid rgba(20, 62, 50, 0.08);
+            margin: 2px auto;
+            width: 90%;
         }
 
-        /* بنر الدليل الشامل للمنصة - قابل للضغط */
+        /* بنر الدليل الشامل للمنصة بتأثير زجاجي متدرج فاخر */
         .banner-card {
             background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
             color: #ffffff;
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 18px 20px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            box-shadow: 0 4px 12px rgba(27, 77, 62, 0.12);
+            gap: 16px;
+            box-shadow: 0 10px 20px rgba(20, 62, 50, 0.15);
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .banner-card:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
+            box-shadow: 0 4px 10px rgba(20, 62, 50, 0.1);
         }
 
         .banner-icon {
-            background: rgba(255, 255, 255, 0.15);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .banner-info h2 {
             font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .banner-info p {
             font-size: 0.85rem;
-            opacity: 0.9;
+            opacity: 0.85;
+            font-weight: 400;
         }
 
-        /* شريط التنقل العلوي (Tabs) */
+        /* شريط التنقل العلوي الزجاجي (Tabs) */
         .tabs-container {
             display: flex;
             gap: 8px;
             overflow-x: auto;
-            padding-bottom: 5px;
+            padding: 4px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
             scrollbar-width: none;
+            box-shadow: var(--shadow-sm);
         }
 
         .tabs-container::-webkit-scrollbar {
@@ -149,91 +165,122 @@
         }
 
         .tab-btn {
-            background: var(--card-bg);
-            border: 1px solid rgba(0,0,0,0.04);
+            background: transparent;
+            border: none;
             padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            border-radius: 25px;
+            font-size: 0.88rem;
+            font-weight: 700;
             color: var(--text-dark);
             cursor: pointer;
             white-space: nowrap;
             display: flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
         }
 
         .tab-btn.active {
             background: #ffffff;
-            border-color: var(--border-gold);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
             color: var(--primary-green);
+            box-shadow: 0 4px 10px rgba(20, 62, 50, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.2);
         }
 
-        /* أزرار روابط القنوات والمجموعات */
+        /* حاوية محتوى البطاقات الذكية */
         .dynamic-content {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
+        /* تصميم البطاقات الذكية الزجاجية الفخمة */
         .channel-link {
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 14px 18px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             text-decoration: none;
             color: var(--text-dark);
-            border: 1px solid rgba(0,0,0,0.02);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
-            transition: transform 0.2s, background-color 0.2s;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s, box-shadow 0.2s;
         }
 
         .channel-link:active {
             transform: scale(0.98);
-            background: #fafafa;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 5px rgba(20, 62, 50, 0.03);
         }
 
         .channel-right {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
+            width: 85%;
         }
 
+        /* أيقونة القناة بتصميم دائري ملون وجذاب */
         .channel-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #f0f4f1;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(34, 90, 71, 0.1), rgba(20, 62, 50, 0.05));
             color: var(--primary-green);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
+            flex-shrink: 0;
+            border: 1px solid rgba(34, 90, 71, 0.15);
+        }
+
+        .channel-text-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
 
         .channel-name {
             font-size: 0.95rem;
-            font-weight: 600;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        /* الوصف الذكي الجديد أسفل اسم القناة */
+        .channel-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.3;
         }
 
         .telegram-arrow {
-            color: var(--text-muted);
+            color: rgba(20, 62, 50, 0.3);
             font-size: 0.9rem;
+            transition: transform 0.2s;
         }
 
-        /* قسم كناشة المتفقه المستقل */
+        .channel-link:active .telegram-arrow {
+            transform: translateX(-3px);
+            color: var(--primary-green);
+        }
+
+        /* ترقية واجهة "كناشتي الذكية" الدفترية */
         .konasha-section {
             background: var(--card-bg);
-            border-radius: 15px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
             padding: 20px;
-            border: 1px solid rgba(0,0,0,0.02);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-md);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
         .section-title {
@@ -243,28 +290,32 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
 
-        .form-control, .form-select {
+        .form-select, .form-control {
             width: 100%;
             padding: 12px;
             border-radius: 10px;
-            border: 1px solid #e2e8f0;
-            background-color: #f8fafc;
+            border: 1px solid rgba(20, 62, 50, 0.15);
+            background-color: rgba(255, 255, 255, 0.6);
             font-size: 0.9rem;
+            font-weight: 600;
             outline: none;
-            transition: border-color 0.2s, background-color 0.2s;
+            color: var(--text-dark);
+            transition: all 0.25s;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-select:focus, .form-control:focus {
             border-color: var(--accent-green);
             background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(34, 90, 71, 0.1);
         }
 
         textarea.form-control {
             resize: none;
-            height: 100px;
+            height: 110px;
+            line-height: 1.5;
         }
 
         .btn-submit {
@@ -280,58 +331,69 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 4px 6px rgba(44, 107, 86, 0.08);
+            box-shadow: 0 4px 10px rgba(20, 62, 50, 0.15);
+            transition: transform 0.2s;
         }
 
-        /* قائمة استعراض الفوائد */
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* بطاقات الفوائد المحفوظة المتطورة بلمسات ناعمة وعصرية */
         .saved-benefits-container {
-            margin-top: 10px;
+            margin-top: 5px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .benefit-card {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 15px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 14px;
+            padding: 16px;
+            border: 1px solid var(--glass-border);
             border-right: 4px solid var(--accent-green);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+            box-shadow: var(--shadow-sm);
             position: relative;
         }
 
         .benefit-tag {
             display: inline-block;
             font-size: 0.75rem;
-            background: #eef7f4;
+            background: rgba(34, 90, 71, 0.08);
             color: var(--primary-green);
-            padding: 2px 8px;
+            padding: 3px 10px;
             border-radius: 6px;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            border: 1px solid rgba(34, 90, 71, 0.1);
         }
 
         .benefit-text {
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             line-height: 1.6;
             color: var(--text-dark);
             white-space: pre-wrap;
+            font-weight: 500;
         }
 
         .benefit-actions {
             position: absolute;
-            top: 15px;
-            left: 15px;
+            top: 16px;
+            left: 16px;
         }
 
         .btn-delete {
             background: none;
             border: none;
-            color: #ef4444;
+            color: #e53e3e;
             cursor: pointer;
-            font-size: 0.9rem;
-            opacity: 0.6;
+            font-size: 0.95rem;
+            opacity: 0.5;
             transition: opacity 0.2s;
+            padding: 4px;
         }
 
         .btn-delete:hover {
@@ -341,18 +403,23 @@
         .empty-state {
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.85rem;
-            padding: 20px;
+            font-size: 0.88rem;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 14px;
+            border: 1px dashed rgba(20, 62, 50, 0.15);
         }
 
-        /* وتنسيق الواجهة الجديدة (Modal) لعرض الدليل الشامل */
+        /* تنسيق واجهة الدليل الشامل المنبثقة (Modal) */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(14, 38, 31, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             display: flex;
             justify-content: center;
             align-items: flex-end;
@@ -372,13 +439,13 @@
             width: 100%;
             max-width: 500px;
             max-height: 85vh;
-            border-top-left-radius: 25px;
-            border-top-right-radius: 25px;
-            padding: 25px 20px;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            padding: 24px 20px;
             overflow-y: auto;
             transform: translateY(100%);
-            transition: transform 0.3s ease-out;
-            box-shadow: 0 -5px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 -8px 30px rgba(0,0,0,0.15);
         }
 
         .modal-overlay.open .modal-content {
@@ -389,13 +456,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             border-bottom: 1px solid #edf2f7;
-            padding-bottom: 12px;
+            padding-bottom: 14px;
         }
 
         .modal-title {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: var(--primary-green);
         }
@@ -422,7 +489,7 @@
         }
 
         .modal-body p {
-            margin-bottom: 15px;
+            margin-bottom: 14px;
         }
 
         .modal-section-title {
@@ -437,12 +504,12 @@
 
         .modal-body ul {
             list-style-type: none;
-            padding-right: 5px;
+            padding-right: 4px;
         }
 
         .modal-body li {
             position: relative;
-            padding-right: 20px;
+            padding-right: 18px;
             margin-bottom: 8px;
         }
 
@@ -461,21 +528,17 @@
 
     <div class="container">
         
-        <!-- حاوية الشعار الدائري الأنيق -->
         <div class="logo-container">
             <img src="logo.png" alt="شعار منصة الإمام مالك" class="app-logo">
         </div>
 
-        <!-- العناوين الرئيسية المنسقة بدقة -->
         <div class="brand-header">
             <h1 class="main-title">منصة الإمام مَالِك التَّعليمية</h1>
             <p class="sub-title">البوابة الرقمية الشاملة لمنظومة مَالِك التعليمية</p>
         </div>
 
-        <!-- فاصل خطي خفيف ومتناسق -->
         <hr class="header-divider">
 
-        <!-- بنر الدليل الشامل (أصبح قابلاً للضغط لفتح الواجهة الجديدة) -->
         <div class="banner-card" onclick="openModal()">
             <div class="banner-icon">
                 <i class="fa-solid fa-compass"></i>
@@ -486,13 +549,12 @@
             </div>
         </div>
 
-        <!-- شريط التبويبات العلوي المتجاوب -->
         <div class="tabs-container">
             <button class="tab-btn active" onclick="switchTab('college')">
-                <i class="fa-solid fa-building-columns"></i> القنوات
+                <i class="fa-solid fa-building-columns"></i> القنوات العلمية
             </button>
             <button class="tab-btn" onclick="switchTab('useful')">
-                <i class="fa-solid fa-bullhorn"></i> دعوية
+                <i class="fa-solid fa-bullhorn"></i> دعوية وعامة
             </button>
             <button class="tab-btn" onclick="switchTab('groups')">
                 <i class="fa-solid fa-users"></i> المجموعات
@@ -502,12 +564,10 @@
             </button>
         </div>
 
-        <!-- منطقة المحتوى المحمل ديناميكياً لتسريع التصفح والأداء -->
         <div id="content-area" class="dynamic-content"></div>
 
     </div>
 
-    <!-- النافذة المنبثقة الجديدة (Modal) لعرض الدليل الشامل للكلية -->
     <div id="guide-modal" class="modal-overlay" onclick="closeModalOutside(event)">
         <div class="modal-content">
             <div class="modal-header">
@@ -561,7 +621,6 @@
             window.Telegram.WebApp.expand();
         }
 
-        // دوال التحكم بالواجهة الجديدة المنبثقة (Modal)
         function openModal() {
             document.getElementById('guide-modal').classList.add('open');
         }
@@ -576,26 +635,26 @@
             }
         }
 
-        // هيكلة بيانات روابط القنوات والمجموعات
+        // هيكلة مصفوفة البيانات الجديدة بعد تزويدها بالأوصاف الذكية لكل بطاقة
         const data = {
             college: [
-                { name: "قناة الإعلانات الخاصة بالكلية", url: "https://t.me/MALIKIST_0", icon: "fa-bullhorn" },
-                { name: "قناة كناشة المتفقه (الفقه المالكي)", url: "https://t.me/KONASHA_42", icon: "fa-book-open" },
-                { name: "قناة أصول الفقه", url: "https://t.me/atafaseelat42", icon: "fa-gavel" },
-                { name: "قناة تسهيل البيان", url: "https://t.me/tasheelalbyan_42", icon: "fa-pen-nib" },
-                { name: "قناة العقيدة", url: "https://t.me/AQIDIST_3", icon: "fa-mosque" },
-                { name: "قناة النحو", url: "https://t.me/NAHWIST_2", icon: "fa-language" },
-                { name: "قناة مكتبة الإمام مالك", url: "https://t.me/MALIKBOOKS", icon: "fa-book" }
+                { name: "قناة الإعلانات الخاصة بالكلية", desc: "تابع آخر المستجدات، جداول الامتحانات، والقرارات الإدارية الرسمية.", url: "https://t.me/MALIKIST_0", icon: "fa-bullhorn" },
+                { name: "قناة كناشة المتفقه (الفقه المالكي)", desc: "تقييد وتدارس أصول وفروع الفقه المالكي الأصيل ومدوناته.", url: "https://t.me/KONASHA_42", icon: "fa-book-open" },
+                { name: "قناة أصول الفقه", desc: "مدخل ومتابعة لقواعد استنباط الأحكام الشرعية والأدلة الفقهية.", url: "https://t.me/atafaseelat42", icon: "fa-gavel" },
+                { name: "قناة تسهيل البيان", desc: "شروحات مبسطة ومميزة لعلوم البلاغة والبيان في لغة القرآن.", url: "https://t.me/tasheelalbyan_42", icon: "fa-pen-nib" },
+                { name: "قناة العقيدة", desc: "دروس مستمرة في ترسيخ المعتقد السلفي الصحيح وفق الأثر.", url: "https://t.me/AQIDIST_3", icon: "fa-mosque" },
+                { name: "قناة النحو", desc: "تيسير قواعد الإعراب وشروحات ألفية ابن مالك للطلاب.", url: "https://t.me/NAHWIST_2", icon: "fa-language" },
+                { name: "قناة مكتبة الإمام مالك", desc: "مستودع الكتب والملفات والمراجع الشرعية المقررة بالكلية.", url: "https://t.me/MALIKBOOKS", icon: "fa-book" }
             ],
             useful: [
-                { name: "قناة امتحان إجازة القرآن الكريم", url: "https://t.me/AletQan24", icon: "fa-star-and-crescent" },
-                { name: "قناة تائبون وتائبات", url: "https://t.me/TAWBAH_03", icon: "fa-heart" },
-                { name: "قناة توعية دينية", url: "https://t.me/QALBSLEM", icon: "fa-hand-holding-heart" },
-                { name: "قناة دعم رشد لدعم القنوات السلفية", url: "https://t.me/M_AX_S42", icon: "fa-circle-nodes" }
+                { name: "قناة امتحان إجازة القرآن الكريم", desc: "متابعة شروط وإعلانات اختبارات نيل الإجازات القرآنية المعتمدة.", url: "https://t.me/AletQan24", icon: "fa-star-and-crescent" },
+                { name: "قناة تائبون وتائبات", desc: "مواعظ إيمانية رقيقة تلامس القلوب وتحث على الأوبة والاستغفار.", url: "https://t.me/TAWBAH_03", icon: "fa-heart" },
+                { name: "قناة توعية دينية", desc: "بطاقات دعوية، توجيهات سلوكية، ومفاهيم تهم كل مسلم ومسلمة.", url: "https://t.me/QALBSLEM", icon: "fa-hand-holding-heart" },
+                { name: "قناة دعم رشد لدعم القنوات السلفية", url: "https://t.me/M_AX_S42", desc: "شبكة تنسيق ونشر المحتوى التوجيهي والعلمي الموثوق.", icon: "fa-circle-nodes" }
             ],
             groups: [
-                { name: "مجموعة الطلاب", url: "https://t.me/+x3KFvbe9YFg4MWM0", icon: "fa-circle-user" },
-                { name: "مجموعة الطالبات", url: "https://t.me/+nevPJP3AGjhhYTNk", icon: "fa-circle-user" }
+                { name: "مجموعة الطلاب", desc: "الحلقة التفاعلية الخاصة بطلاب الكلية لتبادل النقاشات العلمية.", url: "https://t.me/+x3KFvbe9YFg4MWM0", icon: "fa-circle-user" },
+                { name: "مجموعة الطالبات", desc: "المجموعة التعليمية المخصصة لطالبات المنصة لمدارسة المقررات.", url: "https://t.me/+nevPJP3AGjhhYTNk", icon: "fa-circle-user" }
             ]
         };
 
@@ -646,7 +705,10 @@
                     card.innerHTML = `
                         <div class="channel-right">
                             <div class="channel-avatar"><i class="fa-solid ${item.icon}"></i></div>
-                            <div class="channel-name">${item.name}</div>
+                            <div class="channel-text-details">
+                                <div class="channel-name">${item.name}</div>
+                                <div class="channel-desc">${item.desc}</div>
+                            </div>
                         </div>
                         <div class="telegram-arrow"><i class="fa-solid fa-chevron-left"></i></div>
                     `;
@@ -655,7 +717,7 @@
             }
         }
 
-        // جلب الفوائد من الـ Local Storage
+        // إدارة الذاكرة المحلية (LocalStorage) لقسم كناشتي
         function loadBenefits() {
             const container = document.getElementById('saved-benefits');
             if(!container) return;
@@ -685,7 +747,6 @@
             });
         }
 
-        // حفظ الفائدة
         function saveBenefit() {
             const type = document.getElementById('benefit-type').value;
             const text = document.getElementById('benefit-text').value.trim();
@@ -712,7 +773,6 @@
             loadBenefits();
         }
 
-        // حذف الفائدة
         function deleteBenefit(id) {
             if(!confirm("هل أنت متأكد من رغبتك في محو هذه الفائدة العلمية من كناشتك؟")) return;
 
