@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الإمام مالك التعليمية </title>
-    <!-- استدعاء خطوط مريحة للقراءة وأيقونات FontAwesome -->
+    <title>منصة الإمام مالك التعليمية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- استدعاء السكريبت الرسمي لـ Telegram WebApp لربط الواجهة ببيئة التليجرام -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
         :root {
-            --bg-color: #f7f5ee;
+            --bg-color: #faf8f5; /* خلفية ناعمة مريحة للعين ومتناسقة مع الصورة */
             --card-bg: #ffffff;
-            --primary-green: #1b4d3e;
+            --primary-green: #1b4d3e; /* الأخضر الغامق التراثي والمطابق لشعار المنصة */
             --accent-green: #2c6b56;
             --text-dark: #2d3748;
-            --text-muted: #718096;
+            --text-muted: #718096; /* اللون الرمادي المخصص للنصوص الفرعية */
             --border-gold: #e2d1b3;
         }
 
@@ -32,7 +30,7 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-dark);
-            padding: 15px;
+            padding: 20px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -46,23 +44,53 @@
             gap: 15px;
         }
 
-        /* حاوية الشعار الدائري في أعلى واجهة التطبيق */
+        /* حاوية الشعار الدائري الأنيق المتطابق مع الصورة تماماً */
         .logo-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 5px;
+            margin-top: 10px;
             margin-bottom: 5px;
         }
 
         .app-logo {
-            width: 90px;
-            height: 90px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--primary-green);
-            box-shadow: 0 4px 10px rgba(27, 77, 62, 0.15);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
             background-color: #ffffff;
+            padding: 4px;
+        }
+
+        /* تنسيق النصوص والعناوين أسفل الشعار مباشرة */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .main-title {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .sub-title {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        /* الفاصل الخفيف أسفل العنوان */
+        .header-divider {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 5px auto;
+            width: 95%;
         }
 
         /* الهيدر والمقولة الثابتة */
@@ -71,8 +99,8 @@
             border-radius: 15px;
             padding: 20px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+            border: 1px solid rgba(0,0,0,0.03);
             position: relative;
         }
 
@@ -81,7 +109,7 @@
             top: 10px;
             left: 15px;
             font-size: 2rem;
-            color: rgba(27, 77, 62, 0.05);
+            color: rgba(27, 77, 62, 0.04);
         }
 
         .quote-text {
@@ -106,7 +134,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            box-shadow: 0 4px 12px rgba(27, 77, 62, 0.15);
+            box-shadow: 0 4px 12px rgba(27, 77, 62, 0.12);
         }
 
         .banner-icon {
@@ -131,7 +159,7 @@
             opacity: 0.9;
         }
 
-        /* شريط التنقل العلوي المطور (Tabs) */
+        /* شريط التنقل العلوي (Tabs) */
         .tabs-container {
             display: flex;
             gap: 8px;
@@ -146,7 +174,7 @@
 
         .tab-btn {
             background: var(--card-bg);
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.04);
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.85rem;
@@ -163,7 +191,7 @@
         .tab-btn.active {
             background: #ffffff;
             border-color: var(--border-gold);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
             color: var(--primary-green);
         }
 
@@ -183,9 +211,9 @@
             justify-content: space-between;
             text-decoration: none;
             color: var(--text-dark);
-            border: 1px solid rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.02);
             box-shadow: 0 2px 4px rgba(0,0,0,0.01);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s, background-color 0.2s;
         }
 
         .channel-link:active {
@@ -221,12 +249,12 @@
             font-size: 0.9rem;
         }
 
-        /* قسم كناشة المتفقه */
+        /* قسم كناشة المتفقه المستقل والمستقر */
         .konasha-section {
             background: var(--card-bg);
             border-radius: 15px;
             padding: 20px;
-            border: 1px solid rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.02);
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -250,7 +278,7 @@
             background-color: #f8fafc;
             font-size: 0.9rem;
             outline: none;
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, background-color 0.2s;
         }
 
         .form-control:focus, .form-select:focus {
@@ -276,7 +304,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 4px 6px rgba(44, 107, 86, 0.1);
+            box-shadow: 0 4px 6px rgba(44, 107, 86, 0.08);
         }
 
         /* قائمة استعراض الفوائد المحفوظة */
@@ -292,7 +320,7 @@
             border-radius: 12px;
             padding: 15px;
             border-right: 4px solid var(--accent-green);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
             position: relative;
         }
 
@@ -346,19 +374,23 @@
 
     <div class="container">
         
-        <!-- إضافة الشعار الدائري الجديد في أعلى الواجهة -->
         <div class="logo-container">
-            <img src="logo.png" alt="شعار المنصة" class="app-logo">
+            <img src="logo.png" alt="شعار منصة الإمام مالك" class="app-logo">
         </div>
 
-        <!-- المقولة المأثورة للترويح والتحفيز -->
+        <div class="brand-header">
+            <h1 class="main-title">منصة الإمام مَالِك التَّعليمية</h1>
+            <p class="sub-title">البوابة الرقمية الشاملة لمنظومة ابن باديس التعليمية</p>
+        </div>
+
+        <hr class="header-divider">
+
         <div class="header-card">
             <i class="fa-solid fa-quote-left quote-icon"></i>
             <div class="quote-text">"العلم زينة أهله في الدنيا والآخرة"</div>
             <div class="quote-author">— الإمام مالك بن أنس</div>
         </div>
 
-        <!-- بنر الدليل الشامل -->
         <div class="banner-card">
             <div class="banner-icon">
                 <i class="fa-solid fa-compass"></i>
@@ -369,7 +401,6 @@
             </div>
         </div>
 
-        <!-- شريط التبويبات العلوي المتجاوب -->
         <div class="tabs-container">
             <button class="tab-btn active" onclick="switchTab('college')">
                 <i class="fa-solid fa-building-columns"></i> القنوات
@@ -385,13 +416,12 @@
             </button>
         </div>
 
-        <!-- منطقة المحتوى المحمل ديناميكياً لتسريع التصفح والأداء -->
         <div id="content-area" class="dynamic-content"></div>
 
     </div>
 
     <script>
-        // تفعيل بيئة الـ Telegram Mini App بمرونة
+        // تفعيل بيئة الـ Telegram Mini App بمرونة واحترافية
         if (window.Telegram && window.Telegram.WebApp) {
             window.Telegram.WebApp.ready();
             window.Telegram.WebApp.expand();
@@ -476,12 +506,11 @@
             }
         }
 
-        // جلب الفوائد محلياً وثباتها للأبد من ذاكرة الهاتف/التطبيق
+        // جلب الفوائد محلياً وثباتها من ذاكرة التطبيق الداخلية (Local Storage) لضمان الأداء الكامل
         function loadBenefits() {
             const container = document.getElementById('saved-benefits');
             if(!container) return;
             
-            // جلب مصفوفة البيانات المخزنة محلياً
             const localData = localStorage.getItem('imam_malik_konasha');
             const benefits = localData ? JSON.parse(localData) : [];
 
@@ -520,7 +549,6 @@
             const localData = localStorage.getItem('imam_malik_konasha');
             const benefits = localData ? JSON.parse(localData) : [];
 
-            // إنشاء كائن فائدة جديد بمعرف فريد وتوقيت ذكي
             const newBenefit = {
                 id: 'b_' + Date.now(),
                 benefit_type: type,
@@ -528,21 +556,20 @@
                 date: new Date().toISOString()
             };
 
-            benefits.unshift(newBenefit); // إضافة الفائدة الجديدة في أول القائمة
+            benefits.unshift(newBenefit);
             localStorage.setItem('imam_malik_konasha', JSON.stringify(benefits));
 
             document.getElementById('benefit-text').value = '';
             loadBenefits();
         }
 
-        // حذف الفائدة من ذاكرة التخزين المحلية ديناميكياً
+        // حذف الفائدة ديناميكياً
         function deleteBenefit(id) {
-            if(!confirm("هل أنت متأكد من رغبتك في محو هذه الفائدة العلمية من كناشتك?")) return;
+            if(!confirm("هل أنت متأكد من رغبتك في محو هذه الفائدة العلمية من كناشتك؟")) return;
 
             const localData = localStorage.getItem('imam_malik_konasha');
             let benefits = localData ? JSON.parse(localData) : [];
 
-            // تصفية المصفوفة وحذف العنصر المحدد
             benefits = benefits.filter(b => b.id !== id);
             localStorage.setItem('imam_malik_konasha', JSON.stringify(benefits));
             
