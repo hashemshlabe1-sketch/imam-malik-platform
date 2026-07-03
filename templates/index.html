@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة الإمام مالك التعليمية</title>
+    <!-- استدعاء خطوط مريحة للقراءة وأيقونات FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- استدعاء السكريبت الرسمي لـ Telegram WebApp لربط الواجهة ببيئة التليجرام -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
         :root {
@@ -115,11 +118,11 @@
             gap: 8px;
             overflow-x: auto;
             padding-bottom: 5px;
-            scrollbar-width: none; /* لإخفاء شريط التمرير في فايرفوكس */
+            scrollbar-width: none;
         }
 
         .tabs-container::-webkit-scrollbar {
-            display: none; /* لإخفاء شريط التمرير في كروم وسفاري */
+            display: none;
         }
 
         .tab-btn {
@@ -318,22 +321,20 @@
             font-size: 0.85rem;
             padding: 20px;
         }
-
-        .hidden {
-            display: none !important;
-        }
     </style>
 </head>
 <body>
 
     <div class="container">
         
+        <!-- المقولة المأثورة للترويح والتحفيز -->
         <div class="header-card">
             <i class="fa-solid fa-quote-left quote-icon"></i>
             <div class="quote-text">"العلم زينة أهله في الدنيا والآخرة"</div>
             <div class="quote-author">— الإمام مالك بن أنس</div>
         </div>
 
+        <!-- بنر الدليل الشامل -->
         <div class="banner-card">
             <div class="banner-icon">
                 <i class="fa-solid fa-compass"></i>
@@ -344,6 +345,7 @@
             </div>
         </div>
 
+        <!-- شريط التبويبات العلوي المتجاوب -->
         <div class="tabs-container">
             <button class="tab-btn active" onclick="switchTab('college')">
                 <i class="fa-solid fa-building-columns"></i> القنوات
@@ -359,13 +361,19 @@
             </button>
         </div>
 
-        <div id="content-area" class="dynamic-content">
-            </div>
+        <!-- منطقة المحتوى المحمل ديناميكياً لتسريع التصفح والأداء -->
+        <div id="content-area" class="dynamic-content"></div>
 
     </div>
 
     <script>
-        // هيكلة بيانات القنوات والمجموعات بشكل منظم
+        // تفعيل بيئة الـ Telegram Mini App بمرونة
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand(); // تمديد الواجهة لتأخذ كامل حجم الشاشة
+        }
+
+        // هيكلة بيانات روابط القنوات والمجموعات كما حددتها بالكامل
         const data = {
             college: [
                 { name: "قناة الإعلانات الخاصة بالكلية", url: "https://t.me/MALIKIST_0", icon: "fa-bullhorn" },
@@ -390,25 +398,27 @@
 
         let currentTab = 'college';
 
-        // دالة التنقل بين التبويبات والأقسام
+        // دالة استخراج معرف التليجرام الخاص بالطالب الحقيقي لضمان حصر الفوائد له
+        function getTelegramUserId() {
+            return window.Telegram?.WebApp?.initDataUnsafe?.user?.id || "123456"; 
+        }
+
         function switchTab(tabName) {
             currentTab = tabName;
             
-            // تحديث الحالة البصرية للأزرار
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            const clickedBtn = event.currentTarget;
-            if(clickedBtn) clickedBtn.classList.add('active');
+            if(event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+            }
 
             renderContent();
         }
 
-        // دالة رندرة المحتوى بناءً على القسم النشط
         function renderContent() {
             const contentArea = document.getElementById('content-area');
             contentArea.innerHTML = '';
 
             if (currentTab === 'konasha') {
-                // بناء قسم كناشة المتفقه تفاعلياً
                 contentArea.innerHTML = `
                     <div class="konasha-section">
                         <div class="section-title"><i class="fa-solid fa-leaf"></i> تقييد فوائد العلم</div>
@@ -425,12 +435,11 @@
                             <i class="fa-solid fa-floppy-disk"></i> حفظ الفائدة
                         </button>
                     </div>
-                    <div class="section-title" style="margin-top:10px;"><i class="fa-solid fa-box-archive"></i> إنجازاتي وفوائدي</div>
+                    <div class="section-title" style="margin-top:15px;"><i class="fa-solid fa-box-archive"></i> إنجازاتي وفوائدي</div>
                     <div id="saved-benefits" class="saved-benefits-container"></div>
                 `;
                 loadBenefits();
             } else {
-                // بناء أقسام الروابط التليجرام
                 data[currentTab].forEach(item => {
                     const card = document.createElement('a');
                     card.href = item.url;
@@ -448,66 +457,86 @@
             }
         }
 
-        // إدارة الفوائد محلياً (ستربط بـ SQLite لاحقاً عبر الـ API)
+        // دالة الاتصال بالـ API لجلب الفوائد من قاعدة بيانات السيرفر (SQLite)
+        function loadBenefits() {
+            const container = document.getElementById('saved-benefits');
+            if(!container) return;
+            
+            const userId = getTelegramUserId();
+
+            fetch(`/api/benefits?user_id=${userId}`)
+                .then(res => res.json())
+                .then(benefits => {
+                    container.innerHTML = '';
+                    if (!benefits || benefits.length === 0) {
+                        container.innerHTML = `<div class="empty-state">لم تقم بتقييد أي فائدة بعد. اكتب فائدتك الأولى بالأعلى!</div>`;
+                        return;
+                    }
+                    benefits.forEach(b => {
+                        const bCard = document.createElement('div');
+                        bCard.className = "benefit-card";
+                        bCard.innerHTML = `
+                            <div class="benefit-tag">${b.benefit_type}</div>
+                            <div class="benefit-text">${escapeHtml(b.benefit_text)}</div>
+                            <div class="benefit-actions">
+                                <button class="btn-delete" onclick="deleteBenefit(${b.id})">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        `;
+                        container.appendChild(bCard);
+                    });
+                })
+                .catch(err => {
+                    container.innerHTML = `<div class="empty-state" style="color:red;">فشل الاتصال بالسيستم لمزامنة الفوائد.</div>`;
+                });
+        }
+
+        // دالة حفظ الفائدة الجديدة وإرسالها للسيرفر لتثبيتها في النظام بشكل دائم
         function saveBenefit() {
             const type = document.getElementById('benefit-type').value;
             const text = document.getElementById('benefit-text').value.trim();
+            const userId = getTelegramUserId();
 
             if (!text) {
                 alert("برجاء كتابة الفائدة أولاً قبل الحفظ.");
                 return;
             }
 
-            const benefits = JSON.parse(localStorage.getItem('konasha_benefits') || '[]');
-            const newBenefit = {
-                id: Date.now(),
-                type: type,
-                text: text
-            };
-
-            benefits.unshift(newBenefit); // إضافة في البداية
-            localStorage.setItem('konasha_benefits', JSON.stringify(benefits));
-            
-            document.getElementById('benefit-text').value = '';
-            loadBenefits();
+            fetch('/api/benefits', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId, benefit_type: type, benefit_text: text })
+            })
+            .then(res => res.json())
+            .then(resData => {
+                if(resData.success) {
+                    document.getElementById('benefit-text').value = '';
+                    loadBenefits(); // إعادة التحديث التلقائي للقائمة من السيرفر
+                }
+            })
+            .catch(err => alert("حدث خطأ أثناء الاتصال بالسيرفر لحفظ الفائدة."));
         }
 
-        function loadBenefits() {
-            const container = document.getElementById('saved-benefits');
-            if(!container) return;
-            
-            const benefits = JSON.parse(localStorage.getItem('konasha_benefits') || '[]');
-            container.innerHTML = '';
-
-            if (benefits.length === 0) {
-                container.innerHTML = `<div class="empty-state">لم تقم بتقييد أي فائدة بعد. اكتب فائدتك الأولى بالأعلى!</div>`;
-                return;
-            }
-
-            benefits.forEach(b => {
-                const bCard = document.createElement('div');
-                bCard.className = "benefit-card";
-                bCard.innerHTML = `
-                    <div class="benefit-tag">${b.type}</div>
-                    <div class="benefit-text">${escapeHtml(b.text)}</div>
-                    <div class="benefit-actions">
-                        <button class="btn-delete" onclick="deleteBenefit(${b.id})">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </div>
-                `;
-                container.appendChild(bCard);
-            });
-        }
-
+        // دالة حذف الفائدة من السيرفر بشكل نهائي وبأمان تام
         function deleteBenefit(id) {
-            let benefits = JSON.parse(localStorage.getItem('konasha_benefits') || '[]');
-            benefits = benefits.filter(b => b.id !== id);
-            localStorage.setItem('konasha_benefits', JSON.stringify(benefits));
-            loadBenefits();
+            const userId = getTelegramUserId();
+            
+            fetch('/api/benefits/delete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ benefit_id: id, user_id: userId })
+            })
+            .then(res => res.json())
+            .then(resData => {
+                if(resData.success) {
+                    loadBenefits(); // إعادة تحميل القائمة بعد الحذف بنجاح
+                }
+            })
+            .catch(err => alert("حدث خطأ أثناء محاولة حذف الفائدة من السيرفر."));
         }
 
-        // دالة حماية لمنع حقن كود خبيث في الحقول النصية
+        // دالة الحماية والوقاية من هجمات XSS لحقن الأكواد داخل الكناشة
         function escapeHtml(text) {
             return text
                 .replace(/&/g, "&amp;")
@@ -517,7 +546,7 @@
                 .replace(/'/g, "&#039;");
         }
 
-        // التشغيل التلقائي عند فتح المنصة
+        // انطلاق الرندرة تلقائياً عند فتح المنصة
         window.onload = renderContent;
     </script>
 </body>
