@@ -44,7 +44,7 @@
             gap: 15px;
         }
 
-        /* حاوية الشعار الدائري الأنيق المتطابق مع الصورة تماماً */
+        /* حاوية الشعار الدائري الأنيق */
         .logo-container {
             display: flex;
             justify-content: center;
@@ -64,7 +64,7 @@
             padding: 4px;
         }
 
-        /* تنسيق النصوص والعناوين أسفل الشعار مباشرة */
+        /* تنسيق النصوص والعناوين أسفل الشعار */
         .brand-header {
             text-align: center;
             margin-bottom: 5px;
@@ -93,39 +93,7 @@
             width: 95%;
         }
 
-        /* الهيدر والمقولة الثابتة */
-        .header-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
-            border: 1px solid rgba(0,0,0,0.03);
-            position: relative;
-        }
-
-        .quote-icon {
-            position: absolute;
-            top: 10px;
-            left: 15px;
-            font-size: 2rem;
-            color: rgba(27, 77, 62, 0.04);
-        }
-
-        .quote-text {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--accent-green);
-            margin-bottom: 8px;
-            font-style: italic;
-        }
-
-        .quote-author {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* البنر الرئيسي للمنصة */
+        /* بنر الدليل الشامل للمنصة */
         .banner-card {
             background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
             color: #ffffff;
@@ -249,7 +217,7 @@
             font-size: 0.9rem;
         }
 
-        /* قسم كناشة المتفقه المستقل والمستقر */
+        /* قسم كناشة المتفقه المستقل */
         .konasha-section {
             background: var(--card-bg);
             border-radius: 15px;
@@ -380,16 +348,10 @@
 
         <div class="brand-header">
             <h1 class="main-title">منصة الإمام مَالِك التَّعليمية</h1>
-            <p class="sub-title">البوابة الرقمية الشاملة لمنظومة ابن باديس التعليمية</p>
+            <p class="sub-title">البوابة الرقمية الشاملة لمنظومة مَالِك التعليمية</p>
         </div>
 
         <hr class="header-divider">
-
-        <div class="header-card">
-            <i class="fa-solid fa-quote-left quote-icon"></i>
-            <div class="quote-text">"العلم زينة أهله في الدنيا والآخرة"</div>
-            <div class="quote-author">— الإمام مالك بن أنس</div>
-        </div>
 
         <div class="banner-card">
             <div class="banner-icon">
@@ -397,7 +359,7 @@
             </div>
             <div class="banner-info">
                 <h2>الدليل الشامل للكلية والمنظومة</h2>
-                <p>تعرف على كلية الإمام مالك ونظام ابن باديس</p>
+                <p>تعرف على كلية الإمام مالك ونظام مَالِك</p>
             </div>
         </div>
 
@@ -427,7 +389,7 @@
             window.Telegram.WebApp.expand();
         }
 
-        // هيكلة بيانات روابط القنوات والمجموعات كما حددتها بالكامل
+        // هيكلة بيانات روابط القنوات والمجموعات
         const data = {
             college: [
                 { name: "قناة الإعلانات الخاصة بالكلية", url: "https://t.me/MALIKIST_0", icon: "fa-bullhorn" },
@@ -476,7 +438,7 @@
                             <option value="في الحديث">✨ في الحديث</option>
                             <option value="في اللغة">🖋️ في اللغة</option>
                             <option value="في أصول الفقه">⚖️ في أصول الفقه</option>
-                            <option value="في التفسير">📖 في التفسير</option>
+                            <option value="في التفس">📖 في التفسير</option>
                             <option value="فائدة عامة">💡 فائدة عامة</option>
                         </select>
                         <textarea id="benefit-text" class="form-control" placeholder="اكتب الدرر أو الفوائد العلمية التي التقطتها من مجالس الشيوخ هنا..."></textarea>
@@ -506,7 +468,7 @@
             }
         }
 
-        // جلب الفوائد محلياً وثباتها من ذاكرة التطبيق الداخلية (Local Storage) لضمان الأداء الكامل
+        // جلب الفوائد محلياً وثباتها من ذاكرة التطبيق الداخلية (Local Storage)
         function loadBenefits() {
             const container = document.getElementById('saved-benefits');
             if(!container) return;
