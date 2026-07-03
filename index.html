@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة الإمام مالك التعليمية </title>
+    <!-- استدعاء خطوط مريحة للقراءة وأيقونات FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- استدعاء السكريبت الرسمي لـ Telegram WebApp لربط الواجهة ببيئة التليجرام -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
@@ -93,7 +95,7 @@
             width: 95%;
         }
 
-        /* بنر الدليل الشامل للمنصة */
+        /* بنر الدليل الشامل للمنصة - قابل للضغط */
         .banner-card {
             background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
             color: #ffffff;
@@ -103,6 +105,12 @@
             align-items: center;
             gap: 15px;
             box-shadow: 0 4px 12px rgba(27, 77, 62, 0.12);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .banner-card:active {
+            transform: scale(0.98);
         }
 
         .banner-icon {
@@ -275,7 +283,7 @@
             box-shadow: 0 4px 6px rgba(44, 107, 86, 0.08);
         }
 
-        /* قائمة استعراض الفوائد المحفوظة */
+        /* قائمة استعراض الفوائد */
         .saved-benefits-container {
             margin-top: 10px;
             display: flex;
@@ -336,24 +344,139 @@
             font-size: 0.85rem;
             padding: 20px;
         }
+
+        /* وتنسيق الواجهة الجديدة (Modal) لعرض الدليل الشامل */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 500px;
+            max-height: 85vh;
+            border-top-left-radius: 25px;
+            border-top-right-radius: 25px;
+            padding: 25px 20px;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.1);
+        }
+
+        .modal-overlay.open .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #edf2f7;
+            padding-bottom: 12px;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .modal-close-btn {
+            background: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .modal-body {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-dark);
+            text-align: justify;
+        }
+
+        .modal-body p {
+            margin-bottom: 15px;
+        }
+
+        .modal-section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-right: 3px solid var(--border-gold);
+            padding-right: 8px;
+        }
+
+        .modal-body ul {
+            list-style-type: none;
+            padding-right: 5px;
+        }
+
+        .modal-body li {
+            position: relative;
+            padding-right: 20px;
+            margin-bottom: 8px;
+        }
+
+        .modal-body li::before {
+            content: "•";
+            color: var(--accent-green);
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: absolute;
+            top: -2px;
+            right: 0;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         
+        <!-- حاوية الشعار الدائري الأنيق -->
         <div class="logo-container">
             <img src="logo.png" alt="شعار منصة الإمام مالك" class="app-logo">
         </div>
 
+        <!-- العناوين الرئيسية المنسقة بدقة -->
         <div class="brand-header">
             <h1 class="main-title">منصة الإمام مَالِك التَّعليمية</h1>
             <p class="sub-title">البوابة الرقمية الشاملة لمنظومة مَالِك التعليمية</p>
         </div>
 
+        <!-- فاصل خطي خفيف ومتناسق -->
         <hr class="header-divider">
 
-        <div class="banner-card">
+        <!-- بنر الدليل الشامل (أصبح قابلاً للضغط لفتح الواجهة الجديدة) -->
+        <div class="banner-card" onclick="openModal()">
             <div class="banner-icon">
                 <i class="fa-solid fa-compass"></i>
             </div>
@@ -363,6 +486,7 @@
             </div>
         </div>
 
+        <!-- شريط التبويبات العلوي المتجاوب -->
         <div class="tabs-container">
             <button class="tab-btn active" onclick="switchTab('college')">
                 <i class="fa-solid fa-building-columns"></i> القنوات
@@ -378,15 +502,78 @@
             </button>
         </div>
 
+        <!-- منطقة المحتوى المحمل ديناميكياً لتسريع التصفح والأداء -->
         <div id="content-area" class="dynamic-content"></div>
 
     </div>
 
+    <!-- النافذة المنبثقة الجديدة (Modal) لعرض الدليل الشامل للكلية -->
+    <div id="guide-modal" class="modal-overlay" onclick="closeModalOutside(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fa-solid fa-graduation-cap"></i> دليل كلية الإمام مالك ونظام مَالِك</div>
+                <button class="modal-close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>كلية الإمام مالك هي مؤسسة تعليمية دينية إسلامية ليبية مقرها في العاصمة طرابلس و له عدة فروع داخل مدينة طرابلس و خارجها يتبع الكلية إداريا إلى الهيئة العامة للأوقاف و الشؤون الإسلامية في ليبيا.</p>
+                
+                <p>تأسست الكلية بناء على القرار رقم ( 80 ) لسنة ( 1432ه - 2011م ) بناء على قرار من اللجنة الشعبية العامة سابقا تحت إسم ( الكلية السلفية العالية للإمامة والخطابة والإرشاد وعلوم القرآن ) ثم أعيد تسميته، و تحديد تبعيته بقرار مجلس الوزراء رقم ( 238 ) لسنة: ( 1433هـ، 2012م ) ليصبح بمسمى ( كلية على بن زياد الطرابلسي العالي للإمامة و الخطابة وعلوم الكتاب و السنة )، و تكون تبعيته لوزارة الأوقاف و الشؤون الإسلامية، و أعيد تسميته للمرة الثالثة باسم ( كلية الإمام مالك بن أنس العالي للإمامة و الخطابة و علوم الكتاب والسنة)، بإيحاء من رئيس الوزراء بحكومة الوحدة الوطنية.</p>
+                
+                <p>و لكن لم يتم تفعيل الكلية خلال السنوات الماضية و كان التفعيل الرسمي له من قبل الهيئة العامة للأوقاف و الشؤون الإسلامية بفضل الله تعالى سنة: ( 1443هـ، الموافق 2022م ).</p>
+
+                <div class="modal-section-title">الأهداف</div>
+                <ul>
+                    <li>إعداد أشخاص متخصصين في مجالات متعددة كالعقيدة، والفقه، والحديث ، والتفسير، والقراءات.</li>
+                    <li>إعداد أئمة، و خطباء، و وعاظ ذوي كفاءةٍ علميةٍ عاليةٍ.</li>
+                    <li>تلبية احتياجات المساجد في مجال الإمامة و الخطابة و الوعظ و الإرشاد.</li>
+                    <li>تأهيل مدرسين ذوي كفاءة عالية في تدريس العلوم الشرعية، من أجل سدِّ حاجات المجتمع في مجال العلوم الشرعية.</li>
+                    <li>نشر البحوث العلمية المختصَّة، و إقامة المؤتمرات و الندوات في مجالات العلوم الشرعية.</li>
+                    <li>تنمية قدرات الدارسين بالتحليل الدقيق، و النقد البناء، و التواصل العلميّ مع الآخر من خلال المحاضرات و التدريب العمليِّ بما يُسهم في تكوين شخصية الإمام و الخطيب و الواعظ.</li>
+                    <li>تخريج مؤهلين ذوي كفاءة عالية في مجال الدراسات الإسلامية؛ لمواصلة دراساتهم العليا و الدقيقة.</li>
+                    <li>أن يكون الكلية منارة علميَّة يستضيءُ بها أبناءُ المسلمين داخل البلاد و خارجَها.</li>
+                </ul>
+
+                <div class="modal-section-title">الأقسام العلمية</div>
+                <p><strong>الدعوة و أصول الدين:</strong> إيجاد مخرجات علمية متخصصة وفق معايير الجودة الشاملة في مجالات التعليم و البحث، و تأهيل متخصصين متميزين في المجال الدعوي علمياً و فكرياً و سلوكيا و إعداد دعاة يتمتعون بالكفاءة و الوعي ، و تمكينهم من أداء دور فاعل في خدمة المجتمع في المجالات الدعوية النظرية و العملية يعكس صورة الإسلام الحق، مع التركيز على توظيف الأساليب الحديثة لمواجهة تحديات العصر و تحقيق التأثير الإيجابي في المجتمعات .</p>
+                <p><strong>علوم الشريعة:</strong> أن يكون قسم الشريعة مرجعًا أكاديميًا و مجتمعيًا رائدًا في إعداد علماء و فقهاء قادرين على الجمع بين الأصالة و المعاصرة، لتلبية احتياجات المجتمع و تعزيز القيم الإسلامية .</p>
+                <p><strong>علوم القراءات:</strong> تسعى شعبة القراءات إلى إعداد كوادر تربوية و تعليمية مؤهلة علميا في مجال القراءات القرآنية و الدراسات الإسلامية ؛ دعما للعملية التعليمية , و البحث العلمي ، و تلبية لاحتياجات المجتمع من معلمي القرآن الكريم و علومه .</p>
+
+                <div class="modal-section-title">فروع الكلية</div>
+                <ul>
+                    <li><strong>طرابلس أربعة فروع:</strong> ( تاجوراء بنين - النوفليين بنات - النجيلة بنات - طريق المشتل بنات )</li>
+                    <li><strong>السراج:</strong> فرع واحد</li>
+                    <li><strong>الزاوية فرعين:</strong> (طريق الفاسي ) .</li>
+                    <li><strong>مصراتة:</strong> فرع واحد .</li>
+                    <li><strong>ترهونة:</strong> فرع واحد .</li>
+                    <li><strong>الخمس:</strong> فرع واحد .</li>
+                    <li><strong>العجيلات:</strong> فرع واحد .</li>
+                    <li><strong>البيضاء:</strong> فرع واحد .</li>
+                    <li><strong>الزنتان فرع واحد:</strong> ( مسجد علي بن أبي طالب الزنتان ) .</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // تفعيل بيئة الـ Telegram Mini App بمرونة واحترافية
+        // تفعيل بيئة الـ Telegram Mini App
         if (window.Telegram && window.Telegram.WebApp) {
             window.Telegram.WebApp.ready();
             window.Telegram.WebApp.expand();
+        }
+
+        // دوال التحكم بالواجهة الجديدة المنبثقة (Modal)
+        function openModal() {
+            document.getElementById('guide-modal').classList.add('open');
+        }
+
+        function closeModal() {
+            document.getElementById('guide-modal').classList.remove('open');
+        }
+
+        function closeModalOutside(event) {
+            if (event.target === document.getElementById('guide-modal')) {
+                closeModal();
+            }
         }
 
         // هيكلة بيانات روابط القنوات والمجموعات
@@ -438,7 +625,7 @@
                             <option value="في الحديث">✨ في الحديث</option>
                             <option value="في اللغة">🖋️ في اللغة</option>
                             <option value="في أصول الفقه">⚖️ في أصول الفقه</option>
-                            <option value="في التفس">📖 في التفسير</option>
+                            <option value="في التفسير">📖 في التفسير</option>
                             <option value="فائدة عامة">💡 فائدة عامة</option>
                         </select>
                         <textarea id="benefit-text" class="form-control" placeholder="اكتب الدرر أو الفوائد العلمية التي التقطتها من مجالس الشيوخ هنا..."></textarea>
@@ -468,7 +655,7 @@
             }
         }
 
-        // جلب الفوائد محلياً وثباتها من ذاكرة التطبيق الداخلية (Local Storage)
+        // جلب الفوائد من الـ Local Storage
         function loadBenefits() {
             const container = document.getElementById('saved-benefits');
             if(!container) return;
@@ -498,7 +685,7 @@
             });
         }
 
-        // حفظ الفائدة فورياً في الـ Local Storage
+        // حفظ الفائدة
         function saveBenefit() {
             const type = document.getElementById('benefit-type').value;
             const text = document.getElementById('benefit-text').value.trim();
@@ -525,7 +712,7 @@
             loadBenefits();
         }
 
-        // حذف الفائدة ديناميكياً
+        // حذف الفائدة
         function deleteBenefit(id) {
             if(!confirm("هل أنت متأكد من رغبتك في محو هذه الفائدة العلمية من كناشتك؟")) return;
 
