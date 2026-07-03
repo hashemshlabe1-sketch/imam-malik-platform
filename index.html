@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الإمام مالك التعليمية </title>
+    <title>منصة الإمام مالك التعليمية</title>
     <!-- استدعاء خطوط مريحة للقراءة وأيقونات FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -11,44 +11,26 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
-        
+        :root {
+            --bg-color: #f5f3ef; /* خلفية كريمية دافئة وهادئة تبرز عناصر التصميم الزجاجي */
+            --card-bg: rgba(255, 255, 255, 0.75); /* أساس تأثير الزجاج المحفور */
+            --primary-green: #143e32; /* أخضر ملكي تراثي أعمق */
+            --accent-green: #225a47; /* أخضر وسيط متناسق */
+            --text-dark: #1a202c;
+            --text-muted: #4a5568; /* رمادي داكن واضح للقراءة للأوصاف الفرعية */
+            --border-gold: #d4af37; /* لون ذهبي دافئ للأزرار النشطة */
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --shadow-sm: 0 4px 10px rgba(20, 62, 50, 0.03);
+            --shadow-md: 0 8px 20px rgba(20, 62, 50, 0.06);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
-            
-      <style>
-:root {
-    /* هذه هي الألوان التي تحاكي درجة الورق الهادئ في 1000100984.jpg */
-    --bg-page: #f4f2ee !important;      /* لون الخلفية الورقية */
-    --card-bg: #ffffff !important;      /* لون البطاقات الأبيض */
-    --text-main: #2a463d !important;    /* الأخضر الغامق للنص */
-    --text-muted: #6e7672 !important;   /* الرمادي للأوصاف */
-    --border-color: #e5e1dc !important; /* لون الحدود الخفيفة */
-}
-
-body {
-    background-color: var(--bg-page) !important;
-    color: var(--text-main) !important;
-}
-
-/* تثبيت لون البطاقات ليكون دائماً أبيض مهما تغير وضع التليجرام */
-.banner-card, .channel-link, .konasha-section {
-    background-color: var(--card-bg) !important;
-    border: 1px solid var(--border-color) !important;
-    color: var(--text-main) !important;
-}
-
-/* جعل النصوص دائماً باللون الغامق */
-h1, h2, .main-title, .channel-name {
-    color: var(--text-main) !important;
-}
-
-/* لون شريط التبويبات ليظهر بوضوح */
-.tabs-container {
-    background: #e9e6e0 !important;
-}
-</style>
-
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
         body {
             background-color: var(--bg-color);
