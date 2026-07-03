@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة الإمام مالك التعليمية</title>
+    <!-- استدعاء خطوط مريحة للقراءة وأيقونات FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- استدعاء السكريبت الرسمي لـ Telegram WebApp لربط الواجهة ببيئة التليجرام -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <style>
+        :root {
+            --bg-color: #f7f5ee;
+            --card-bg: #ffffff;
+            --primary-green: #1b4d3e;
+            --accent-green: #2c6b56;
+            --text-dark: #2d3748;
+            --text-muted: #718096;
+            --border-gold: #e2d1b3;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* الهيدر والمقولة الثابتة */
+        .header-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .quote-icon {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 2rem;
+            color: rgba(27, 77, 62, 0.05);
+        }
+
+        .quote-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .quote-author {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* البنر الرئيسي للمنصة */
+        .banner-card {
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+            color: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 12px rgba(27, 77, 62, 0.15);
+        }
+
+        .banner-icon {
+            background: rgba(255, 255, 255, 0.15);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .banner-info h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .banner-info p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        /* شريط التنقل العلوي المطور (Tabs) */
+        .tabs-container {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            scrollbar-width: none;
+        }
+
+        .tabs-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            background: var(--card-bg);
+            border: 1px solid rgba(0,0,0,0.05);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            border-color: var(--border-gold);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            color: var(--primary-green);
+        }
+
+        /* أزرار روابط القنوات والمجموعات */
+        .dynamic-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .channel-link {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--text-dark);
+            border: 1px solid rgba(0,0,0,0.03);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .channel-link:active {
+            transform: scale(0.98);
+            background: #fafafa;
+        }
+
+        .channel-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .channel-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f4f1;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .channel-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .telegram-arrow {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* قسم كناشة المتفقه */
+        .konasha-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
+        .form-control, .form-select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent-green);
+            background-color: #ffffff;
+        }
+
+        textarea.form-control {
+            resize: none;
+            height: 100px;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--accent-green), var(--primary-green));
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(44, 107, 86, 0.1);
+        }
+
+        /* قائمة استعراض الفوائد المحفوظة */
+        .saved-benefits-container {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .benefit-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 15px;
+            border-right: 4px solid var(--accent-green);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            position: relative;
+        }
+
+        .benefit-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            background: #eef7f4;
+            color: var(--primary-green);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .benefit-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-dark);
+            white-space: pre-wrap;
+        }
+
+        .benefit-actions {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+
+        .btn-delete {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .btn-delete:hover {
+            opacity: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- المقولة المأثورة للترويح والتحفيز -->
+        <div class="header-card">
+            <i class="fa-solid fa-quote-left quote-icon"></i>
+            <div class="quote-text">"العلم زينة أهله في الدنيا والآخرة"</div>
+            <div class="quote-author">— الإمام مالك بن أنس</div>
+        </div>
+
+        <!-- بنر الدليل الشامل -->
+        <div class="banner-card">
+            <div class="banner-icon">
+                <i class="fa-solid fa-compass"></i>
+            </div>
+            <div class="banner-info">
+                <h2>الدليل الشامل للكلية والمنظومة</h2>
+                <p>تعرف على كلية الإمام مالك ونظام ابن باديس</p>
+            </div>
+        </div>
+
+        <!-- شريط التبويبات العلوي المتجاوب -->
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="switchTab('college')">
+                <i class="fa-solid fa-building-columns"></i> القنوات
+            </button>
+            <button class="tab-btn" onclick="switchTab('useful')">
+                <i class="fa-solid fa-bullhorn"></i> دعوية
+            </button>
+            <button class="tab-btn" onclick="switchTab('groups')">
+                <i class="fa-solid fa-users"></i> المجموعات
+            </button>
+            <button class="tab-btn" onclick="switchTab('konasha')">
+                <i class="fa-solid fa-leaf"></i> كناشتي
+            </button>
+        </div>
+
+        <!-- منطقة المحتوى المحمل ديناميكياً لتسريع التصفح والأداء -->
+        <div id="content-area" class="dynamic-content"></div>
+
+    </div>
+
+    <script>
+        // تفعيل بيئة الـ Telegram Mini App بمرونة
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand(); // تمديد الواجهة لتأخذ كامل حجم الشاشة
+        }
+
+        // هيكلة بيانات روابط القنوات والمجموعات كما حددتها بالكامل
+        const data = {
+            college: [
+                { name: "قناة الإعلانات الخاصة بالكلية", url: "https://t.me/MALIKIST_0", icon: "fa-bullhorn" },
+                { name: "قناة كناشة المتفقه (الفقه المالكي)", url: "https://t.me/KONASHA_42", icon: "fa-book-open" },
+                { name: "قناة أصول الفقه", url: "https://t.me/atafaseelat42", icon: "fa-gavel" },
+                { name: "قناة تسهيل البيان", url: "https://t.me/tasheelalbyan_42", icon: "fa-pen-nib" },
+                { name: "قناة العقيدة", url: "https://t.me/AQIDIST_3", icon: "fa-mosque" },
+                { name: "قناة النحو", url: "https://t.me/NAHWIST_2", icon: "fa-language" },
+                { name: "قناة مكتبة الإمام مالك", url: "https://t.me/MALIKBOOKS", icon: "fa-book" }
+            ],
+            useful: [
+                { name: "قناة امتحان إجازة القرآن الكريم", url: "https://t.me/AletQan24", icon: "fa-star-and-crescent" },
+                { name: "قناة تائبون وتائبات", url: "https://t.me/TAWBAH_03", icon: "fa-heart" },
+                { name: "قناة توعية دينية", url: "https://t.me/QALBSLEM", icon: "fa-hand-holding-heart" },
+                { name: "قناة دعم رشد لدعم القنوات السلفية", url: "https://t.me/M_AX_S42", icon: "fa-circle-nodes" }
+            ],
+            groups: [
+                { name: "مجموعة الطلاب", url: "https://t.me/+x3KFvbe9YFg4MWM0", icon: "fa-circle-user" },
+                { name: "مجموعة الطالبات", url: "https://t.me/+nevPJP3AGjhhYTNk", icon: "fa-circle-user" }
+            ]
+        };
+
+        let currentTab = 'college';
+
+        // دالة استخراج معرف التليجرام الخاص بالطالب الحقيقي لضمان حصر الفوائد له
+        function getTelegramUserId() {
+            return window.Telegram?.WebApp?.initDataUnsafe?.user?.id || "123456"; 
+        }
+
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            if(event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+            }
+
+            renderContent();
+        }
+
+        function renderContent() {
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = '';
+
+            if (currentTab === 'konasha') {
+                contentArea.innerHTML = `
+                    <div class="konasha-section">
+                        <div class="section-title"><i class="fa-solid fa-leaf"></i> تقييد فوائد العلم</div>
+                        <select id="benefit-type" class="form-select">
+                            <option value="فائدة فقهية">📜 فائدة فقهية</option>
+                            <option value="في الحديث">✨ في الحديث</option>
+                            <option value="في اللغة">🖋️ في اللغة</option>
+                            <option value="في أصول الفقه">⚖️ في أصول الفقه</option>
+                            <option value="في التفسير">📖 في التفسير</option>
+                            <option value="فائدة عامة">💡 فائدة عامة</option>
+                        </select>
+                        <textarea id="benefit-text" class="form-control" placeholder="اكتب الدرر أو الفوائد العلمية التي التقطتها من مجالس الشيوخ هنا..."></textarea>
+                        <button onclick="saveBenefit()" class="btn-submit">
+                            <i class="fa-solid fa-floppy-disk"></i> حفظ الفائدة
+                        </button>
+                    </div>
+                    <div class="section-title" style="margin-top:15px;"><i class="fa-solid fa-box-archive"></i> إنجازاتي وفوائدي</div>
+                    <div id="saved-benefits" class="saved-benefits-container"></div>
+                `;
+                loadBenefits();
+            } else {
+                data[currentTab].forEach(item => {
+                    const card = document.createElement('a');
+                    card.href = item.url;
+                    card.target = "_blank";
+                    card.className = "channel-link";
+                    card.innerHTML = `
+                        <div class="channel-right">
+                            <div class="channel-avatar"><i class="fa-solid ${item.icon}"></i></div>
+                            <div class="channel-name">${item.name}</div>
+                        </div>
+                        <div class="telegram-arrow"><i class="fa-solid fa-chevron-left"></i></div>
+                    `;
+                    contentArea.appendChild(card);
+                });
+            }
+        }
+
+        // دالة الاتصال بالـ API لجلب الفوائد من قاعدة بيانات السيرفر (SQLite)
+        function loadBenefits() {
+            const container = document.getElementById('saved-benefits');
+            if(!container) return;
+            
+            const userId = getTelegramUserId();
+
+            fetch(`/api/benefits?user_id=${userId}`)
+                .then(res => res.json())
+                .then(benefits => {
+                    container.innerHTML = '';
+                    if (!benefits || benefits.length === 0) {
+                        container.innerHTML = `<div class="empty-state">لم تقم بتقييد أي فائدة بعد. اكتب فائدتك الأولى بالأعلى!</div>`;
+                        return;
+                    }
+                    benefits.forEach(b => {
+                        const bCard = document.createElement('div');
+                        bCard.className = "benefit-card";
+                        bCard.innerHTML = `
+                            <div class="benefit-tag">${b.benefit_type}</div>
+                            <div class="benefit-text">${escapeHtml(b.benefit_text)}</div>
+                            <div class="benefit-actions">
+                                <button class="btn-delete" onclick="deleteBenefit(${b.id})">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        `;
+                        container.appendChild(bCard);
+                    });
+                })
+                .catch(err => {
+                    container.innerHTML = `<div class="empty-state" style="color:red;">فشل الاتصال بالسيستم لمزامنة الفوائد.</div>`;
+                });
+        }
+
+        // دالة حفظ الفائدة الجديدة وإرسالها للسيرفر لتثبيتها في النظام بشكل دائم
+        function saveBenefit() {
+            const type = document.getElementById('benefit-type').value;
+            const text = document.getElementById('benefit-text').value.trim();
+            const userId = getTelegramUserId();
+
+            if (!text) {
+                alert("برجاء كتابة الفائدة أولاً قبل الحفظ.");
+                return;
+            }
+
+            fetch('/api/benefits', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId, benefit_type: type, benefit_text: text })
+            })
+            .then(res => res.json())
+            .then(resData => {
+                if(resData.success) {
+                    document.getElementById('benefit-text').value = '';
+                    loadBenefits(); // إعادة التحديث التلقائي للقائمة من السيرفر
+                }
+            })
+            .catch(err => alert("حدث خطأ أثناء الاتصال بالسيرفر لحفظ الفائدة."));
+        }
+
+        // دالة حذف الفائدة من السيرفر بشكل نهائي وبأمان تام
+        function deleteBenefit(id) {
+            const userId = getTelegramUserId();
+            
+            fetch('/api/benefits/delete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ benefit_id: id, user_id: userId })
+            })
+            .then(res => res.json())
+            .then(resData => {
+                if(resData.success) {
+                    loadBenefits(); // إعادة تحميل القائمة بعد الحذف بنجاح
+                }
+            })
+            .catch(err => alert("حدث خطأ أثناء محاولة حذف الفائدة من السيرفر."));
+        }
+
+        // دالة الحماية والوقاية من هجمات XSS لحقن الأكواد داخل الكناشة
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // انطلاق الرندرة تلقائياً عند فتح المنصة
+        window.onload = renderContent;
+    </script>
+</body>
+</html>
