@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة الإمام مالك التعليمية</title>
-    <!-- استدعاء خطوط مريحة للقراءة وأيقونات FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- استدعاء السكريبت الرسمي لـ Telegram WebApp لربط الواجهة ببيئة التليجرام -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
@@ -327,14 +325,12 @@
 
     <div class="container">
         
-        <!-- المقولة المأثورة للترويح والتحفيز -->
         <div class="header-card">
             <i class="fa-solid fa-quote-left quote-icon"></i>
             <div class="quote-text">"العلم زينة أهله في الدنيا والآخرة"</div>
             <div class="quote-author">— الإمام مالك بن أنس</div>
         </div>
 
-        <!-- بنر الدليل الشامل -->
         <div class="banner-card">
             <div class="banner-icon">
                 <i class="fa-solid fa-compass"></i>
@@ -345,7 +341,6 @@
             </div>
         </div>
 
-        <!-- شريط التبويبات العلوي المتجاوب -->
         <div class="tabs-container">
             <button class="tab-btn active" onclick="switchTab('college')">
                 <i class="fa-solid fa-building-columns"></i> القنوات
@@ -361,7 +356,6 @@
             </button>
         </div>
 
-        <!-- منطقة المحتوى المحمل ديناميكياً لتسريع التصفح والأداء -->
         <div id="content-area" class="dynamic-content"></div>
 
     </div>
@@ -398,20 +392,6 @@
 
         let currentTab = 'college';
 
-        // دالة ديناميكية ذكية لاستنتاج مسار السيرفر تلقائياً ومنع تعارض النطاقات (CORS)
-        function getApiUrl(endpoint) {
-            // السيرفر يعمل محلياً على المنظومة أو منفذ 5000؛ نقوم بتوجيه الطلب ديناميكياً
-            const serverHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                ? 'http://127.0.0.1:5000' 
-                : ''; // يترك فارغاً ليعتمد مسار الاستضافة الموحد للنظام المربوط
-            return `${serverHost}${endpoint}`;
-        }
-
-        // دالة استخراج معرف التليجرام الخاص بالطالب الحقيقي لضمان حصر الفوائد له
-        function getTelegramUserId() {
-            return window.Telegram?.WebApp?.initDataUnsafe?.user?.id || "123456"; 
-        }
-
         function switchTab(tabName) {
             currentTab = tabName;
             
@@ -441,10 +421,10 @@
                         </select>
                         <textarea id="benefit-text" class="form-control" placeholder="اكتب الدرر أو الفوائد العلمية التي التقطتها من مجالس الشيوخ هنا..."></textarea>
                         <button onclick="saveBenefit()" class="btn-submit">
-                            <i class="fa-solid fa-floppy-disk"></i> حفظ الفائدة
+                            <i class="fa-solid fa-floppy-disk"></i> حفظ الفائدة في كناشتي
                         </button>
                     </div>
-                    <div class="section-title" style="margin-top:15px;"><i class="fa-solid fa-box-archive"></i> إنجازاتي وفوائدي</div>
+                    <div class="section-title" style="margin-top:15px;"><i class="fa-solid fa-box-archive"></i> إنجازاتي وفوائدي التليدة</div>
                     <div id="saved-benefits" class="saved-benefits-container"></div>
                 `;
                 loadBenefits();
@@ -466,83 +446,77 @@
             }
         }
 
-        // دالة جلب الفوائد المصلحة
+        // جلب الفوائد محلياً وثباتها للأبد من ذاكرة الهاتف/التطبيق
         function loadBenefits() {
             const container = document.getElementById('saved-benefits');
             if(!container) return;
             
-            const userId = getTelegramUserId();
+            // جلب مصفوفة البيانات المخزنة محلياً
+            const localData = localStorage.getItem('imam_malik_konasha');
+            const benefits = localData ? JSON.parse(localData) : [];
 
-            fetch(getApiUrl(`/api/benefits?user_id=${userId}`))
-                .then(res => res.json())
-                .then(benefits => {
-                    container.innerHTML = '';
-                    if (!benefits || benefits.length === 0) {
-                        container.innerHTML = `<div class="empty-state">لم تقم بتقييد أي فائدة بعد. اكتب فائدتك الأولى بالأعلى!</div>`;
-                        return;
-                    }
-                    benefits.forEach(b => {
-                        const bCard = document.createElement('div');
-                        bCard.className = "benefit-card";
-                        bCard.innerHTML = `
-                            <div class="benefit-tag">${b.benefit_type}</div>
-                            <div class="benefit-text">${escapeHtml(b.benefit_text)}</div>
-                            <div class="benefit-actions">
-                                <button class="btn-delete" onclick="deleteBenefit(${b.id})">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
-                            </div>
-                        `;
-                        container.appendChild(bCard);
-                    });
-                })
-                .catch(err => {
-                    container.innerHTML = `<div class="empty-state" style="color:red;">الواجهة جاهزة؛ بانتظار تشغيل الخادم السحابي لمزامنة الكناشة.</div>`;
-                });
+            container.innerHTML = '';
+            if (benefits.length === 0) {
+                container.innerHTML = `<div class="empty-state">لم تقم بتقييد أي فائدة بعد. كناشتك بيضاء سطر فيها أولى دررك العلمية بالأعلى!</div>`;
+                return;
+            }
+
+            benefits.forEach(b => {
+                const bCard = document.createElement('div');
+                bCard.className = "benefit-card";
+                bCard.innerHTML = `
+                    <div class="benefit-tag">${b.benefit_type}</div>
+                    <div class="benefit-text">${escapeHtml(b.benefit_text)}</div>
+                    <div class="benefit-actions">
+                        <button class="btn-delete" onclick="deleteBenefit('${b.id}')">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(bCard);
+            });
         }
 
-        // دالة حفظ الفائدة المصلحة
+        // حفظ الفائدة فورياً في الـ Local Storage
         function saveBenefit() {
             const type = document.getElementById('benefit-type').value;
             const text = document.getElementById('benefit-text').value.trim();
-            const userId = getTelegramUserId();
 
             if (!text) {
                 alert("برجاء كتابة الفائدة أولاً قبل الحفظ.");
                 return;
             }
 
-            fetch(getApiUrl('/api/benefits'), {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: userId, benefit_type: type, benefit_text: text })
-            })
-            .then(res => res.json())
-            .then(resData => {
-                if(resData.success) {
-                    document.getElementById('benefit-text').value = '';
-                    loadBenefits();
-                }
-            })
-            .catch(err => alert("عذراً، السيرفر حالياً مغلق. قم بتشغيل السيستم ليتم الحفظ في قاعدة البيانات."));
+            const localData = localStorage.getItem('imam_malik_konasha');
+            const benefits = localData ? JSON.parse(localData) : [];
+
+            // إنشاء كائن فائدة جديد بمعرف فريد وتوقيت ذكي
+            const newBenefit = {
+                id: 'b_' + Date.now(),
+                benefit_type: type,
+                benefit_text: text,
+                date: new Date().toISOString()
+            };
+
+            benefits.unshift(newBenefit); // إضافة الفائدة الجديدة في أول القائمة
+            localStorage.setItem('imam_malik_konasha', JSON.stringify(benefits));
+
+            document.getElementById('benefit-text').value = '';
+            loadBenefits();
         }
 
-        // دالة حذف الفائدة المصلحة
+        // حذف الفائدة من ذاكرة التخزين المحلية ديناميكياً
         function deleteBenefit(id) {
-            const userId = getTelegramUserId();
+            if(!confirm("هل أنت متأكد من رغبتك في محو هذه الفائدة العلمية من كناشتك؟")) return;
+
+            const localData = localStorage.getItem('imam_malik_konasha');
+            let benefits = localData ? JSON.parse(localData) : [];
+
+            // تصفية المصفوفة وحذف العنصر المحدد
+            benefits = benefits.filter(b => b.id !== id);
+            localStorage.setItem('imam_malik_konasha', JSON.stringify(benefits));
             
-            fetch(getApiUrl('/api/benefits/delete'), {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ benefit_id: id, user_id: userId })
-            })
-            .then(res => res.json())
-            .then(resData => {
-                if(resData.success) {
-                    loadBenefits();
-                }
-            })
-            .catch(err => alert("تعذر إرسال أمر الحذف، تأكد من تشغيل ملف main.py أولاً."));
+            loadBenefits();
         }
 
         function escapeHtml(text) {
