@@ -16,15 +16,39 @@
         * {
             box-sizing: border-box;
             margin: 0;
-      :root {
-    /* هذه هي الألوان الحقيقية المستخلصة من الصورة 1000100984.jpg */
-    --bg-page: #f0eee9;          /* الخلفية المائلة للرمادي الورقي الفاتح */
-    --card-bg: #fcfbf9;          /* خلفية البطاقات (أبيض مائل للدفء الشديد) */
-    --text-main: #273d36;        /* الأخضر الغامق (مطفأ جداً ومائل للرمادي) */
-    --text-muted: #6a716d;       /* رمادي محايد للأوصاف */
-    --accent-pill: #e8e5df;      /* لون التظليل الخفيف خلف الكلمات (مثل "رسمي") */
-    --border-line: #e3dfd9;      /* لون الحدود الرقيق جداً */
+      <style>
+:root {
+    /* هذه هي الألوان التي تحاكي درجة الورق الهادئ في 1000100984.jpg */
+    --bg-page: #f4f2ee !important;      /* لون الخلفية الورقية */
+    --card-bg: #ffffff !important;      /* لون البطاقات الأبيض */
+    --text-main: #2a463d !important;    /* الأخضر الغامق للنص */
+    --text-muted: #6e7672 !important;   /* الرمادي للأوصاف */
+    --border-color: #e5e1dc !important; /* لون الحدود الخفيفة */
 }
+
+body {
+    background-color: var(--bg-page) !important;
+    color: var(--text-main) !important;
+}
+
+/* تثبيت لون البطاقات ليكون دائماً أبيض مهما تغير وضع التليجرام */
+.banner-card, .channel-link, .konasha-section {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+}
+
+/* جعل النصوص دائماً باللون الغامق */
+h1, h2, .main-title, .channel-name {
+    color: var(--text-main) !important;
+}
+
+/* لون شريط التبويبات ليظهر بوضوح */
+.tabs-container {
+    background: #e9e6e0 !important;
+}
+</style>
+
 
         body {
             background-color: var(--bg-color);
