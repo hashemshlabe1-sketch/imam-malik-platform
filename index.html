@@ -370,7 +370,7 @@
         // تفعيل بيئة الـ Telegram Mini App بمرونة
         if (window.Telegram && window.Telegram.WebApp) {
             window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.expand(); // تمديد الواجهة لتأخذ كامل حجم الشاشة
+            window.Telegram.WebApp.expand();
         }
 
         // هيكلة بيانات روابط القنوات والمجموعات كما حددتها بالكامل
@@ -397,6 +397,15 @@
         };
 
         let currentTab = 'college';
+
+        // دالة ديناميكية ذكية لاستنتاج مسار السيرفر تلقائياً ومنع تعارض النطاقات (CORS)
+        function getApiUrl(endpoint) {
+            // السيرفر يعمل محلياً على المنظومة أو منفذ 5000؛ نقوم بتوجيه الطلب ديناميكياً
+            const serverHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                ? 'http://127.0.0.1:5000' 
+                : ''; // يترك فارغاً ليعتمد مسار الاستضافة الموحد للنظام المربوط
+            return `${serverHost}${endpoint}`;
+        }
 
         // دالة استخراج معرف التليجرام الخاص بالطالب الحقيقي لضمان حصر الفوائد له
         function getTelegramUserId() {
@@ -457,14 +466,14 @@
             }
         }
 
-        // دالة الاتصال بالـ API لجلب الفوائد من قاعدة بيانات السيرفر (SQLite)
+        // دالة جلب الفوائد المصلحة
         function loadBenefits() {
             const container = document.getElementById('saved-benefits');
             if(!container) return;
             
             const userId = getTelegramUserId();
 
-            fetch(`/api/benefits?user_id=${userId}`)
+            fetch(getApiUrl(`/api/benefits?user_id=${userId}`))
                 .then(res => res.json())
                 .then(benefits => {
                     container.innerHTML = '';
@@ -488,11 +497,11 @@
                     });
                 })
                 .catch(err => {
-                    container.innerHTML = `<div class="empty-state" style="color:red;">فشل الاتصال بالسيستم لمزامنة الفوائد.</div>`;
+                    container.innerHTML = `<div class="empty-state" style="color:red;">الواجهة جاهزة؛ بانتظار تشغيل الخادم السحابي لمزامنة الكناشة.</div>`;
                 });
         }
 
-        // دالة حفظ الفائدة الجديدة وإرسالها للسيرفر لتثبيتها في النظام بشكل دائم
+        // دالة حفظ الفائدة المصلحة
         function saveBenefit() {
             const type = document.getElementById('benefit-type').value;
             const text = document.getElementById('benefit-text').value.trim();
@@ -503,7 +512,7 @@
                 return;
             }
 
-            fetch('/api/benefits', {
+            fetch(getApiUrl('/api/benefits'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ user_id: userId, benefit_type: type, benefit_text: text })
@@ -512,17 +521,17 @@
             .then(resData => {
                 if(resData.success) {
                     document.getElementById('benefit-text').value = '';
-                    loadBenefits(); // إعادة التحديث التلقائي للقائمة من السيرفر
+                    loadBenefits();
                 }
             })
-            .catch(err => alert("حدث خطأ أثناء الاتصال بالسيرفر لحفظ الفائدة."));
+            .catch(err => alert("عذراً، السيرفر حالياً مغلق. قم بتشغيل السيستم ليتم الحفظ في قاعدة البيانات."));
         }
 
-        // دالة حذف الفائدة من السيرفر بشكل نهائي وبأمان تام
+        // دالة حذف الفائدة المصلحة
         function deleteBenefit(id) {
             const userId = getTelegramUserId();
             
-            fetch('/api/benefits/delete', {
+            fetch(getApiUrl('/api/benefits/delete'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ benefit_id: id, user_id: userId })
@@ -530,13 +539,12 @@
             .then(res => res.json())
             .then(resData => {
                 if(resData.success) {
-                    loadBenefits(); // إعادة تحميل القائمة بعد الحذف بنجاح
+                    loadBenefits();
                 }
             })
-            .catch(err => alert("حدث خطأ أثناء محاولة حذف الفائدة من السيرفر."));
+            .catch(err => alert("تعذر إرسال أمر الحذف، تأكد من تشغيل ملف main.py أولاً."));
         }
 
-        // دالة الحماية والوقاية من هجمات XSS لحقن الأكواد داخل الكناشة
         function escapeHtml(text) {
             return text
                 .replace(/&/g, "&amp;")
@@ -546,7 +554,6 @@
                 .replace(/'/g, "&#039;");
         }
 
-        // انطلاق الرندرة تلقائياً عند فتح المنصة
         window.onload = renderContent;
     </script>
 </body>
