@@ -12,17 +12,59 @@
     
     <style>
         :root {
-    /* لوحة ألوان مطورة: هدوء واحترافية */
-    --bg-color: #fcfbf7;           /* خلفية لوزية دافئة جداً ومريحة */
-    --card-bg: rgba(255, 255, 255, 0.9); /* شفافية أخف لتعزيز النقاء */
-    --primary-green: #2c4a42;      /* أخضر زيتوني داكن (وقور جداً) */
-    --accent-green: #4a675e;       /* أخضر متوسط للتباين الهادئ */
-    --text-dark: #2d3748;         /* رمادي فحمي للنصوص (أقل حدة من الأسود) */
-    --text-muted: #718096;        /* رمادي هادئ للأوصاف */
-    --border-gold: #c5a059;       /* ذهبي مطفي غير لامع */
-    --glass-border: rgba(44, 74, 66, 0.08); /* حدود زجاجية خفيفة جداً */
-    --shadow-sm: 0 2px 8px rgba(44, 74, 66, 0.05);
+    /* الألوان المطابقة تماماً لـ 1000100984.jpg */
+    --bg-page: #f4f2ee;           /* الخلفية الرئيسية (كريمي ترابي) */
+    --card-bg: #ffffff;           /* لون البطاقات (أبيض) */
+    --text-primary: #2a463d;      /* الأخضر الأساسي للنصوص والعناوين */
+    --text-secondary: #6e7672;    /* اللون الرمادي المائل للأخضر للأوصاف */
+    --border-subtle: #e5e1dc;     /* لون الحدود الخفيفة */
+    --pill-bg: #f0ede8;          /* لون خلفية الأزرار (مثل "رسمي") */
+    --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
+
+body {
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+/* تنسيق البطاقات (التي تحتوي على القنوات) */
+.channel-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 15px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+/* تنسيق النصوص داخل البطاقات */
+.card-title {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.card-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+/* تنسيق أزرار الحالة (مثل "رسمي") */
+.badge {
+    background-color: var(--pill-bg);
+    color: var(--text-primary);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+}
+        
 
 
         * {
