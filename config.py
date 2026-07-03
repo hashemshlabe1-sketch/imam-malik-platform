@@ -1,8 +1,8 @@
 import os
 
 # إعدادات البوت الأساسية (سيتم جلبها بشكل آمن من البيئة المحيطة أو كتابتها هنا)
-BOT_TOKEN = os.getenv("BOT_TOKEN", "ضع_توكن_البوت_هنا_لاحقاً")
-WEBAPP_URL = os.getenv("WEBAPP_URL", "ضع_رابط_المنصة_المستضافة_هنا_لاحقاً")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "8684922805:AAGKNQDBVfmRoYX3DDS6Om_d1nu5Sv0O6bM")
+WEBAPP_URL = os.getenv("WEBAPP_URL", "https://google.com")
 
 # الداتا المهيكلة للقنوات والمجموعات لتسهيل الصيانة والتحديث مستقبلاً
 PLATFORM_DATA = {
