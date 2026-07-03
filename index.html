@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الإمام مالك التعليمية </title>
+    <title>منصة الإمام مالك التعليمية</title>
+    <!-- استدعاء خطوط مريحة للقراءة وأيقونات FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- استدعاء السكريبت الرسمي لـ Telegram WebApp لربط الواجهة ببيئة التليجرام -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
@@ -145,39 +147,50 @@
             font-weight: 400;
         }
 
-        /* شريط التنقل العلوي الزجاجي (Tabs) */
+        /* تعديل جوهري: توزيع الأقسام الأربعة بالتساوي بدون تمرير نهائياً */
         .tabs-container {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* قسّم المساحة إلى 4 أعمدة متساوية تماماً */
+            gap: 4px;
             padding: 4px;
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-radius: 30px;
             border: 1px solid var(--glass-border);
-            scrollbar-width: none;
             box-shadow: var(--shadow-sm);
-        }
-
-        .tabs-container::-webkit-scrollbar {
-            display: none;
+            overflow: hidden; /* منع التمرير الجانبي */
         }
 
         .tab-btn {
             background: transparent;
             border: none;
-            padding: 8px 16px;
+            padding: 8px 4px; /* تقليص الحواف الجانبية لتناسب الشاشات */
             border-radius: 25px;
-            font-size: 0.88rem;
+            font-size: 0.78rem; /* حجم خط مثالي ومناسب جداً للشاشات الصغيرة */
             font-weight: 700;
             color: var(--text-dark);
             cursor: pointer;
-            white-space: nowrap;
             display: flex;
+            flex-direction: column; /* جعل الأيقونة فوق النص لتوفير مساحة عرضية مذهلة */
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            gap: 4px;
             transition: all 0.25s ease;
+            text-align: center;
+        }
+
+        /* عند الشاشات العادية، تظهر الأيقونة بجانب النص */
+        @media(min-width: 360px) {
+            .tab-btn {
+                flex-direction: row; /* إرجاع الأيقونة بجانب النص عند توفر مساحة كافية */
+                font-size: 0.8rem;
+                padding: 8px 6px;
+            }
+        }
+
+        .tab-btn i {
+            font-size: 0.9rem;
         }
 
         .tab-btn.active {
@@ -528,10 +541,12 @@
 
     <div class="container">
         
+        <!-- حاوية الشعار -->
         <div class="logo-container">
             <img src="logo.png" alt="شعار منصة الإمام مالك" class="app-logo">
         </div>
 
+        <!-- العناوين الرئيسية المحدثة والمنسقة -->
         <div class="brand-header">
             <h1 class="main-title">منصة الإمام مَالِك التَّعليمية</h1>
             <p class="sub-title">البوابة الرقمية الشاملة لمنظومة مَالِك التعليمية</p>
@@ -539,6 +554,7 @@
 
         <hr class="header-divider">
 
+        <!-- بنر الدليل الشامل التفاعلي -->
         <div class="banner-card" onclick="openModal()">
             <div class="banner-icon">
                 <i class="fa-solid fa-compass"></i>
@@ -549,12 +565,13 @@
             </div>
         </div>
 
+        <!-- شريط التبويبات العلوي: تم اختصار الأسماء بذكاء لتظهر معاً بالكامل بدون تمرير -->
         <div class="tabs-container">
             <button class="tab-btn active" onclick="switchTab('college')">
-                <i class="fa-solid fa-building-columns"></i> القنوات العلمية
+                <i class="fa-solid fa-building-columns"></i> علمية
             </button>
             <button class="tab-btn" onclick="switchTab('useful')">
-                <i class="fa-solid fa-bullhorn"></i> دعوية وعامة
+                <i class="fa-solid fa-bullhorn"></i> دعوية
             </button>
             <button class="tab-btn" onclick="switchTab('groups')">
                 <i class="fa-solid fa-users"></i> المجموعات
@@ -564,10 +581,12 @@
             </button>
         </div>
 
+        <!-- منطقة المحتوى المحمل ديناميكياً للبطاقات الذكية -->
         <div id="content-area" class="dynamic-content"></div>
 
     </div>
 
+    <!-- النافذة المنبثقة للدليل الشامل (Modal) -->
     <div id="guide-modal" class="modal-overlay" onclick="closeModalOutside(event)">
         <div class="modal-content">
             <div class="modal-header">
