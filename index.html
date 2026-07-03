@@ -11,66 +11,24 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
-        :root {
-    /* الألوان المطابقة تماماً لـ 1000100984.jpg */
-    --bg-page: #f4f2ee;           /* الخلفية الرئيسية (كريمي ترابي) */
-    --card-bg: #ffffff;           /* لون البطاقات (أبيض) */
-    --text-primary: #2a463d;      /* الأخضر الأساسي للنصوص والعناوين */
-    --text-secondary: #6e7672;    /* اللون الرمادي المائل للأخضر للأوصاف */
-    --border-subtle: #e5e1dc;     /* لون الحدود الخفيفة */
-    --pill-bg: #f0ede8;          /* لون خلفية الأزرار (مثل "رسمي") */
-    --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-}
-
-body {
-    background-color: var(--bg-page);
-    color: var(--text-primary);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 20px;
-}
-
-/* تنسيق البطاقات (التي تحتوي على القنوات) */
-.channel-card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-subtle);
-    border-radius: 16px;
-    padding: 15px;
-    margin-bottom: 12px;
-    box-shadow: var(--shadow-soft);
-    display: flex;
-    align-items: center;
-    transition: transform 0.2s;
-}
-
-/* تنسيق النصوص داخل البطاقات */
-.card-title {
-    color: var(--text-primary);
-    font-weight: 600;
-    font-size: 1.1rem;
-}
-
-.card-description {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-top: 4px;
-}
-
-/* تنسيق أزرار الحالة (مثل "رسمي") */
-.badge {
-    background-color: var(--pill-bg);
-    color: var(--text-primary);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-}
+        
         
 
 
         * {
             box-sizing: border-box;
             margin: 0;
-            padding: 0;
+      :root {
+    /* لوحة الألوان المستخرجة من 1000100984.jpg */
+    --bg-page: #f4f2ee;          /* الخلفية الرئيسية (كريمي فاتح ترابي) */
+    --card-bg: #ffffff;          /* خلفية البطاقات (أبيض نقي) */
+    --text-main: #2a463d;        /* الأخضر المستخدم في النصوص والعناوين */
+    --text-muted: #6e7672;       /* اللون الرمادي للأوصاف الفرعية */
+    --accent-green: #3f5950;     /* الأخضر الغامق للعناصر البارزة */
+    --border-color: #e5e1dc;     /* لون الحدود الخفيفة للبطاقات */
+    --highlight-pill: #f0ede8;    /* لون خلفية الأزرار (مثل "رسمي") */
+}
+      padding: 0;
             font-family: 'Cairo', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
