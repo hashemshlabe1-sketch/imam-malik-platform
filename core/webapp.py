@@ -1,53 +1,44 @@
-from flask import Flask, render_template, request, jsonify
-from core.database import init_db, add_benefit, get_user_benefits, delete_benefit
-import config
+import os
+from flask import Flask, request, jsonify, send_from_directory
+from core.database import init_db, save_benefit, get_benefits, delete_benefit
 
-app = Flask(__name__, template_folder='../templates')
+# تحديد مسار المجلد الرئيسي للمشروع حيث يتواجد ملف index.html الآن
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# تهيئة قاعدة البيانات والتأكد من وجود الجداول فور تشغيل الخادم
+app = Flask(__name__)
+
+# إنشاء وتجهيز قاعدة البيانات تلقائياً عند التشغيل
 init_db()
 
 @app.route('/')
-def index():
-    """عرض الواجهة الرئيسية للمنصة"""
-    return render_template('index.html')
+def home():
+    """تقديم واجهة المنصة من المجلد الرئيسي للمستودع مباشرة"""
+    return send_from_directory(BASE_DIR, 'index.html')
 
 @app.route('/api/benefits', methods=['GET'])
-def get_benefits():
-    """منفذ لجلب فوائد طالب معين بناءً على معرف التيليجرام الخاص به"""
+def fetch_benefits():
     user_id = request.args.get('user_id')
     if not user_id:
-        return jsonify({"error": "user_id مطلوب"}), 400
-    
-    benefits = get_user_benefits(user_id)
-    return jsonify(benefits)
+        return jsonify([])
+    return jsonify(get_benefits(user_id))
 
 @app.route('/api/benefits', methods=['POST'])
-def save_benefit():
-    """منفذ لحفظ فائدة جديدة أرسلها الطالب من الكناشة"""
+def add_benefit():
     data = request.json
-    user_id = data.get('user_id')
-    benefit_type = data.get('benefit_type')
-    benefit_text = data.get('benefit_text')
+    if not data or 'user_id' not in data or 'benefit_text' not in data:
+        return jsonify({"success": False, "error": "بيانات ناقصة"})
     
-    if not user_id or not benefit_type or not benefit_text:
-        return jsonify({"error": "جميع الحقول مطلوبة"}), 400
-        
-    add_benefit(user_id, benefit_type, benefit_text)
-    return jsonify({"success": True, "message": "تم تقييد الفائدة بنجاح"})
+    save_benefit(data['user_id'], data.get('benefit_type', 'عامة'), data['benefit_text'])
+    return jsonify({"success": True})
 
 @app.route('/api/benefits/delete', methods=['POST'])
 def remove_benefit():
-    """منفذ لحذف فائدة معينة بشكل آمن"""
     data = request.json
-    benefit_id = data.get('benefit_id')
-    user_id = data.get('user_id')
+    if not data or 'benefit_id' not in data or 'user_id' not in data:
+        return jsonify({"success": False, "error": "بيانات ناقصة"})
     
-    if not benefit_id or not user_id:
-        return jsonify({"error": "بيانات غير مكتملة"}), 400
-        
-    delete_benefit(benefit_id, user_id)
-    return jsonify({"success": True, "message": "تم حذف الفائدة"})
+    success = delete_benefit(data['benefit_id'], data['user_id'])
+    return jsonify({"success": success})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
