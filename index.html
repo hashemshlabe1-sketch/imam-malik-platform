@@ -4,23 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة الإمام مالك التعليمية</title>
+    <!-- خط القاهرة بالأوزان المتعددة وأيقونات FontAwesome المحدثة -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- السكريبت الرسمي لـ Telegram WebApp -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
         :root {
-            --bg-color: #fcfbfa; /* خلفية حريرية فائقة النقاء والهدوء */
-            --card-bg: rgba(255, 255, 255, 0.85); /* زجاج أبيض ناصع وناعم */
-            --primary-green: #1b4332; /* أخضر وجداني عميق ومريح */
-            --accent-green: #2d6a4f; /* أخضر عشبي متناسق للمؤشرات */
-            --gold-premium: #c5a059; /* ذهبي ملكي مطفي للأناقة والتفاصيل */
-            --text-dark: #22252a; /* لون نص داكن مريح جداً للقراءة */
-            --text-muted: #5a626a; /* رمادي متوازن للأوصاف الفرعية */
-            --glass-border: rgba(255, 255, 255, 0.9);
-            --inner-border: rgba(27, 67, 50, 0.06);
-            --shadow-3d: 0 15px 35px rgba(27, 67, 50, 0.08), 0 5px 15px rgba(197, 160, 89, 0.04);
-            --shadow-btn: 0 8px 20px rgba(27, 67, 50, 0.1);
+            --bg-color: #faf9f6; /* خلفية عاجية هادئة جداً ومريحة للعين طوال اليوم */
+            --card-bg: rgba(255, 255, 255, 0.82); /* زجاج ناصع ناعم */
+            --primary-green: #113327; /* أخضر زمردي داكن وقور */
+            --accent-green: #1e523f; /* أخضر عشبي متوازن */
+            --gold-premium: #b8934b; /* ذهبي عتيق مطفي للتفاصيل الدقيقة */
+            --text-dark: #202326; /* لون نص أساسي مريح جداً قرائياً */
+            --text-muted: #5e666e; /* رمادي ناعم للأوصاف */
+            --glass-border: rgba(17, 51, 39, 0.05); /* حدود ناعمة للغاية */
+            --shadow-3d: 0 10px 25px rgba(11, 35, 27, 0.05), 0 3px 10px rgba(184, 147, 75, 0.02);
+            --shadow-active: 0 4px 12px rgba(11, 35, 27, 0.03);
         }
 
         * {
@@ -34,10 +35,10 @@
         body {
             background-color: var(--bg-color);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(197, 160, 89, 0.04) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(45, 106, 79, 0.03) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(184, 147, 75, 0.03) 0px, transparent 40%),
+                radial-gradient(at 100% 100%, rgba(30, 82, 63, 0.03) 0px, transparent 40%);
             color: var(--text-dark);
-            padding: 24px 16px;
+            padding: 16px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -46,96 +47,98 @@
 
         .container {
             width: 100%;
-            max-width: 480px;
+            max-width: 440px; /* تقليص الحاوية لتصبح ملمومة وأكثر تناسقاً */
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 14px; /* مسافات بينية متناسقة ومصغرة */
         }
 
-        /* حاوية الشعار ثلاثية الأبعاد الاحترافية 3D Effect */
+        /* حاوية الشعار ثلاثية الأبعاد الاحترافية المصغرة */
         .logo-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 10px;
-            margin-bottom: 5px;
-            perspective: 1000px;
+            margin-top: 5px;
+            perspective: 800px;
         }
 
         .app-logo {
-            width: 130px;
-            height: 130px;
+            width: 110px; /* حجم متناسق جداً وليس ضخماً */
+            height: 110px;
             border-radius: 50%;
             object-fit: cover;
             border: 4px solid #ffffff;
             background-color: #ffffff;
-            padding: 3px;
+            padding: 2px;
             box-shadow: 
-                0 10px 30px rgba(27, 67, 50, 0.12),
-                0 1px 3px rgba(0, 0, 0, 0.05),
-                inset 0 4px 10px rgba(0,0,0,0.03);
-            transform: translateZ(20px);
-            transition: transform 0.3s ease;
+                0 12px 28px rgba(17, 51, 39, 0.1),
+                0 2px 5px rgba(0, 0, 0, 0.03),
+                inset 0 2px 6px rgba(0,0,0,0.02);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* تفاصيل نصوص الهوية */
+        .app-logo:hover {
+            transform: scale(1.03) translateZ(10px);
+        }
+
         .brand-header {
             text-align: center;
         }
 
         .main-title {
-            font-size: 1.65rem;
+            font-size: 1.45rem; /* تصغير متناسق للخطوط */
             font-weight: 800;
             color: var(--primary-green);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             letter-spacing: -0.2px;
         }
 
         .sub-title {
-            font-size: 0.92rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
             font-weight: 600;
-            line-height: 1.5;
+            line-height: 1.4;
         }
 
         .header-divider {
             border: none;
-            border-top: 1px dashed rgba(197, 160, 89, 0.25);
-            margin: 2px auto;
-            width: 70%;
+            border-top: 1px dashed rgba(184, 147, 75, 0.2);
+            margin: 0 auto;
+            width: 60%;
         }
 
-        /* بنر الدليل الشامل الفاخر بتصميم ناصع وهادئ */
+        /* بنر الدليل الشامل بلون خاص فاخر جداً (وهج الزمرد والذهب) */
         .banner-card {
-            background: linear-gradient(135deg, #ffffff, #f7f5f0);
+            background: linear-gradient(135deg, #f3f0e8, #e9e5da);
             color: var(--primary-green);
-            border-radius: 20px;
-            padding: 16px 20px;
+            border-radius: 16px;
+            padding: 12px 16px; /* تقليص الحشوة لجعل البنر أنيقاً وملموماً */
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
             box-shadow: var(--shadow-3d);
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid var(--glass-border);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(184, 147, 75, 0.15);
         }
 
         .banner-card:active {
-            transform: scale(0.97) translateY(2px);
-            box-shadow: 0 5px 15px rgba(27, 67, 50, 0.05);
+            transform: scale(0.98);
+            box-shadow: var(--shadow-active);
+            background: #e9e5da;
         }
 
         .banner-icon {
             background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
             color: #ffffff;
-            width: 46px;
-            height: 46px;
-            border-radius: 14px;
+            width: 38px; /* تصغير متناسق للأيقونة */
+            height: 38px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
-            box-shadow: 0 6px 12px rgba(27, 67, 50, 0.15);
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(17, 51, 39, 0.15);
         }
 
         .banner-info {
@@ -143,44 +146,42 @@
         }
 
         .banner-info h2 {
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: var(--primary-green);
-            margin-bottom: 2px;
+            margin-bottom: 1px;
         }
 
         .banner-info p {
-            font-size: 0.83rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
             font-weight: 500;
         }
 
         .banner-arrow {
             color: var(--gold-premium);
-            font-size: 0.95rem;
-            opacity: 0.8;
+            font-size: 0.85rem;
         }
 
-        /* شريط التبويبات المتناسق والمنظم جداً من دون أي تمرير جانبي */
+        /* شريط الأقسام الأربعة المصغر والمحكم هندسياً */
         .tabs-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            padding: 6px;
-            background: rgba(255, 255, 255, 0.7);
+            gap: 4px;
+            padding: 4px;
+            background: rgba(240, 238, 233, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 24px rgba(27, 67, 50, 0.03);
+            border-radius: 14px;
+            border: 1px solid rgba(17, 51, 39, 0.03);
         }
 
         .tab-btn {
             background: transparent;
             border: none;
-            padding: 10px 4px;
-            border-radius: 14px;
-            font-size: 0.75rem;
+            padding: 8px 2px; /* تقليص ذكي جداً ليناسب كافة الشاشات بدقة */
+            border-radius: 10px;
+            font-size: 0.72rem;
             font-weight: 700;
             color: var(--text-muted);
             cursor: pointer;
@@ -188,135 +189,127 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 5px;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 4px;
+            transition: all 0.2s ease;
         }
 
-        @media(min-width: 375px) {
+        @media(min-width: 365px) {
             .tab-btn {
                 flex-direction: row;
-                font-size: 0.82rem;
-                padding: 10px 8px;
-                gap: 6px;
+                font-size: 0.78rem;
+                padding: 8px 4px;
+                gap: 4px;
             }
         }
 
         .tab-btn i {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
         }
 
         .tab-btn.active {
             background: #ffffff;
             color: var(--primary-green);
-            box-shadow: 0 4px 12px rgba(27, 67, 50, 0.06);
-            border: 1px solid rgba(197, 160, 89, 0.15);
+            box-shadow: 0 3px 8px rgba(17, 51, 39, 0.04);
+            border: 1px solid rgba(184, 147, 75, 0.12);
             font-weight: 800;
         }
 
-        /* حاوية القنوات والمحتوى */
         .dynamic-content {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px; /* تقليص المسافة بين كروت القنوات لتوفير المساحة */
         }
 
-        /* تصميم كروت القنوات الهادئة والمريحة للعين */
+        /* كروت القنوات المصغرة والأنيقة للغاية */
         .channel-link {
             background: var(--card-bg);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border-radius: 18px;
-            padding: 16px;
+            border-radius: 14px;
+            padding: 12px 14px; /* حشوة داخلية ملمومة وأكثر تناسقاً */
             display: flex;
             align-items: center;
             justify-content: space-between;
             text-decoration: none;
             color: var(--text-dark);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(17, 51, 39, 0.03);
             box-shadow: var(--shadow-3d);
-            transition: all 0.25s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .channel-link:active {
             transform: translateY(1px);
             background: #ffffff;
-            box-shadow: 0 4px 10px rgba(27, 67, 50, 0.03);
+            box-shadow: var(--shadow-active);
         }
 
         .channel-right {
             display: flex;
             align-items: center;
-            gap: 14px;
-            width: 88%;
+            gap: 12px;
+            width: 90%;
         }
 
         .channel-avatar {
-            width: 46px;
-            height: 46px;
-            border-radius: 14px;
+            width: 38px; /* تصغير الأيقونات الجانبية للقنوات لتبدو غاية في النعومة */
+            height: 38px;
+            border-radius: 10px;
             background: #ffffff;
             color: var(--accent-green);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.15rem;
+            font-size: 1rem;
             flex-shrink: 0;
-            border: 1px solid var(--inner-border);
-            box-shadow: 0 4px 10px rgba(27, 67, 50, 0.02);
+            border: 1px solid rgba(17, 51, 39, 0.04);
         }
 
         .channel-text-details {
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 1px;
         }
 
         .channel-name {
-            font-size: 0.96rem;
+            font-size: 0.88rem; /* تصغير الخطوط ليتناسب مع ذوقك */
             font-weight: 700;
             color: var(--primary-green);
         }
 
         .channel-desc {
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
-            line-height: 1.4;
+            line-height: 1.35;
             font-weight: 500;
         }
 
         .telegram-arrow {
             color: var(--gold-premium);
-            font-size: 0.85rem;
-            opacity: 0.6;
-            transition: transform 0.2s;
+            font-size: 0.8rem;
+            opacity: 0.5;
         }
 
-        .channel-link:active .telegram-arrow {
-            transform: translateX(-3px);
-            opacity: 1;
-        }
-
-        /* تطوير واجهة كناشتي لتصبح كالدفتر الفاخر المرتب */
+        /* واجهة كناشتي الدفترية الأنيقة */
         .konasha-section {
             background: var(--card-bg);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid rgba(17, 51, 39, 0.04);
             box-shadow: var(--shadow-3d);
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
 
         .section-title {
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: var(--primary-green);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .section-title i {
@@ -325,83 +318,81 @@
 
         .form-select, .form-control {
             width: 100%;
-            padding: 12px 14px;
-            border-radius: 12px;
-            border: 1px solid rgba(27, 67, 50, 0.08);
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(17, 51, 39, 0.06);
             background-color: #ffffff;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             outline: none;
             color: var(--text-dark);
-            transition: all 0.25s;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
+            transition: all 0.2s;
         }
 
         .form-select:focus, .form-control:focus {
             border-color: var(--gold-premium);
-            box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.1);
+            box-shadow: 0 0 0 3px rgba(184, 147, 75, 0.08);
         }
 
         textarea.form-control {
             resize: none;
-            height: 120px;
-            line-height: 1.6;
+            height: 100px;
+            line-height: 1.5;
         }
 
         .btn-submit {
             background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
             color: white;
             border: none;
-            padding: 13px;
-            border-radius: 12px;
+            padding: 11px;
+            border-radius: 10px;
             font-weight: 700;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 0.88rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            box-shadow: var(--shadow-btn);
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(17, 51, 39, 0.1);
             transition: all 0.2s;
         }
 
         .btn-submit:active {
             transform: scale(0.98);
-            opacity: 0.95;
         }
 
         .saved-benefits-container {
-            margin-top: 5px;
+            margin-top: 2px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .benefit-card {
             background: var(--card-bg);
-            border-radius: 16px;
-            padding: 16px;
-            border: 1px solid var(--glass-border);
-            border-right: 4px solid var(--gold-premium);
+            border-radius: 14px;
+            padding: 14px;
+            border: 1px solid rgba(17, 51, 39, 0.03);
+            border-right: 3px solid var(--gold-premium);
             box-shadow: var(--shadow-3d);
             position: relative;
         }
 
         .benefit-tag {
             display: inline-block;
-            font-size: 0.75rem;
-            background: rgba(197, 160, 89, 0.08);
+            font-size: 0.72rem;
+            background: rgba(184, 147, 75, 0.06);
             color: var(--primary-green);
-            padding: 4px 12px;
-            border-radius: 8px;
+            padding: 2px 10px;
+            border-radius: 6px;
             font-weight: 700;
-            margin-bottom: 10px;
-            border: 1px solid rgba(197, 160, 89, 0.12);
+            margin-bottom: 8px;
+            border: 1px solid rgba(184, 147, 75, 0.1);
         }
 
         .benefit-text {
-            font-size: 0.92rem;
-            line-height: 1.6;
+            font-size: 0.85rem;
+            line-height: 1.55;
             color: var(--text-dark);
             white-space: pre-wrap;
             font-weight: 500;
@@ -409,19 +400,19 @@
 
         .benefit-actions {
             position: absolute;
-            top: 16px;
-            left: 16px;
+            top: 14px;
+            left: 14px;
         }
 
         .btn-delete {
             background: none;
             border: none;
-            color: #d90429;
+            color: #c9184a;
             cursor: pointer;
-            font-size: 0.9rem;
-            opacity: 0.4;
+            font-size: 0.85rem;
+            opacity: 0.3;
             transition: opacity 0.2s;
-            padding: 4px;
+            padding: 2px;
         }
 
         .btn-delete:hover, .btn-delete:active {
@@ -431,30 +422,30 @@
         .empty-state {
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.88rem;
-            padding: 35px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 16px;
-            border: 1px dashed rgba(197, 160, 89, 0.3);
+            font-size: 0.82rem;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 14px;
+            border: 1px dashed rgba(184, 147, 75, 0.2);
         }
 
-        /* تطوير واجهة الدليل الشامل المنبثقة باحترافية شديدة (Premium Drawer Modal) */
+        /* واجهة الدليل الشامل المنبثقة الاحترافية (Premium Minimal Drawer) */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(27, 67, 50, 0.15);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background-color: rgba(17, 51, 39, 0.12);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             display: flex;
             justify-content: center;
             align-items: flex-end;
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease-out;
         }
 
         .modal-overlay.open {
@@ -463,29 +454,28 @@
         }
 
         .modal-content {
-            background-color: #faf9f6;
+            background-color: #f7f6f2; /* درجة دافئة متناسقة مع لون البنر */
             width: 100%;
-            max-width: 480px;
-            max-height: 88vh;
-            border-top-left-radius: 28px;
-            border-top-right-radius: 28px;
-            padding: 24px 20px;
+            max-width: 440px;
+            max-height: 85vh;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            padding: 20px 16px;
             overflow-y: auto;
             transform: translateY(100%);
-            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 -15px 40px rgba(27, 67, 50, 0.12);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 -10px 35px rgba(17, 51, 39, 0.08);
         }
 
         .modal-overlay.open .modal-content {
             transform: translateY(0);
         }
 
-        /* تحسين شكل شريط التمرير داخل الدليل لشكل أنيق */
         .modal-content::-webkit-scrollbar {
-            width: 5px;
+            width: 4px;
         }
         .modal-content::-webkit-scrollbar-thumb {
-            background: rgba(197, 160, 89, 0.3);
+            background: rgba(184, 147, 75, 0.25);
             border-radius: 10px;
         }
 
@@ -493,18 +483,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(27, 67, 50, 0.05);
-            padding-bottom: 16px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid rgba(17, 51, 39, 0.04);
+            padding-bottom: 12px;
         }
 
         .modal-title {
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             font-weight: 800;
             color: var(--primary-green);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .modal-title i {
@@ -513,94 +503,91 @@
 
         .modal-close-btn {
             background: #ffffff;
-            border: 1px solid rgba(0,0,0,0.03);
-            width: 36px;
-            height: 36px;
+            border: 1px solid rgba(0,0,0,0.02);
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-dark);
             cursor: pointer;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-            transition: background 0.2s;
-        }
-
-        .modal-close-btn:active {
-            background: #f1f0ea;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
         }
 
         .modal-body {
-            font-size: 0.92rem;
-            line-height: 1.75;
+            font-size: 0.86rem;
+            line-height: 1.65;
             color: var(--text-dark);
             text-align: justify;
         }
 
-        /* بطاقة تقديمية داخل الدليل */
         .modal-intro-card {
             background: #ffffff;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 18px;
-            border: 1px solid rgba(27, 67, 50, 0.04);
-            box-shadow: 0 4px 15px rgba(27, 67, 50, 0.02);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 14px;
+            border: 1px solid rgba(17, 51, 39, 0.03);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.01);
         }
 
         .modal-section-title {
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: var(--primary-green);
-            margin-top: 22px;
-            margin-bottom: 12px;
+            margin-top: 16px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             border-right: 3px solid var(--gold-premium);
-            padding-right: 8px;
+            padding-right: 6px;
         }
 
-        /* بطاقات مخصصة للأقسام والفروع داخل الدليل */
         .modal-info-box {
             background: #ffffff;
-            border-radius: 14px;
-            padding: 14px 16px;
-            margin-bottom: 10px;
-            border: 1px solid rgba(0, 0, 0, 0.02);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.01);
         }
 
         .modal-info-box strong {
             color: var(--accent-green);
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             font-weight: 700;
+        }
+
+        .modal-info-box span {
+            color: var(--text-muted);
+            font-size: 0.8rem;
         }
 
         .modal-grid-list {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            padding: 4px 0;
+            gap: 6px;
+            padding: 2px 0;
         }
 
         .modal-grid-item {
             background: #ffffff;
-            padding: 10px 12px;
-            border-radius: 12px;
-            font-size: 0.85rem;
+            padding: 8px 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
             font-weight: 600;
             color: var(--text-dark);
             display: flex;
             align-items: center;
-            gap: 8px;
-            border: 1px solid rgba(27, 67, 50, 0.03);
+            gap: 6px;
+            border: 1px solid rgba(17, 51, 39, 0.02);
         }
 
         .modal-grid-item i {
             color: var(--gold-premium);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
     </style>
 </head>
@@ -608,10 +595,12 @@
 
     <div class="container">
         
+        <!-- حاوية الشعار ثلاثية الأبعاد المصغرة والناعمة -->
         <div class="logo-container">
             <img src="logo.png" alt="شعار منصة الإمام مالك" class="app-logo">
         </div>
 
+        <!-- العناوين الرئيسية مريحة ومتناسقة -->
         <div class="brand-header">
             <h1 class="main-title">منصة الإمام مَالِك التَّعليمية</h1>
             <p class="sub-title">البوابة الرقمية الشاملة لمنظومة مَالِك التعليمية</p>
@@ -619,6 +608,7 @@
 
         <hr class="header-divider">
 
+        <!-- بنر الدليل الشامل المطور بلون خاص فخم ومتناسق -->
         <div class="banner-card" onclick="openModal()">
             <div class="banner-icon">
                 <i class="fa-solid fa-compass"></i>
@@ -632,6 +622,7 @@
             </div>
         </div>
 
+        <!-- شريط التبويبات العلوي: متناسق ومصغر هندسياً للعمل الفوري بدون تمرير جانبي -->
         <div class="tabs-container">
             <button class="tab-btn active" onclick="switchTab('college')">
                 <i class="fa-solid fa-building-columns"></i> علمية
@@ -647,10 +638,12 @@
             </button>
         </div>
 
+        <!-- منطقة المحتوى المحمل ديناميكياً لكروت القنوات المصغرة والمتناسقة -->
         <div id="content-area" class="dynamic-content"></div>
 
     </div>
 
+    <!-- النافذة المنبثقة للدليل الشامل المحدثة بأعلى تفاصيل دقيقة وألوان متناسقة -->
     <div id="guide-modal" class="modal-overlay" onclick="closeModalOutside(event)">
         <div class="modal-content">
             <div class="modal-header">
@@ -659,46 +652,45 @@
             </div>
             <div class="modal-body">
                 <div class="modal-intro-card">
-                    <p><strong>عن الكلية:</strong> كلية الإمام مالك هي مؤسسة تعليمية دينية إسلامية ليبية مقرها في العاصمة طرابلس، ولها عدة فروع داخل مدينة طرابلس وخارجها. تتبع الكلية إدارياً إلى الهيئة العامة للأوقاف والشؤون الإسلامية في ليبيا.</p>
+                    <p><strong>عن الكلية:</strong> كلية الإمام مالك هي مؤسسة تعليمية دينية إسلامية ليبية مقرها في العاصمة طرابلس، ولها عدة فروع داخل مدينة طرابلس وخارجها. تتبع الكلية إدارياً إلى الهيئة العامة للأوقاف والشؤون الإسلامية في ليبيا[span_0](start_span)[span_0](end_span).</p>
                 </div>
                 
-                <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 0.88rem; padding: 0 4px;">تأسست الكلية بناءً على القرار رقم ( 80 ) لسنة ( 1432هـ - 2011م ) تحت اسم ( الكلية السلفية العالية للإمامة والخطابة والإرشاد وعلوم القرآن ) ثم أعيد تسميتها وتحديد تبعيتها بقرار مجلس الوزراء رقم ( 238 ) لسنة ( 1433هـ، 2012م ) ليصبح بمسمى ( كلية علي بن زياد الطرابلسي العالي للإمامة والخطابة وعلوم الكتاب والسنة ). وأعيد تسميتها للمرة الثالثة باسم ( كلية الإمام مالك بن أنس العالي للإمامة والخطابة وعلوم الكتاب والسنة ). وكان التفعيل الرسمي والكامل لها من قبل الهيئة العامة للأوقاف والشؤون الإسلامية سنة ( 1443هـ، الموافق 2022م ).</p>
+                <p style="margin-bottom: 12px; color: var(--text-muted); font-size: 0.82rem; padding: 0 2px;">تأسست الكلية بناءً على القرار رقم ( 80 ) لسنة ( 1432هـ - 2011م ) تحت اسم ( الكلية السلفية العالية للإمامة والخطابة والإرشاد وعلوم القرآن )[span_1](start_span)[span_1](end_span) ثم أعيد تسميتها وتحديد تبعيتها بقرار مجلس الوزراء رقم ( 238 ) لسنة ( 1433هـ، 2012م ) ليصبح بمسمى ( كلية علي بن زياد الطرابلسي العالي للإمامة والخطابة وعلوم الكتاب والسنة )[span_2](start_span)[span_2](end_span). وأعيد تسميتها للمرة الثالثة باسم ( كلية الإمام مالك بن أنس العالي للإمامة والخطابة وعلوم الكتاب والسنة )[span_3](start_span)[span_3](end_span). وكان التفعيل الرسمي والكامل لها من قبل الهيئة العامة للأوقاف والشؤون الإسلامية سنة ( 1443هـ، الموافق 2022م )[span_4](start_span)[span_4](end_span).</p>
 
                 <div class="modal-section-title"><i class="fa-solid fa-bullseye"></i> أهداف المنظومة والكلية</div>
-                <div class="modal-grid-list" style="grid-template-columns: 1fr;">
-                    <div class="modal-grid-item"><i class="fa-solid fa-check"></i> إعداد متخصصين في مجالات العقيدة، الفقه، الحديث، والتفسير.</div>
-                    <div class="modal-grid-item"><i class="fa-solid fa-check"></i> إعداد أئمة، وخطباء، ووعاظ ذوي كفاءة علمية عالية.</div>
-                    <div class="modal-grid-item"><i class="fa-solid fa-check"></i> تلبية احتياجات المساجد في مجال الإمامة والوعظ والإرشاد.</div>
-                    <div class="modal-grid-item"><i class="fa-solid fa-check"></i> تأهيل مدرسين متميزين لسد حاجات المجتمع في العلوم الشرعية.</div>
-                    <div class="modal-grid-item"><i class="fa-solid fa-check"></i> نشر البحوث العلمية المختصة وإقامة المؤتمرات الندوية.</div>
-                    <div class="modal-grid-item"><i class="fa-solid fa-check"></i> تنمية قدرات الدارسين بالتحليل الدقيق والنقد البناء لتكوين شخصية الداعية.</div>
+                <div class="modal-grid-list" style="grid-template-columns: 1fr; gap: 4px;">
+                    <div class="modal-grid-item"><i class="fa-solid fa-check"></i> إعداد متخصصين في مجالات العقيدة، الفقه، الحديث، والتفسير[span_5](start_span)[span_5](end_span).</div>
+                    <div class="modal-grid-item"><i class="fa-solid fa-check"></i> إعداد أئمة، وخطباء، ووعاظ ذوي كفاءة علمية عالية[span_6](start_span)[span_6](end_span).</div>
+                    <div class="modal-grid-item"><i class="fa-solid fa-check"></i> تلبية احتياجات المساجد في مجال الإمامة والوعظ والإرشاد[span_7](start_span)[span_7](end_span).</div>
+                    <div class="modal-grid-item"><i class="fa-solid fa-check"></i> تأهل مدرسين متميزين لسد حاجات المجتمع في العلوم الشرعية[span_8](start_span)[span_8](end_span).</div>
+                    <div class="modal-grid-item"><i class="fa-solid fa-check"></i> نشر البحوث العلمية المختصة وإقامة المؤتمرات والندوات[span_9](start_span)[span_9](end_span).</div>
                 </div>
 
                 <div class="modal-section-title"><i class="fa-solid fa-layer-group"></i> الأقسام العلمية بالمنظومة</div>
                 <div class="modal-info-box">
                     <strong>الدعوة وأصول الدين:</strong>
-                    <span style="color: var(--text-muted); font-size: 0.85rem;">تأهيل متخصصين متميزين في المجال الدعوي علمياً وفكرياً وسلوكياً، وتخريج وعاظ يتمتعون بالوعي والكفاءة مع التركيز على توظيف الأساليب الحديثة لمواجهة تحديات العصر.</span>
+                    <span>تأهيل متخصصين متميزين في المجال الدعوي علمياً وفكرياً وسلوكياً، وتخريج وعاظ يتمتعون بالوعي والكفاءة لمواجهة تحديات العصر[span_10](start_span)[span_10](end_span).</span>
                 </div>
                 <div class="modal-info-box">
                     <strong>علوم الشريعة:</strong>
-                    <span style="color: var(--text-muted); font-size: 0.85rem;">قسم أكاديمي رائد يسعى لإعداد علماء وفقهاء قادرين على الجمع بين الأصالة والمعاصرة لتلبية احتياجات المجتمع وتعزيز القيم الإسلامية.</span>
+                    <span>قسم أكاديمي رائد يسعى لإعداد علماء وفقهاء قادرين على الجمع بين الأصالة والمعاصرة لتعزيز القيم الإسلامية[span_11](start_span)[span_11](end_span).</span>
                 </div>
                 <div class="modal-info-box">
                     <strong>علوم القراءات:</strong>
-                    <span style="color: var(--text-muted); font-size: 0.85rem;">إعداد كوادر تربوية وتعليمية مؤهلة علمياً في مجال القراءات القرآنية والدراسات الإسلامية تلبية لاحتياجات المجتمع من معلمي كتاب الله.</span>
+                    <span>إعداد كوادر تربوية وتعليمية مؤهلة علمياً في مجال القراءات القرآنية والدراسات الإسلامية[span_12](start_span)[span_12](end_span).</span>
                 </div>
 
                 <div class="modal-section-title"><i class="fa-solid fa-map-location-dot"></i> فروع الكلية المعتمدة</div>
                 <div class="modal-grid-list">
-                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> طرابلس (4 فروع)</div>
-                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> فرع السراج</div>
-                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> الزاوية (فرعين)</div>
-                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> فرع مصراتة</div>
-                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> فرع ترهونة</div>
-                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> فرع الخمس</div>
-                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> فرع العجيلات</div>
-                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> فرع البيضاء</div>
-                    <div class="modal-grid-item" style="grid-column: span 2;"><i class="fa-solid fa-location-dot"></i> فرع الزنتان (مسجد علي بن أبي طالب)</div>
+                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> طرابلس (4 فروع)[span_13](start_span)[span_13](end_span)</div>
+                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> فرع السراج[span_14](start_span)[span_14](end_span)</div>
+                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> الزاوية (فرعين)[span_15](start_span)[span_15](end_span)</div>
+                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> فرع مصراتة[span_16](start_span)[span_16](end_span)</div>
+                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> فرع ترهونة[span_17](start_span)[span_17](end_span)</div>
+                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> فرع الخمس[span_18](start_span)[span_18](end_span)</div>
+                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> فرع العجيلات[span_19](start_span)[span_19](end_span)</div>
+                    <div class="modal-grid-item"><i class="fa-solid fa-location-dot"></i> فرع البيضاء[span_20](start_span)[span_20](end_span)</div>
+                    <div class="modal-grid-item" style="grid-column: span 2;"><i class="fa-solid fa-location-dot"></i> فرع الزنتان (مسجد علي بن أبي طالب)[span_21](start_span)[span_21](end_span)</div>
                 </div>
             </div>
         </div>
@@ -725,7 +717,7 @@
             }
         }
 
-        // هيكلة البيانات الرسمية
+        // مصفوفة البيانات الرسمية للمنظومة
         const data = {
             college: [
                 { name: "قناة الإعلانات الخاصة بالكلية", desc: "تابع آخر المستجدات، جداول الامتحانات، والقرارات الإدارية الرسمية.", url: "https://t.me/MALIKIST_0", icon: "fa-bullhorn" },
@@ -782,7 +774,7 @@
                             <i class="fa-solid fa-floppy-disk"></i> حفظ الفائدة في كناشتي
                         </button>
                     </div>
-                    <div class="section-title" style="margin-top:15px; margin-right: 5px;"><i class="fa-solid fa-box-archive"></i> إنجازاتي وفوائدي المخزنة</div>
+                    <div class="section-title" style="margin-top:10px; margin-right: 4px;"><i class="fa-solid fa-box-archive"></i> إنجازاتي وفوائدي المخزنة</div>
                     <div id="saved-benefits" class="saved-benefits-container"></div>
                 `;
                 loadBenefits();
