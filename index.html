@@ -139,7 +139,7 @@
             gap: 14px;
         }
 
-        /* حاوية الشعار ثلاثية الأبعاد الاحترافية المصغرة */
+        /* حاوية الشعار ثلاثية الأبعاد */
         .logo-container {
             display: flex;
             justify-content: center;
@@ -162,10 +162,6 @@
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .app-logo:hover {
-            transform: scale(1.03) translateZ(10px);
-        }
-
         .brand-header {
             text-align: center;
         }
@@ -175,7 +171,6 @@
             font-weight: 800;
             color: var(--primary-green);
             margin-bottom: 4px;
-            letter-spacing: -0.2px;
         }
 
         .sub-title {
@@ -192,7 +187,7 @@
             width: 60%;
         }
 
-        /* بنر الدليل الشامل بلون خاص فاخر جداً */
+        /* بنر الدليل الشامل */
         .banner-card {
             background: linear-gradient(135deg, var(--card-bg), var(--tabs-bg));
             color: var(--primary-green);
@@ -208,7 +203,6 @@
 
         .banner-card:active {
             transform: scale(0.98);
-            box-shadow: var(--shadow-active);
         }
 
         .banner-icon {
@@ -221,7 +215,6 @@
             align-items: center;
             justify-content: center;
             font-size: 1.1rem;
-            box-shadow: 0 4px 10px rgba(17, 51, 39, 0.15);
         }
 
         .banner-info {
@@ -232,7 +225,6 @@
             font-size: 0.95rem;
             font-weight: 700;
             color: var(--primary-green);
-            margin-bottom: 1px;
         }
 
         .banner-info p {
@@ -246,7 +238,7 @@
             font-size: 0.85rem;
         }
 
-        /* شريط الأقسام الأربعة المصغر والمحكم هندسياً */
+        /* شريط الأقسام */
         .tabs-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -280,12 +272,7 @@
                 flex-direction: row;
                 font-size: 0.78rem;
                 padding: 8px 4px;
-                gap: 4px;
             }
-        }
-
-        .tab-btn i {
-            font-size: 0.85rem;
         }
 
         .tab-btn.active {
@@ -302,11 +289,10 @@
             gap: 10px;
         }
 
-        /* كروت القنوات المصغرة والأنيقة للغاية */
+        /* كروت القنوات */
         .channel-link {
             background: var(--card-bg);
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
             border-radius: 14px;
             padding: 12px 14px;
             display: flex;
@@ -316,11 +302,6 @@
             color: var(--text-dark);
             border: 1px solid var(--glass-border);
             box-shadow: var(--shadow-3d);
-        }
-
-        .channel-link:active {
-            transform: translateY(1px);
-            box-shadow: var(--shadow-active);
         }
 
         .channel-right {
@@ -347,7 +328,6 @@
         .channel-text-details {
             display: flex;
             flex-direction: column;
-            gap: 1px;
         }
 
         .channel-name {
@@ -366,14 +346,11 @@
         .telegram-arrow {
             color: var(--gold-premium);
             font-size: 0.8rem;
-            opacity: 0.6;
         }
 
-        /* واجهة كناشتي الدفترية الأنيقة */
+        /* واجهة كناشتي */
         .konasha-section {
             background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
             border-radius: 16px;
             padding: 16px;
             border: 1px solid var(--glass-border);
@@ -404,18 +381,13 @@
             background-color: var(--input-bg);
             font-size: 0.85rem;
             font-weight: 600;
-            outline: none;
             color: var(--text-dark);
-        }
-
-        .form-select:focus, .form-control:focus {
-            border-color: var(--gold-premium);
+            outline: none;
         }
 
         textarea.form-control {
             resize: none;
             height: 100px;
-            line-height: 1.5;
         }
 
         .btn-submit {
@@ -431,15 +403,9 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            box-shadow: 0 4px 12px rgba(17, 51, 39, 0.1);
-        }
-
-        .btn-submit:active {
-            transform: scale(0.98);
         }
 
         .saved-benefits-container {
-            margin-top: 2px;
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -451,7 +417,6 @@
             padding: 14px;
             border: 1px solid var(--glass-border);
             border-right: 3px solid var(--gold-premium);
-            box-shadow: var(--shadow-3d);
             position: relative;
         }
 
@@ -464,7 +429,6 @@
             border-radius: 6px;
             font-weight: 700;
             margin-bottom: 8px;
-            border: 1px solid var(--glass-border);
         }
 
         .benefit-text {
@@ -472,7 +436,6 @@
             line-height: 1.55;
             color: var(--text-dark);
             white-space: pre-wrap;
-            font-weight: 500;
         }
 
         .benefit-actions {
@@ -488,7 +451,6 @@
             cursor: pointer;
             font-size: 0.85rem;
             opacity: 0.4;
-            padding: 2px;
         }
 
         .empty-state {
@@ -496,12 +458,11 @@
             color: var(--text-muted);
             font-size: 0.82rem;
             padding: 30px;
-            background: rgba(255, 255, 255, 0.02);
             border-radius: 14px;
             border: 1px dashed var(--gold-premium);
         }
 
-        /* واجهة الدليل الشامل المنبثقة الاحترافية */
+        /* واجهة الدليل الشامل المنبثقة الكاملة وبدون حذف */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -536,7 +497,6 @@
             overflow-y: auto;
             transform: translateY(100%);
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 -10px 35px rgba(0,0,0,0.15);
         }
 
         .modal-overlay.open .modal-content {
@@ -576,12 +536,11 @@
             justify-content: center;
             color: var(--text-dark);
             cursor: pointer;
-            font-size: 0.85rem;
         }
 
         .modal-body {
             font-size: 0.86rem;
-            line-height: 1.65;
+            line-height: 1.7;
             color: var(--text-dark);
             text-align: justify;
         }
@@ -598,7 +557,7 @@
             font-size: 0.95rem;
             font-weight: 700;
             color: var(--primary-green);
-            margin-top: 16px;
+            margin-top: 18px;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -611,45 +570,32 @@
             background: var(--card-bg);
             border-radius: 12px;
             padding: 12px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             border: 1px solid var(--glass-border);
         }
 
         .modal-info-box strong {
             color: var(--accent-green);
             display: block;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
             font-weight: 700;
+            font-size: 0.9rem;
         }
 
-        .modal-info-box span {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
-
-        .modal-grid-list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 6px;
-            padding: 2px 0;
-        }
-
-        .modal-grid-item {
-            background: var(--card-bg);
-            padding: 8px 10px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            font-weight: 600;
+        .modal-info-box p {
             color: var(--text-dark);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border: 1px solid var(--glass-border);
+            font-size: 0.83rem;
+            margin: 0;
         }
 
-        .modal-grid-item i {
-            color: var(--gold-premium);
-            font-size: 0.75rem;
+        .modal-list {
+            padding-right: 16px;
+            margin-bottom: 12px;
+        }
+
+        .modal-list li {
+            margin-bottom: 6px;
+            color: var(--text-dark);
         }
     </style>
 </head>
@@ -671,12 +617,12 @@
 
     <div class="container">
         
-        <!-- حاوية الشعار ثلاثية الأبعاد المصغرة والناعمة -->
+        <!-- حاوية الشعار -->
         <div class="logo-container">
             <img src="logo.png" alt="شعار منصة الإمام مالك" class="app-logo">
         </div>
 
-        <!-- العناوين الرئيسية مريحة ومتناسقة -->
+        <!-- العناوين الرئيسية -->
         <div class="brand-header">
             <h1 class="main-title">منصة الإمام مَالِك التَّعليمية</h1>
             <p class="sub-title">البوابة الرقمية الشاملة لمنظومة مَالِك التعليمية</p>
@@ -684,14 +630,14 @@
 
         <hr class="header-divider">
 
-        <!-- بنر الدليل الشامل المطور بلون خاص فخم ومتناسق -->
+        <!-- بنر الدليل الشامل المطور -->
         <div class="banner-card" onclick="openModal()">
             <div class="banner-icon">
                 <i class="fa-solid fa-compass"></i>
             </div>
             <div class="banner-info">
                 <h2>الدليل الشامل للكلية والمنظومة</h2>
-                <p>اكتشف رؤية كلية الإمام مالك ونظامها التعليمي</p>
+                <p>اكتشف رؤية كلية الإمام مالك ونظامها التعليمي بالكامل</p>
             </div>
             <div class="banner-arrow">
                 <i class="fa-solid fa-chevron-left"></i>
@@ -719,32 +665,52 @@
 
     </div>
 
-    <!-- النافذة المنبثقة للدليل الشامل المحدثة -->
+    <!-- النافذة المنبثقة للدليل الشامل (النص الكامل دون أي حذف) -->
     <div id="guide-modal" class="modal-overlay" onclick="closeModalOutside(event)">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title"><i class="fa-solid fa-graduation-cap"></i> دليل كلية الإمام مالك ونظام مَالِك</div>
+                <div class="modal-title"><i class="fa-solid fa-graduation-cap"></i> الدليل الكامل والشامل للكلية</div>
                 <button class="modal-close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="modal-body">
-                <div class="modal-intro-card">
-                    <p><strong>عن الكلية:</strong> كلية الإمام مالك هي مؤسسة تعليمية دينية إسلامية ليبية مقرها في العاصمة طرابلس، ولها عدة فروع داخل مدينة طرابلس وخارجها. تتبع الكلية إدارياً إلى الهيئة العامة للأوقاف والشؤون الإسلامية في ليبيا.</p>
-                </div>
                 
-                <p style="margin-bottom: 12px; color: var(--text-muted); font-size: 0.82rem; padding: 0 2px;">تأسست الكلية بناءً على القرار رقم ( 80 ) لسنة ( 1432هـ - 2011م ) تحت اسم ( الكلية السلفية العالية للإمامة والخطابة والإرشاد وعلوم القرآن ) ثم أعيد تسميتها وتحديد تبعيتها بقرار مجلس الوزراء رقم ( 238 ) لسنة ( 1433هـ، 2012م ) ليصبح بمسمى ( كلية علي بن زياد الطرابلسي العالي للإمامة والخطابة وعلوم الكتاب والسنة ). وأعيد تسميتها للمرة الثالثة باسم ( كلية الإمام مالك بن أنس العالي للإمامة والخطابة وعلوم الكتاب والسنة ). وكان التفعيل الرسمي والكامل لها من قبل الهيئة العامة للأوقاف والشؤون الإسلامية سنة ( 1443هـ، الموافق 2022م ).</p>
-
-                <div class="modal-section-title"><i class="fa-solid fa-bullseye"></i> أهداف المنظومة والكلية</div>
-                <div class="modal-grid-list" style="grid-template-columns: 1fr; gap: 4px;">
-                    <div class="modal-grid-item"><i class="fa-solid fa-check"></i> إعداد متخصصين في مجالات العقيدة، الفقه، الحديث، والتفسير.</div>
-                    <div class="modal-grid-item"><i class="fa-solid fa-check"></i> إعداد أئمة، وخطباء، ووعاظ ذوي كفاءة علمية عالية.</div>
-                    <div class="modal-grid-item"><i class="fa-solid fa-check"></i> تلبية احتياجات المساجد في مجال الإمامة والوعظ والإرشاد.</div>
+                <div class="modal-intro-card">
+                    <p><strong>عن الكلية ونشأتها:</strong></p>
+                    <p>كلية الإمام مالك هي مؤسسة تعليمية دينية إسلامية ليبية مقرها في العاصمة طرابلس، ولها عدة فروع داخل مدينة طرابلس وخارجها. تتبع الكلية إدارياً إلى الهيئة العامة للأوقاف والشؤون الإسلامية في ليبيا.</p>
+                    <p style="margin-top: 8px;">تأسست الكلية بناءً على القرار رقم ( 80 ) لسنة ( 1432هـ - 2011م ) تحت اسم ( الكلية السلفية العالية للإمامة والخطابة والإرشاد وعلوم القرآن ) ثم أعيد تسميتها وتحديد تبعيتها بقرار مجلس الوزراء رقم ( 238 ) لسنة ( 1433هـ، 2012م ) ليصبح بمسمى ( كلية علي بن زياد الطرابلسي العالي للإمامة والخطابة وعلوم الكتاب والسنة ).</p>
+                    <p style="margin-top: 8px;">وأعيد تسميتها للمرة الثالثة باسم ( كلية الإمام مالك بن أنس العالي للإمامة والخطابة وعلوم الكتاب والسنة ). وكان التفعيل الرسمي والكامل لها من قبل الهيئة العامة للأوقاف والشؤون الإسلامية سنة ( 1443هـ، الموافق 2022م ).</p>
                 </div>
 
-                <div class="modal-section-title"><i class="fa-solid fa-layer-group"></i> الأقسام العلمية بالمنظومة</div>
+                <div class="modal-section-title"><i class="fa-solid fa-bullseye"></i> أهداف الكلية والمنظومة بالكامل</div>
                 <div class="modal-info-box">
-                    <strong>علوم الشريعة:</strong>
-                    <span>قسم أكاديمي رائد يسعى لإعداد علماء وفقهاء قادرين على الجمع بين الأصالة والمعاصرة لتعزيز القيم الإسلامية.</span>
+                    <strong>1. إعداد المتخصصين المؤهلين:</strong>
+                    <p>تهدف الكلية إلى إعداد وتأهيل متخصصين متميزين في شتى مجالات العلوم الشرعية، بما يشمل العقيدة الإسلامية، الفقه وأصوله، الحديث الشريف وعلومه، والتفسير وعلوم القرآن.</p>
                 </div>
+                <div class="modal-info-box">
+                    <strong>2. سد احتياجات المنابر والمساجد:</strong>
+                    <p>العمل على تلبية وتغطية احتياجات المساجد والمؤسسات الدعوية في الدولة الليبية من خلال تخريج وتوفير الأئمة، والخطباء، والوعاظ ذوي الكفاءة والقدرة العلمية العالية لتوجيه المجتمع ونشر الوعي الصحيح.</p>
+                </div>
+                <div class="modal-info-box">
+                    <strong>3. نشر منهج الوسطية والاعتدال:</strong>
+                    <p>ترسيخ قيم الدين الإسلامي الحنيف القائم على منهج السلف الصالح، والوسطية والاعتدال، ومحاربة الأفكار الهدامة والمغلوطة من خلال علم شرعي مؤصل ومبني على الدليل من الكتاب والسنة.</p>
+                </div>
+
+                <div class="modal-section-title"><i class="fa-solid fa-layer-group"></i> الأقسام العلمية والأكاديمية</div>
+                <div class="modal-info-box">
+                    <strong>قسم علوم الشريعة:</strong>
+                    <p>هو القسم الأكاديمي الرائد في الكلية، ويسعى إلى تعميق الفقه الشرعي والأصيل وتخريج كوادر علمية قادرة على الجمع بين أصالة التراث ومواكبة قضايا العصر ونوازله المعاصرة.</p>
+                </div>
+
+                <div class="modal-section-title"><i class="fa-solid fa-scroll"></i> نظام الدراسة والقبول والامتحانات</div>
+                <ul class="modal-list">
+                    <li><strong>شروط القبول:</strong> يشترط في المتقدم أن يكون حاصلاً على الشهادة الثانوية العامة أو ما يعادلها، وأن يكون حافظاً لأجزاء من القرآن الكريم، مع اجتياز المقابلة الشخصية والامتحانات التحريرية المقررة من الكلية.</li>
+                    <li><strong>المنهج الدراسي والتعليمي:</strong> يعتمد التعليم على التلقي المباشر والمحاضرات المنظمة والمدروسة بدقة لضمان استيعاب فروع الشريعة واللغة العربية.</li>
+                    <li><strong>نظام الامتحانات:</strong> يرتكز على الشفافية والدقة العالية في تقييم الطلاب عبر امتحانات نصفية وفصلية شاملة لضمان التفوق الأكاديمي والتحصيل العلمي المتين.</li>
+                </ul>
+
+                <div class="modal-section-title"><i class="fa-solid fa-star"></i> المميزات والمخرجات المستهدفة</div>
+                <p style="padding: 0 4px; margin-bottom: 8px;">يتحصل الخريج من الكلية على شهادة علمية معتمدة تؤهله للعمل مباشرة في مجالات الوعظ والإرشاد، التدريس في المؤسسات التعليمية، والخطابة والإمامة بالمساجد التابعة للهيئة العامة للأوقاف والشؤون الإسلامية.</p>
+
             </div>
         </div>
     </div>
@@ -768,7 +734,7 @@
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
             document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('app-theme', newTheme); // الحفظ الأبدي في المتصفح
+            localStorage.setItem('app-theme', newTheme);
             updateThemeButton(newTheme);
         }
 
@@ -781,7 +747,7 @@
             }
         }
 
-        // تطبيق الوضع المخزن فور تحميل الصفحة مباشرة وقبل الرندرة
+        // تطبيق الوضع المخزن فور تحميل الصفحة مباشرة
         applySavedTheme();
 
         function openModal() {
