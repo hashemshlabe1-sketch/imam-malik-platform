@@ -3,51 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الإمام مالك التعليمية </title>
-    <!-- خط القاهرة بالأوزان المتعددة وأيقونات FontAwesome المحدثة -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>منصة الإمام مالك التعليمية - v.2</title>
+    <link href="https://fonts.googleapis.com/css2 family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- السكريبت الرسمي لـ Telegram WebApp -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
         /* المنظومة اللونية المتغيرة للوضعين */
         :root {
-            /* وضع النهار الافتراضي (الحريري العاجي) */
-            --bg-color: #faf9f6;
-            --card-bg: rgba(255, 255, 255, 0.82);
+            /* وضع النهار الافتراضي (الحريري العاجي المطور) */
+            --bg-gradient-1: #faf9f6;
+            --bg-gradient-2: #f4f0e6;
+            --bg-gradient-3: #e8e2d5;
+            --card-bg: rgba(255, 255, 255, 0.85);
             --primary-green: #113327;
             --accent-green: #1e523f;
             --gold-premium: #b8934b;
             --text-dark: #202326;
             --text-muted: #5e666e;
-            --glass-border: rgba(17, 51, 39, 0.05);
-            --tabs-bg: rgba(240, 238, 233, 0.7);
+            --glass-border: rgba(17, 51, 39, 0.06);
+            --tabs-bg: rgba(240, 238, 233, 0.8);
             --tab-active-bg: #ffffff;
             --modal-bg: #f7f6f2;
             --input-bg: #ffffff;
             --marquee-bg: rgba(184, 147, 75, 0.06);
             --shadow-3d: 0 10px 25px rgba(11, 35, 27, 0.05), 0 3px 10px rgba(184, 147, 75, 0.02);
-            --shadow-active: 0 4px 12px rgba(11, 35, 27, 0.03);
         }
 
         [data-theme="dark"] {
-            /* وضع الليل المخملي الفاخر */
-            --bg-color: #0b1512;
-            --card-bg: rgba(22, 38, 33, 0.75);
+            /* وضع الليل المخملي الفاخر المطور */
+            --bg-gradient-1: #070f0d;
+            --bg-gradient-2: #0b1714;
+            --bg-gradient-3: #122620;
+            --card-bg: rgba(22, 38, 33, 0.8);
             --primary-green: #4da684;
             --accent-green: #3b8769;
             --gold-premium: #d4af67;
             --text-dark: #f0f3f2;
             --text-muted: #a0aba7;
-            --glass-border: rgba(212, 175, 103, 0.12);
-            --tabs-bg: rgba(22, 38, 33, 0.5);
+            --glass-border: rgba(212, 175, 103, 0.15);
+            --tabs-bg: rgba(22, 38, 33, 0.6);
             --tab-active-bg: #1a2f28;
             --modal-bg: #111d19;
             --input-bg: #162621;
-            --marquee-bg: rgba(22, 38, 33, 0.8);
-            --shadow-3d: 0 10px 25px rgba(0, 0, 0, 0.4), 0 3px 10px rgba(214, 175, 103, 0.01);
-            --shadow-active: 0 4px 12px rgba(0, 0, 0, 0.2);
+            --marquee-bg: rgba(22, 38, 33, 0.9);
+            --shadow-3d: 0 10px 25px rgba(0, 0, 0, 0.5), 0 3px 10px rgba(214, 175, 103, 0.02);
         }
 
         * {
@@ -56,14 +56,14 @@
             padding: 0;
             font-family: 'Cairo', sans-serif;
             -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: background-color 0.4s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
+        /* ميزة الخلفية المتحركة الراقية والانسيابية الفاخرة */
         body {
-            background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(184, 147, 75, 0.03) 0px, transparent 40%),
-                radial-gradient(at 100% 100%, rgba(30, 82, 63, 0.03) 0px, transparent 40%);
+            background: linear-gradient(125deg, var(--bg-gradient-1), var(--bg-gradient-2), var(--bg-gradient-3));
+            background-size: 300% 300%;
+            animation: elegantBgMove 18s ease infinite;
             color: var(--text-dark);
             padding: 12px;
             display: flex;
@@ -73,7 +73,13 @@
             overflow-x: hidden;
         }
 
-        /* حاوية التحكم العلوية (زر الليلي/النهاري والشريط المتحرك) */
+        @keyframes elegantBgMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* حاوية التحكم العلوية */
         .top-bar {
             width: 100%;
             max-width: 440px;
@@ -110,8 +116,8 @@
             100% { transform: translate3d(100%, 0, 0); }
         }
 
-        /* زر قلب الوضع الذكي */
-        .theme-toggle-btn {
+        /* أزرار التحكم العلوية الدائرية */
+        .top-action-btn {
             background: var(--card-bg);
             border: 1px solid var(--glass-border);
             width: 36px;
@@ -125,10 +131,23 @@
             font-size: 1rem;
             box-shadow: var(--shadow-3d);
             flex-shrink: 0;
+            position: relative;
         }
 
-        .theme-toggle-btn:active {
+        .top-action-btn:active {
             transform: scale(0.92);
+        }
+
+        .counter-badge {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            background: var(--primary-green);
+            color: #ffffff;
+            font-size: 0.65rem;
+            padding: 2px 5px;
+            border-radius: 6px;
+            font-weight: 700;
         }
 
         .container {
@@ -145,21 +164,17 @@
             justify-content: center;
             align-items: center;
             margin-top: 5px;
-            perspective: 800px;
         }
 
         .app-logo {
-            width: 110px;
-            height: 110px;
+            width: 105px;
+            height: 105px;
             border-radius: 50%;
             object-fit: cover;
             border: 4px solid var(--tab-active-bg);
             background-color: var(--tab-active-bg);
             padding: 2px;
-            box-shadow: 
-                0 12px 28px rgba(17, 51, 39, 0.15),
-                0 2px 5px rgba(0, 0, 0, 0.05);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 12px 28px rgba(17, 51, 39, 0.12);
         }
 
         .brand-header {
@@ -170,7 +185,7 @@
             font-size: 1.45rem;
             font-weight: 800;
             color: var(--primary-green);
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .sub-title {
@@ -180,11 +195,62 @@
             line-height: 1.4;
         }
 
+        /* ميزة شريط التاريخ الحي والمثالي (ميلادي + هجري) */
+        .live-date-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 6px auto 0 auto;
+            padding: 4px 14px;
+            background: var(--marquee-bg);
+            border: 1px dashed var(--gold-premium);
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            box-shadow: var(--shadow-3d);
+        }
+
+        .live-date-box i {
+            color: var(--gold-premium);
+        }
+
         .header-divider {
             border: none;
             border-top: 1px dashed rgba(184, 147, 75, 0.2);
             margin: 0 auto;
             width: 60%;
+        }
+
+        /* ميزة: بطاقة آية واستراحة المحفزة الذكية */
+        .inspiration-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 12px 14px;
+            border: 1px solid var(--glass-border);
+            border-right: 4px solid var(--gold-premium);
+            box-shadow: var(--shadow-3d);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .inspiration-card:active {
+            transform: scale(0.99);
+        }
+
+        .inspire-icon {
+            color: var(--gold-premium);
+            font-size: 1.1rem;
+        }
+
+        .inspire-text {
+            font-size: 0.8rem;
+            font-weight: 700;
+            line-height: 1.5;
+            color: var(--text-dark);
         }
 
         /* بنر الدليل الشامل */
@@ -602,36 +668,46 @@
 </head>
 <body>
 
-    <!-- حاوية التحكم العلوية الشاملة للوضع الذكي وشريط الأدعية التفاعلي -->
     <div class="top-bar">
-        <!-- شريط الأدعية المتحرك التلقائي من اليسار لليمين -->
         <div class="marquee-wrapper">
             <div class="marquee-content">
                 ✨ اللَّهُمَّ انْفَعْنَا بِمَا عَلَّمْتَنَا، وَعَلِّمْنَا مَا يَنْفَعُنَا، وَزِدْنَا عِلْمًا 🌺 رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي 🌟 اللَّهُمَّ فَقِّهْنَا فِي الدِّينِ وَعَلِّمْنَا التَّأْوِيلَ 🌱 يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ
             </div>
         </div>
-        <!-- زر قلب الوضع (شمس / قمر) -->
-        <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn" title="تغيير مظهر المظهر">
+        
+        <button class="top-action-btn" onclick="triggerTasbih()" title="عداد التسبيح السريع">
+            <i class="fa-solid fa-calculator"></i>
+            <span class="counter-badge" id="tasbihBadge">0</span>
+        </button>
+
+        <button class="top-action-btn" onclick="toggleTheme()" id="themeBtn" title="تغيير المظهر">
             <i class="fa-solid fa-moon"></i>
         </button>
     </div>
 
     <div class="container">
         
-        <!-- حاوية الشعار -->
         <div class="logo-container">
             <img src="logo.png" alt="شعار منصة الإمام مالك" class="app-logo">
         </div>
 
-        <!-- العناوين الرئيسية -->
         <div class="brand-header">
             <h1 class="main-title">منصة الإمام مَالِك التَّعليمية</h1>
             <p class="sub-title">البوابة الرقمية الشاملة لمنظومة مَالِك التعليمية</p>
+            
+            <div class="live-date-box" id="liveDateBox">
+                <i class="fa-regular fa-calendar-days"></i>
+                <span id="dateText">جاري تحميل التاريخ الحقيقي...</span>
+            </div>
         </div>
 
         <hr class="header-divider">
 
-        <!-- بنر الدليل الشامل المطور -->
+        <div class="inspiration-card" onclick="changeInspiration()">
+            <div class="inspire-icon"><i class="fa-solid fa-quote-right"></i></div>
+            <div class="inspire-text" id="inspirationText">"وَمَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ"</div>
+        </div>
+
         <div class="banner-card" onclick="openModal()">
             <div class="banner-icon">
                 <i class="fa-solid fa-compass"></i>
@@ -645,7 +721,6 @@
             </div>
         </div>
 
-        <!-- شريط التبويبات العلوي الهندي المحكم -->
         <div class="tabs-container">
             <button class="tab-btn active" onclick="switchTab('college')">
                 <i class="fa-solid fa-building-columns"></i> علمية
@@ -661,12 +736,10 @@
             </button>
         </div>
 
-        <!-- منطقة المحتوى المحمل ديناميكياً لكروت القنوات -->
         <div id="content-area" class="dynamic-content"></div>
 
     </div>
 
-    <!-- النافذة المنبثقة للدليل الشامل (النص الكامل الحرفي دون أي حذف) -->
     <div id="guide-modal" class="modal-overlay" onclick="closeModalOutside(event)">
         <div class="modal-content">
             <div class="modal-header">
@@ -731,7 +804,22 @@
             window.Telegram.WebApp.expand();
         }
 
-        // --- ميزة الحفظ التلقائي والمستمر للوضع الداكن والفاتح ---
+        // --- نظام حساب وعرض التاريخ الدقيق (ميلادي + هجري تلقائي حقيقي) ---
+        function loadLiveDate() {
+            const today = new Date();
+            
+            // خيارات عرض التاريخ الميلادي مع اسم اليوم باللغة العربية
+            const optionsMiladi = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', calendar: 'gregory' };
+            const miladiString = today.toLocaleDateString('ar-LY', optionsMiladi);
+            
+            // حساب وعرض التاريخ الهجري الحقيقي والمنضبط عبر نظام الاستدعاء الداخلي الدولي
+            const optionsHijri = { year: 'numeric', month: 'long', day: 'numeric', calendar: 'islamic-umalqura' };
+            const hijriString = today.toLocaleDateString('ar-LY', optionsHijri);
+
+            document.getElementById('dateText').innerText = `${miladiString} | ${hijriString}`;
+        }
+
+        // --- نظام التحكم التلقائي بالمظهر وحفظه ---
         function applySavedTheme() {
             const savedTheme = localStorage.getItem('app-theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
@@ -756,8 +844,40 @@
             }
         }
 
-        // تطبيق الوضع المخزن فور تحميل الصفحة مباشرة
-        applySavedTheme();
+        // --- ميزة مضافة: تغيير الأقوال والآيات العشوائية التشجيعية ---
+        const quotes = [
+            `"وَمَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ"`,
+            `"قُلْ هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ"`,
+            `قال الإمام مالك: "إن هذا العلم دين، فانظروا عمن تأخذون دينكم"`,
+            `"يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنْكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ"`,
+            `قال الإمام مالك: "ليس العلم بكثرة الرواية، وإنما العلم نور يضعه الله في القلب"`
+        ];
+        
+        function changeInspiration() {
+            const textElement = document.getElementById('inspirationText');
+            let currentText = textElement.innerText;
+            let nextQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            
+            while(nextQuote === currentText) {
+                nextQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            }
+            textElement.innerText = nextQuote;
+            
+            // إحداث هزة تفاعلية طفيفة في تليجرام عند تغيير العبارة
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+            }
+        }
+
+        // --- ميزة مضافة: عداد التسبيح التفاعلي السريع ---
+        let tasbihCount = 0;
+        function triggerTasbih() {
+            tasbihCount++;
+            document.getElementById('tasbihBadge').innerText = tasbihCount;
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+            }
+        }
 
         function openModal() {
             document.getElementById('guide-modal').classList.add('open');
@@ -925,10 +1045,4 @@
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;")
                 .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
-
-        window.onload = renderContent;
-    </script>
-</body>
-</html>
+                .replace(/'/g, "&#039
