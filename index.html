@@ -866,18 +866,7 @@
             // إحداث هزة تفاعلية طفيفة في تليجرام عند تغيير العبارة
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
                 window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
-            }
-        }
-
-        // --- ميزة مضافة: عداد التسبيح التفاعلي السريع ---
-        let tasbihCount = 0;
-        function triggerTasbih() {
-            tasbihCount++;
-            document.getElementById('tasbihBadge').innerText = tasbihCount;
-            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-                window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
-            }
-        }
+            
 
         function openModal() {
             document.getElementById('guide-modal').classList.add('open');
