@@ -1045,4 +1045,15 @@
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;")
                 .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039
+                .replace(/'/g, "&#039;");
+        }
+
+        // تشغيل الوظائف عند تحميل التطبيق بالكامل
+        window.onload = function() {
+            applySavedTheme();
+            loadLiveDate();
+            renderContent();
+        };
+    </script>
+</body>
+</html>
