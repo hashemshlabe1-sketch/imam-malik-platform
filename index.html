@@ -942,7 +942,6 @@
                 <button class="modal-close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="modal-body">
-                <!-- (المحتوى كما هو موجود سابقاً، اختصاراً للطول) -->
                 <div class="modal-intro-card">
                     <p>كلية الإمام مالك هي مؤسسة تعليمية دينية إسلامية ليبية مقرها طرابلس...</p>
                 </div>
@@ -1169,7 +1168,6 @@
         // دالة للحصول على البيانات مع تطبيق التثبيت
         function getDataWithPins(tab) {
             let list = baseData[tab] || [];
-            // إضافة خاصية pinned محسوبة
             return list.map(item => {
                 const isPinned = pinnedItems.some(p => p.name === item.name && p.tab === tab);
                 return { ...item, pinned: isPinned };
@@ -1177,7 +1175,7 @@
         }
 
         // ============================================================
-        //  9. نظام التبويب والمؤشر المتحرك
+        //  9. نظام التبويب والمؤشر المتحرك (المصحح)
         // ============================================================
         let currentTab = 'college';
         let searchQuery = '';
@@ -1190,10 +1188,12 @@
             });
             // تحديث المؤشر
             updateTabSlider();
-            // إعادة العرض
+            // إعادة عرض المحتوى
             renderContent();
             // تسجيل زيارة للقسم
             incrementVisit(tabName);
+            // إخفاء لوحة المفاتيح في حالة البحث
+            document.getElementById('searchInput').blur();
         }
 
         function updateTabSlider() {
@@ -1206,6 +1206,14 @@
                 slider.style.width = (rect.width - 8) + 'px';
             }
         }
+
+        // ربط الأزرار بالحدث
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tab = this.dataset.tab;
+                switchTab(tab);
+            });
+        });
 
         // ============================================================
         //  10. البحث الذكي
@@ -1241,7 +1249,6 @@
                     item.desc.includes(searchQuery)
                 );
 
-                // إذا كان هناك بحث فارغ، نعرض الكل
                 if (searchQuery === '') filtered = data;
 
                 area.innerHTML = '';
@@ -1385,7 +1392,6 @@
             localStorage.setItem('imam_malik_konasha', JSON.stringify(benefits));
             document.getElementById('benefit-text').value = '';
             loadBenefits();
-            // إرجاع للمستخدم
             showCustomAlert('تم الحفظ', 'تم تقييد الفائدة في كناشتك بنجاح.', closeAlert);
         }
 
@@ -1395,7 +1401,6 @@
                 let benefits = stored ? JSON.parse(stored) : [];
                 benefits = benefits.filter(b => b.id !== id);
                 localStorage.setItem('imam_malik_konasha', JSON.stringify(benefits));
-                // إزالة من المفضلة إن وجدت
                 favBenefits = favBenefits.filter(f => f !== id);
                 localStorage.setItem('favBenefits', JSON.stringify(favBenefits));
                 loadBenefits();
@@ -1418,7 +1423,6 @@
             navigator.clipboard.writeText(text).then(() => {
                 showCustomAlert('تم النسخ', 'تم نسخ الفائدة إلى الحافظة.', closeAlert);
             }).catch(() => {
-                // fallback
                 const ta = document.createElement('textarea');
                 ta.value = text;
                 document.body.appendChild(ta);
@@ -1483,19 +1487,16 @@
         //  17. التهيئة النهائية
         // ============================================================
         window.addEventListener('load', function() {
-            const theme = applyAutoTheme();
+            applyAutoTheme();
             loadLiveDate();
-            // ضبط المؤشر بعد تحميل التبويبات
-            setTimeout(updateTabSlider, 50);
-            // عرض المحتوى الأول
-            renderContent();
+            // ضبط التبويب الافتراضي (college)
+            switchTab('college');
             // تحديث عداد الزيارات
             incrementVisit('app');
             // استعادة عداد التسبيح
             document.getElementById('tasbihBadge').innerText = tasbihCount;
-            // الاستماع لتغير حجم النافذة لإعادة وضع المؤشر
+            // تحديث المؤشر عند تغيير حجم النافذة
             window.addEventListener('resize', updateTabSlider);
-            // بعد ثانية نزيل الـ skeleton
         });
 
         // جعل الدوال عامة للاستخدام في HTML
