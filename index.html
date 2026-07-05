@@ -9,7 +9,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
-        /* ===== تحسين الأداء: text-rendering ===== */
+        /* ===== تحسين الأداء ===== */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -29,6 +29,7 @@
             --text-primary: #1f2a24;
             --text-muted: #5e6a62;
             --gold: #b8934b;
+            --gold-light: #d4af67;
             --emerald-dark: #113327;
             --emerald: #1e523f;
             --shadow-glow: 0 4px 20px rgba(17, 51, 39, 0.06);
@@ -48,6 +49,7 @@
             --text-primary: #f0f5f2;
             --text-muted: #a0b0aa;
             --gold: #d4af67;
+            --gold-light: #e6c88a;
             --emerald-dark: #3b8769;
             --emerald: #4da684;
             --shadow-glow: 0 4px 20px rgba(0,0,0,0.4);
@@ -78,7 +80,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* ===== جزيئات ذهبية (خفيفة جداً) ===== */
+        /* ===== جزيئات ذهبية (خفيفة) ===== */
         #particles-canvas {
             position: fixed;
             top: 0;
@@ -100,7 +102,7 @@
             gap: 10px;
         }
 
-        /* ===== Skeleton (عنصران فقط) ===== */
+        /* ===== Skeleton ===== */
         .skeleton-wrapper {
             display: flex;
             flex-direction: column;
@@ -132,13 +134,12 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             will-change: transform;
         }
-
         .glass-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 24px rgba(184, 147, 75, 0.1), var(--shadow-glow);
         }
 
-        /* ===== Ripple (خفيف) ===== */
+        /* ===== Ripple ===== */
         .ripple {
             position: relative;
             overflow: hidden;
@@ -164,7 +165,6 @@
             width: 100%;
             max-width: 440px;
         }
-
         .marquee-wrapper {
             flex: 1;
             background: var(--card-bg);
@@ -176,7 +176,6 @@
             mask-image: linear-gradient(to left, transparent, black 15%, black 85%, transparent);
             -webkit-mask-image: linear-gradient(to left, transparent, black 15%, black 85%, transparent);
         }
-
         .marquee-content {
             display: inline-block;
             white-space: nowrap;
@@ -187,7 +186,6 @@
             padding-right: 20px;
             will-change: transform;
         }
-
         @keyframes marqueeScroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -323,7 +321,6 @@
             border-radius: 14px;
             border: 1px solid var(--glass-border);
         }
-
         .tab-btn {
             background: transparent;
             border: none;
@@ -348,7 +345,6 @@
             color: var(--emerald-dark);
             font-weight: 800;
         }
-
         .tab-slider {
             position: absolute;
             bottom: 4px;
@@ -616,7 +612,9 @@
         .alert-btn.confirm { background: var(--emerald-dark); color: #fff; }
         .alert-btn.cancel { background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--glass-border); }
 
-        /* ===== دليل شامل ===== */
+        /* =============================================
+                   الدليل الشامل (تصميم محترف بالكامل)
+                   ============================================= */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -640,10 +638,10 @@
             max-width: 440px;
             max-height: 80vh;
             border-radius: 20px 20px 0 0;
-            padding: 16px 14px 20px;
+            padding: 18px 14px 20px;
             overflow-y: auto;
             transform: translateY(100%);
-            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+            transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
         }
         .modal-overlay.open .modal-content {
             transform: translateY(0);
@@ -652,74 +650,173 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
-            border-bottom: 1px solid var(--glass-border);
-            padding-bottom: 8px;
+            margin-bottom: 14px;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 10px;
         }
         .modal-title {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 800;
             color: var(--emerald-dark);
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
         .modal-title i { color: var(--gold); }
+        .modal-title .gold-word { color: var(--gold); }
+
         .modal-close-btn {
             background: var(--card-bg);
             border: 1px solid var(--glass-border);
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-primary);
             cursor: pointer;
+            transition: transform 0.15s;
         }
+        .modal-close-btn:active { transform: scale(0.9); }
+
         .modal-body {
-            font-size: 0.8rem;
-            line-height: 1.6;
+            font-size: 0.85rem;
+            line-height: 1.8;
             color: var(--text-primary);
             text-align: justify;
         }
+
+        /* بطاقة المقدمة */
         .modal-intro-card {
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 12px;
+            backdrop-filter: blur(4px);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
             border: 1px solid var(--glass-border);
+            border-right: 4px solid var(--gold);
+            box-shadow: var(--shadow-glow);
         }
-        .modal-section-title {
-            font-size: 0.9rem;
+        .modal-intro-card p {
+            margin: 0;
+            font-weight: 500;
+            line-height: 1.9;
+        }
+        .modal-intro-card .highlight {
+            color: var(--gold);
             font-weight: 700;
+        }
+
+        /* العناوين الرئيسية */
+        .modal-section-title {
+            font-size: 1rem;
+            font-weight: 800;
             color: var(--emerald-dark);
-            margin: 14px 0 8px;
+            margin: 20px 0 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-right: 4px solid var(--gold);
+            padding-right: 10px;
+        }
+        .modal-section-title i {
+            color: var(--gold);
+            font-size: 1.1rem;
+        }
+        .modal-section-title .gold-word {
+            color: var(--gold);
+        }
+
+        /* قائمة الأهداف */
+        .modal-list {
+            list-style: none;
+            padding-right: 6px;
+            margin-bottom: 12px;
+        }
+        .modal-list li {
+            position: relative;
+            padding-right: 28px;
+            margin-bottom: 8px;
+            font-weight: 500;
+            line-height: 1.7;
+        }
+        .modal-list li::before {
+            content: "✦";
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* بطاقات الأقسام العلمية */
+        .modal-info-box {
+            background: var(--card-bg);
+            backdrop-filter: blur(4px);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            border: 1px solid var(--glass-border);
+            transition: background 0.2s;
+        }
+        .modal-info-box:hover {
+            background: var(--tab-active);
+        }
+        .modal-info-box strong {
+            display: block;
+            color: var(--emerald-dark);
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .modal-info-box strong i {
+            color: var(--gold);
+            margin-left: 6px;
+        }
+        .modal-info-box p {
+            margin: 0;
+            font-weight: 500;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        /* قائمة الفروع */
+        .branches-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 10px;
+            margin-top: 4px;
+        }
+        .branch-item {
+            background: var(--card-bg);
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
             display: flex;
             align-items: center;
             gap: 4px;
-            border-right: 3px solid var(--gold);
-            padding-right: 6px;
         }
-        .modal-info-box {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 8px;
-            border: 1px solid var(--glass-border);
+        .branch-item i {
+            color: var(--gold);
+            font-size: 0.7rem;
         }
-        .modal-info-box strong {
-            color: var(--emerald);
-            display: block;
-            margin-bottom: 2px;
-            font-weight: 700;
-            font-size: 0.85rem;
+        .branch-item .sub {
+            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 0.7rem;
         }
-        .modal-list {
-            padding-right: 18px;
-            margin-bottom: 10px;
+
+        /* فاصل زخرفي */
+        .modal-divider {
+            border: none;
+            border-top: 2px dashed rgba(184, 147, 75, 0.2);
+            margin: 16px 0;
         }
-        .modal-list li { margin-bottom: 4px; }
 
         /* ===== زخارف ===== */
         .islamic-ornament {
@@ -733,7 +830,7 @@
         .ornament-tl { top: 2px; left: 2px; }
         .ornament-br { bottom: 2px; right: 2px; transform: rotate(180deg); }
 
-        /* ===== Lazy Animation خفيفة ===== */
+        /* ===== Lazy Animation ===== */
         .fade-up {
             opacity: 0;
             transform: translateY(15px);
@@ -832,44 +929,104 @@
         </div>
     </div>
 
-    <!-- ===== دليل شامل ===== -->
+    <!-- ===== الدليل الشامل (محتوى جديد كلياً) ===== -->
     <div id="guide-modal" class="modal-overlay" onclick="closeModalOutside(event)">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title"><i class="fa-solid fa-graduation-cap"></i> الدليل الكامل</div>
+                <div class="modal-title">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    الدليل <span class="gold-word">الشامل</span>
+                </div>
                 <button class="modal-close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="modal-body">
+
+                <!-- مقدمة -->
                 <div class="modal-intro-card">
-                    <p>كلية الإمام مالك هي مؤسسة تعليمية دينية إسلامية ليبية مقرها طرابلس...</p>
+                    <p>
+                        <span class="highlight">كلية الإمام مالك</span> هي مؤسسة تعليمية دينية إسلامية ليبية مقرها في العاصمة طرابلس، و لها عدة فروع داخل مدينة طرابلس و خارجها. تتبع الكلية إدارياً إلى <span class="highlight">الهيئة العامة للأوقاف و الشؤون الإسلامية</span> في ليبيا.
+                    </p>
+                    <hr class="modal-divider">
+                    <p>
+                        تأسست الكلية بناءً على القرار رقم ( <span class="highlight">80</span> ) لسنة ( <span class="highlight">1432هـ – 2011م</span> ) من اللجنة الشعبية العامة سابقاً تحت اسم <span class="highlight">"الكلية السلفية العالية للإمامة والخطابة والإرشاد وعلوم القرآن"</span>، ثم أعيدت تسميتها بقرار مجلس الوزراء رقم ( <span class="highlight">238</span> ) لسنة ( <span class="highlight">1433هـ – 2012م</span> ) إلى <span class="highlight">"كلية علي بن زياد الطرابلسي العالي للإمامة والخطابة وعلوم الكتاب والسنة"</span>، وأصبحت تابعة لوزارة الأوقاف والشؤون الإسلامية.
+                    </p>
+                    <hr class="modal-divider">
+                    <p>
+                        أعيدت تسميتها للمرة الثالثة إلى <span class="highlight">"كلية الإمام مالك بن أنس العالي للإمامة والخطابة وعلوم الكتاب والسنة"</span> بإيحاء من رئيس الوزراء بحكومة الوحدة الوطنية.
+                    </p>
+                    <hr class="modal-divider">
+                    <p>
+                        <span class="highlight">و لكن لم يتم تفعيل الكلية خلال السنوات الماضية</span>، و كان التفعيل الرسمي لها من قبل الهيئة العامة للأوقاف والشؤون الإسلامية بفضل الله تعالى سنة <span class="highlight">( 1443هـ – 2022م )</span>.
+                    </p>
                 </div>
-                <div class="modal-section-title"><i class="fa-solid fa-bullseye"></i> الأهداف</div>
+
+                <!-- الأهداف -->
+                <div class="modal-section-title">
+                    <i class="fa-solid fa-bullseye"></i> الأهداف
+                </div>
                 <ul class="modal-list">
-                    <li>إعداد أشخاص متخصصين في العقيدة والفقه والحديث والتفسير والقراءات.</li>
-                    <li>إعداد أئمة وخطباء ووعاظ ذوي كفاءة علمية عالية.</li>
-                    <li>تلبية احتياجات المساجد.</li>
-                    <li>تأهيل مدرسين ذوي كفاءة.</li>
-                    <li>نشر البحوث وإقامة المؤتمرات.</li>
-                    <li>تنمية قدرات الدارسين.</li>
-                    <li>تخريج مؤهلين للدراسات العليا.</li>
-                    <li>منارة علمية للمسلمين.</li>
+                    <li>إعداد أشخاص متخصصين في مجالات متعددة كالعقيدة، والفقه، والحديث، والتفسير، والقراءات.</li>
+                    <li>إعداد أئمة، وخطباء، ووعاظ ذوي كفاءة علمية عالية.</li>
+                    <li>تلبية احتياجات المساجد في مجال الإمامة والخطابة والوعظ والإرشاد.</li>
+                    <li>تأهيل مدرسين ذوي كفاءة عالية في تدريس العلوم الشرعية، من أجل سد حاجات المجتمع في هذا المجال.</li>
+                    <li>نشر البحوث العلمية المختصة، وإقامة المؤتمرات والندوات في مجالات العلوم الشرعية.</li>
+                    <li>تنمية قدرات الدارسين بالتحليل الدقيق، والنقد البناء، والتواصل العلمي مع الآخر من خلال المحاضرات والتدريب العملي، بما يسهم في تكوين شخصية الإمام والخطيب والواعظ.</li>
+                    <li>تخريج مؤهلين ذوي كفاءة عالية في مجال الدراسات الإسلامية لمواصلة دراساتهم العليا والدقيقة.</li>
+                    <li>أن تكون الكلية منارة علمية يستضيء بها أبناء المسلمين داخل البلاد وخارجها.</li>
                 </ul>
-                <div class="modal-section-title"><i class="fa-solid fa-layer-group"></i> الأقسام</div>
-                <div class="modal-info-box"><strong>الدعوة وأصول الدين</strong><p>إيجاد مخرجات متخصصة...</p></div>
-                <div class="modal-info-box"><strong>علوم الشريعة</strong><p>مرجع أكاديمي ومجتمعي...</p></div>
-                <div class="modal-info-box"><strong>علوم القراءات</strong><p>إعداد كوادر مؤهلة...</p></div>
-                <div class="modal-section-title"><i class="fa-solid fa-map-location-dot"></i> الفروع</div>
-                <ul class="modal-list">
-                    <li><strong>طرابلس:</strong> تاجوراء، النوفليين، النجيلة، المشتل</li>
-                    <li><strong>السراج، الزاوية، مصراتة، ترهونة، الخمس، العجيلات، البيضاء، الزنتان</strong></li>
-                </ul>
+
+                <hr class="modal-divider">
+
+                <!-- الأقسام العلمية -->
+                <div class="modal-section-title">
+                    <i class="fa-solid fa-layer-group"></i> الأقسام العلمية
+                </div>
+
+                <div class="modal-info-box">
+                    <strong><i class="fa-solid fa-hand-holding-heart"></i> الدعوة و أصول الدين</strong>
+                    <p>إيجاد مخرجات علمية متخصصة وفق معايير الجودة الشاملة في مجالات التعليم و البحث، و تأهيل متخصصين متميزين في المجال الدعوي علمياً و فكرياً و سلوكياً، و إعداد دعاة يتمتعون بالكفاءة و الوعي، و تمكينهم من أداء دور فاعل في خدمة المجتمع في المجالات الدعوية النظرية و العملية بما يعكس صورة الإسلام الحق، مع التركيز على توظيف الأساليب الحديثة لمواجهة تحديات العصر و تحقيق التأثير الإيجابي في المجتمعات.</p>
+                </div>
+
+                <div class="modal-info-box">
+                    <strong><i class="fa-solid fa-scale-balanced"></i> علوم الشريعة</strong>
+                    <p>أن يكون قسم الشريعة مرجعاً أكاديمياً و مجتمعياً رائداً في إعداد علماء و فقهاء قادرين على الجمع بين الأصالة و المعاصرة، لتلبية احتياجات المجتمع و تعزيز القيم الإسلامية.</p>
+                </div>
+
+                <div class="modal-info-box">
+                    <strong><i class="fa-solid fa-quran"></i> علوم القراءات</strong>
+                    <p>تسعى شعبة القراءات إلى إعداد كوادر تربوية و تعليمية مؤهلة علمياً في مجال القراءات القرآنية و الدراسات الإسلامية، دعماً للعملية التعليمية و البحث العلمي، و تلبية لاحتياجات المجتمع من معلمي القرآن الكريم و علومه.</p>
+                </div>
+
+                <hr class="modal-divider">
+
+                <!-- فروع الكلية -->
+                <div class="modal-section-title">
+                    <i class="fa-solid fa-map-location-dot"></i> فروع الكلية
+                </div>
+
+                <div class="branches-grid">
+                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> طرابلس <span class="sub">(4 فروع)</span></div>
+                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> تاجوراء <span class="sub">(بنين)</span></div>
+                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> النوفليين <span class="sub">(بنات)</span></div>
+                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> النجيلة <span class="sub">(بنات)</span></div>
+                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> طريق المشتل <span class="sub">(بنات)</span></div>
+                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> السراج <span class="sub">(فرع واحد)</span></div>
+                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> الزاوية <span class="sub">(فرعان)</span></div>
+                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> مصراتة <span class="sub">(فرع واحد)</span></div>
+                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> ترهونة <span class="sub">(فرع واحد)</span></div>
+                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> الخمس <span class="sub">(فرع واحد)</span></div>
+                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> العجيلات <span class="sub">(فرع واحد)</span></div>
+                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> البيضاء <span class="sub">(فرع واحد)</span></div>
+                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> الزنتان <span class="sub">(مسجد علي بن أبي طالب)</span></div>
+                </div>
+
             </div>
         </div>
     </div>
 
     <script>
         // ============================================================
-        //  تحسين الأداء: استخدام debounce للبحث
+        //  تحسين الأداء: debounce للبحث
         // ============================================================
         let searchTimeout;
         function debounceSearch() {
@@ -924,7 +1081,7 @@
         }
 
         // ============================================================
-        //  جزيئات ذهبية (خفيفة جداً، 12 جزيئة، تحديث 30fps)
+        //  جزيئات ذهبية (خفيفة جداً، 12 جزيئة، 30fps)
         // ============================================================
         (function initParticles() {
             const canvas = document.getElementById('particles-canvas');
@@ -956,7 +1113,7 @@
 
             function draw() {
                 frameSkip++;
-                if (frameSkip % 2 === 0) { // تحديث كل إطارين = 30fps
+                if (frameSkip % 2 === 0) {
                     ctx.clearRect(0, 0, width, height);
                     for (let p of particles) {
                         ctx.beginPath();
@@ -971,7 +1128,6 @@
                 }
                 requestAnimationFrame(draw);
             }
-            // تأخير بدء الجزيئات لتحميل المحتوى أولاً
             setTimeout(draw, 200);
         })();
 
@@ -1097,7 +1253,7 @@
         }
 
         // ============================================================
-        //  عرض المحتوى (مع Skeleton مختصر)
+        //  عرض المحتوى
         // ============================================================
         function renderContent() {
             const area = document.getElementById('content-area');
@@ -1108,7 +1264,6 @@
                 return;
             }
 
-            // Skeleton سريع (عنصران فقط)
             area.innerHTML = `
                 <div class="skeleton-wrapper">
                     <div class="skeleton-card"></div>
@@ -1358,7 +1513,6 @@
             loadLiveDate();
             switchTab('college');
             incrementVisit('app');
-            // تحديث المؤشر بعد التحميل
             setTimeout(updateTabSlider, 100);
             window.addEventListener('resize', updateTabSlider);
         });
