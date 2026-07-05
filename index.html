@@ -10,10 +10,9 @@
     
     <style>
         /* =============================================
-                   المنظومة اللونية المتطورة (Gold + Emerald + Ivory + Deep Forest + Velvet Black)
+                   المنظومة اللونية المتطورة
                    ============================================= */
         :root {
-            /* نهار */
             --bg-1: #fcf9f3;
             --bg-2: #f5efe6;
             --bg-3: #e9e0d3;
@@ -130,10 +129,6 @@
             100% { background-position: 200% 0; }
         }
 
-        .skeleton-hidden {
-            display: none !important;
-        }
-
         /* =============================================
                    الزجاج الفاخر (Glassmorphism + Glint)
                    ============================================= */
@@ -149,7 +144,6 @@
             overflow: hidden;
         }
 
-        /* لمعة الحواف (Glint) */
         .glass-card::before {
             content: '';
             position: absolute;
@@ -191,6 +185,15 @@
         /* =============================================
                    شريط الأدعية المتطور (Fade mask)
                    ============================================= */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 440px;
+            margin-bottom: 4px;
+        }
+
         .marquee-wrapper {
             flex: 1;
             background: var(--card-bg);
@@ -219,18 +222,6 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* =============================================
-                   أزرار علوية وأيقونات نابضة
-                   ============================================= */
-        .top-bar {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            width: 100%;
-            max-width: 440px;
-            margin-bottom: 4px;
-        }
-
         .top-action-btn {
             background: var(--card-bg);
             backdrop-filter: blur(15px);
@@ -245,33 +236,9 @@
             font-size: 1rem;
             box-shadow: var(--shadow-glow);
             flex-shrink: 0;
-            position: relative;
             transition: transform 0.15s;
         }
         .top-action-btn:active { transform: scale(0.9); }
-
-        .counter-badge {
-            position: absolute;
-            top: -6px;
-            left: -6px;
-            background: var(--emerald-dark);
-            color: #fff;
-            font-size: 0.6rem;
-            padding: 2px 6px;
-            border-radius: 8px;
-            font-weight: 700;
-            min-width: 18px;
-            text-align: center;
-        }
-
-        .pulse-icon {
-            animation: pulseAnim 2s infinite;
-        }
-        @keyframes pulseAnim {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); }
-        }
 
         /* ===== شعار ===== */
         .logo-container { display: flex; justify-content: center; margin-top: 4px; }
@@ -420,7 +387,6 @@
             font-weight: 800;
         }
 
-        /* الشريط المتحرك */
         .tab-slider {
             position: absolute;
             bottom: 6px;
@@ -515,7 +481,6 @@
         }
         .telegram-arrow { color: var(--gold); font-size: 0.9rem; }
 
-        /* زر التثبيت */
         .pin-btn {
             background: none;
             border: none;
@@ -529,7 +494,7 @@
         .pin-btn:hover { color: var(--gold); }
 
         /* =============================================
-                   كناشتي المتطورة (مفضلة + حذف + مشاركة)
+                   كناشتي المتطورة
                    ============================================= */
         .konasha-section {
             background: var(--card-bg);
@@ -851,20 +816,13 @@
     <canvas id="particles-canvas"></canvas>
 
     <div class="container" id="appContainer">
-        <!-- شريط علوي -->
+        <!-- شريط علوي (دعاء + زر المظهر) -->
         <div class="top-bar">
             <div class="marquee-wrapper">
                 <div class="marquee-content">
                     ✨ اللَّهُمَّ انْفَعْنَا بِمَا عَلَّمْتَنَا، وَعَلِّمْنَا مَا يَنْفَعُنَا، وَزِدْنَا عِلْمًا 🌺 رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي 🌟 اللَّهُمَّ فَقِّهْنَا فِي الدِّينِ وَعَلِّمْنَا التَّأْوِيلَ 🌱 يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ
                 </div>
             </div>
-            <button class="top-action-btn ripple" onclick="triggerTasbih()" title="عداد التسبيح">
-                <i class="fa-solid fa-calculator pulse-icon"></i>
-                <span class="counter-badge" id="tasbihBadge">0</span>
-            </button>
-            <button class="top-action-btn ripple" onclick="resetTasbih()" title="إعادة ضبط التسبيح">
-                <i class="fa-solid fa-rotate-left"></i>
-            </button>
             <button class="top-action-btn ripple" onclick="toggleTheme()" id="themeBtn" title="تغيير المظهر">
                 <i class="fa-solid fa-moon"></i>
             </button>
@@ -1070,31 +1028,7 @@
         })();
 
         // ============================================================
-        //  5. عداد التسبيح مع حفظ LocalStorage
-        // ============================================================
-        let tasbihCount = parseInt(localStorage.getItem('tasbihCount')) || 0;
-        document.getElementById('tasbihBadge').innerText = tasbihCount;
-
-        function triggerTasbih() {
-            tasbihCount++;
-            document.getElementById('tasbihBadge').innerText = tasbihCount;
-            localStorage.setItem('tasbihCount', tasbihCount);
-            if (window.Telegram?.WebApp?.HapticFeedback) {
-                window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
-            }
-        }
-
-        function resetTasbih() {
-            showCustomAlert('إعادة ضبط التسبيح', 'هل تريد تصفير العداد؟', () => {
-                tasbihCount = 0;
-                document.getElementById('tasbihBadge').innerText = '0';
-                localStorage.setItem('tasbihCount', '0');
-                closeAlert();
-            });
-        }
-
-        // ============================================================
-        //  6. تغيير الإلهام
+        //  5. تغيير الإلهام
         // ============================================================
         const quotes = [
             '"وَمَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ"',
@@ -1116,7 +1050,7 @@
         }
 
         // ============================================================
-        //  7. التنبيهات المخصصة
+        //  6. التنبيهات المخصصة
         // ============================================================
         let alertCallback = null;
 
@@ -1137,7 +1071,7 @@
         }
 
         // ============================================================
-        //  8. البيانات والقنوات (مع خاصية التثبيت)
+        //  7. البيانات والقنوات (مع خاصية التثبيت)
         // ============================================================
         const baseData = {
             college: [
@@ -1161,11 +1095,9 @@
             ]
         };
 
-        // تحميل المفضلة والتثبيت من localStorage
         let pinnedItems = JSON.parse(localStorage.getItem('pinnedChannels')) || [];
         let favBenefits = JSON.parse(localStorage.getItem('favBenefits')) || [];
 
-        // دالة للحصول على البيانات مع تطبيق التثبيت
         function getDataWithPins(tab) {
             let list = baseData[tab] || [];
             return list.map(item => {
@@ -1175,24 +1107,19 @@
         }
 
         // ============================================================
-        //  9. نظام التبويب والمؤشر المتحرك (المصحح)
+        //  8. نظام التبويب والمؤشر المتحرك
         // ============================================================
         let currentTab = 'college';
         let searchQuery = '';
 
         function switchTab(tabName) {
             currentTab = tabName;
-            // تحديث الأزرار
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.tab === tabName);
             });
-            // تحديث المؤشر
             updateTabSlider();
-            // إعادة عرض المحتوى
             renderContent();
-            // تسجيل زيارة للقسم
             incrementVisit(tabName);
-            // إخفاء لوحة المفاتيح في حالة البحث
             document.getElementById('searchInput').blur();
         }
 
@@ -1207,16 +1134,14 @@
             }
         }
 
-        // ربط الأزرار بالحدث
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                const tab = this.dataset.tab;
-                switchTab(tab);
+                switchTab(this.dataset.tab);
             });
         });
 
         // ============================================================
-        //  10. البحث الذكي
+        //  9. البحث الذكي
         // ============================================================
         function filterChannels() {
             searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
@@ -1224,7 +1149,7 @@
         }
 
         // ============================================================
-        //  11. عرض المحتوى (مع Lazy Animation و Skeleton)
+        //  10. عرض المحتوى (مع Lazy Animation و Skeleton)
         // ============================================================
         function renderContent() {
             const area = document.getElementById('content-area');
@@ -1235,7 +1160,6 @@
                 return;
             }
 
-            // عرض Skeleton أولاً ثم المحتوى بعد تأخير بسيط
             area.innerHTML = `
                 <div class="skeleton-wrapper" id="skeletonWrapper">
                     ${Array(4).fill('<div class="skeleton-card"></div>').join('')}
@@ -1248,7 +1172,6 @@
                     item.name.includes(searchQuery) ||
                     item.desc.includes(searchQuery)
                 );
-
                 if (searchQuery === '') filtered = data;
 
                 area.innerHTML = '';
@@ -1263,8 +1186,6 @@
                     card.target = '_blank';
                     card.className = 'channel-link glass-card fade-up';
                     card.style.animationDelay = `${index * 50}ms`;
-                    card.setAttribute('data-name', item.name);
-                    card.setAttribute('data-desc', item.desc);
                     card.innerHTML = `
                         <div class="channel-right">
                             <div class="channel-avatar"><i class="fa-solid ${item.icon}"></i></div>
@@ -1288,7 +1209,7 @@
         }
 
         // ============================================================
-        //  12. خاصية التثبيت
+        //  11. خاصية التثبيت
         // ============================================================
         function togglePin(name, tab) {
             const index = pinnedItems.findIndex(p => p.name === name && p.tab === tab);
@@ -1302,7 +1223,7 @@
         }
 
         // ============================================================
-        //  13. كناشتي المتطورة (مفضلة، حذف، مشاركة)
+        //  12. كناشتي المتطورة
         // ============================================================
         function renderKonasha(area) {
             const stored = localStorage.getItem('imam_malik_konasha');
@@ -1334,7 +1255,6 @@
             const stored = localStorage.getItem('imam_malik_konasha');
             let benefits = stored ? JSON.parse(stored) : [];
 
-            // ترتيب المفضلة أولاً
             benefits.sort((a, b) => {
                 const aFav = favBenefits.includes(a.id) ? 1 : 0;
                 const bFav = favBenefits.includes(b.id) ? 1 : 0;
@@ -1438,7 +1358,7 @@
         }
 
         // ============================================================
-        //  14. عدادات الزيارات (للتطبيق والأقسام)
+        //  13. عدادات الزيارات
         // ============================================================
         function incrementVisit(section = 'app') {
             let visits = JSON.parse(localStorage.getItem('visitCounts')) || {};
@@ -1454,7 +1374,7 @@
         }
 
         // ============================================================
-        //  15. فتح وإغلاق الدليل الشامل
+        //  14. فتح وإغلاق الدليل الشامل
         // ============================================================
         function openModal() {
             document.getElementById('guide-modal').classList.add('open');
@@ -1467,7 +1387,7 @@
         }
 
         // ============================================================
-        //  16. تأثير Ripple (للأزرار)
+        //  15. تأثير Ripple
         // ============================================================
         document.addEventListener('click', function(e) {
             const target = e.target.closest('.ripple');
@@ -1484,26 +1404,19 @@
         });
 
         // ============================================================
-        //  17. التهيئة النهائية
+        //  16. التهيئة النهائية
         // ============================================================
         window.addEventListener('load', function() {
             applyAutoTheme();
             loadLiveDate();
-            // ضبط التبويب الافتراضي (college)
             switchTab('college');
-            // تحديث عداد الزيارات
             incrementVisit('app');
-            // استعادة عداد التسبيح
-            document.getElementById('tasbihBadge').innerText = tasbihCount;
-            // تحديث المؤشر عند تغيير حجم النافذة
             window.addEventListener('resize', updateTabSlider);
         });
 
-        // جعل الدوال عامة للاستخدام في HTML
+        // جعل الدوال عامة
         window.switchTab = switchTab;
         window.toggleTheme = toggleTheme;
-        window.triggerTasbih = triggerTasbih;
-        window.resetTasbih = resetTasbih;
         window.changeInspiration = changeInspiration;
         window.filterChannels = filterChannels;
         window.togglePin = togglePin;
