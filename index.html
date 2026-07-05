@@ -210,17 +210,25 @@
         .top-action-btn:active { transform: scale(0.9); }
 
         /* ===== شعار ===== */
-        .logo-container { display: flex; justify-content: center; margin-top: 2px; }
+        .logo-container { 
+            display: flex; 
+            justify-content: center; 
+            margin-top: 2px; 
+        }
+
+        /* --- التعديل الأساسي هنا --- */
         .app-logo {
-            width: 90px;
-            height: 90px;
+            width: 95px;
+            height: 95px;
             border-radius: 50%;
-            object-fit: cover;
+            object-fit: contain;          /* عرض الصورة كاملة دون قطع */
             border: 3px solid var(--tab-active);
             background: var(--tab-active);
-            padding: 2px;
             box-shadow: 0 8px 20px rgba(17, 51, 39, 0.1);
+            display: block;
+            max-width: 100%;
         }
+        /* ----------------------------- */
 
         .brand-header { text-align: center; }
         .main-title {
@@ -613,7 +621,7 @@
         .alert-btn.cancel { background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--glass-border); }
 
         /* =============================================
-                   الدليل الشامل (تصميم محترف بالكامل)
+                   الدليل الشامل (تصميم محترف)
                    ============================================= */
         .modal-overlay {
             position: fixed;
@@ -687,7 +695,6 @@
             text-align: justify;
         }
 
-        /* بطاقة المقدمة */
         .modal-intro-card {
             background: var(--card-bg);
             backdrop-filter: blur(4px);
@@ -708,7 +715,6 @@
             font-weight: 700;
         }
 
-        /* العناوين الرئيسية */
         .modal-section-title {
             font-size: 1rem;
             font-weight: 800;
@@ -728,7 +734,6 @@
             color: var(--gold);
         }
 
-        /* قائمة الأهداف */
         .modal-list {
             list-style: none;
             padding-right: 6px;
@@ -751,7 +756,6 @@
             font-size: 1.1rem;
         }
 
-        /* بطاقات الأقسام العلمية */
         .modal-info-box {
             background: var(--card-bg);
             backdrop-filter: blur(4px);
@@ -782,7 +786,6 @@
             color: var(--text-muted);
         }
 
-        /* قائمة الفروع */
         .branches-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -811,7 +814,6 @@
             font-size: 0.7rem;
         }
 
-        /* فاصل زخرفي */
         .modal-divider {
             border: none;
             border-top: 2px dashed rgba(184, 147, 75, 0.2);
@@ -929,7 +931,7 @@
         </div>
     </div>
 
-    <!-- ===== الدليل الشامل (محتوى جديد كلياً) ===== -->
+    <!-- ===== الدليل الشامل ===== -->
     <div id="guide-modal" class="modal-overlay" onclick="closeModalOutside(event)">
         <div class="modal-content">
             <div class="modal-header">
@@ -941,7 +943,6 @@
             </div>
             <div class="modal-body">
 
-                <!-- مقدمة -->
                 <div class="modal-intro-card">
                     <p>
                         <span class="highlight">كلية الإمام مالك</span> هي مؤسسة تعليمية دينية إسلامية ليبية مقرها في العاصمة طرابلس، و لها عدة فروع داخل مدينة طرابلس و خارجها. تتبع الكلية إدارياً إلى <span class="highlight">الهيئة العامة للأوقاف و الشؤون الإسلامية</span> في ليبيا.
@@ -960,7 +961,6 @@
                     </p>
                 </div>
 
-                <!-- الأهداف -->
                 <div class="modal-section-title">
                     <i class="fa-solid fa-bullseye"></i> الأهداف
                 </div>
@@ -977,7 +977,6 @@
 
                 <hr class="modal-divider">
 
-                <!-- الأقسام العلمية -->
                 <div class="modal-section-title">
                     <i class="fa-solid fa-layer-group"></i> الأقسام العلمية
                 </div>
@@ -999,7 +998,6 @@
 
                 <hr class="modal-divider">
 
-                <!-- فروع الكلية -->
                 <div class="modal-section-title">
                     <i class="fa-solid fa-map-location-dot"></i> فروع الكلية
                 </div>
