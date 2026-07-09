@@ -9,7 +9,13 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
-        /* ===== تحسين الأداء ===== */
+        /* ================================================================
+           الأقسام: 1- الأساسيات والثيم | 2- الخلفيات الخاصة | 3- الكروت
+           4- المكونات (شريط، شعار، بحث) | 5- التبويبات | 6- الكناشة
+           7- النوافذ (منبثقة، دليل، توست) | 8- التحريك | 9- التوافق
+           ================================================================ */
+
+        /* ---------- 1. الأساسيات والثيم ---------- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -19,7 +25,6 @@
             text-rendering: optimizeSpeed;
         }
 
-        /* ===== الألوان المتطورة ===== */
         :root {
             --bg-1: #fcf9f3;
             --bg-2: #f5efe6;
@@ -38,6 +43,8 @@
             --modal-bg: #f8f5ef;
             --input-bg: #ffffff;
             --skeleton-bg: #e2dbd0;
+            --body-bg: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
+            --custom-bg: transparent;
         }
 
         [data-theme="dark"] {
@@ -60,10 +67,13 @@
             --skeleton-bg: #2a3f38;
         }
 
+        html { scroll-behavior: smooth; }
+        
         body {
-            background: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
-            background-size: 300% 300%;
-            animation: gentleBg 30s ease infinite;
+            background: var(--body-bg), var(--custom-bg) !important;
+            background-blend-mode: overlay !important;
+            background-size: 300% 300%, cover !important;
+            animation: gentleBg 30s ease infinite, fadeBg 0.6s ease !important;
             color: var(--text-primary);
             padding: 10px 8px;
             min-height: 100vh;
@@ -72,6 +82,7 @@
             align-items: center;
             position: relative;
             overflow-x: hidden;
+            transition: background 0.5s ease;
         }
 
         @keyframes gentleBg {
@@ -79,98 +90,71 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+        @keyframes fadeBg {
+            0% { opacity: 0.6; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1); }
+        }
 
-        /* ===== جزيئات ذهبية (خفيفة) ===== */
-        #particles-canvas {
+        /* خلفية خاصة فوقية لتطبيق الاختيار */
+        .custom-bg-layer {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: transparent;
+            transition: background 0.7s cubic-bezier(0.23, 1, 0.32, 1);
             pointer-events: none;
-            z-index: 0;
-            opacity: 0.6;
+        }
+        .custom-bg-layer.active {
+            opacity: 1;
         }
 
-        .container {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 440px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        /* ---------- 2. الخلفيات الخاصة (أنماط داخلية) ---------- */
+        /* يتم تطبيقها عبر JS كـ style على body أو الطبقة */
 
-        /* ===== Skeleton ===== */
-        .skeleton-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .skeleton-card {
-            background: var(--skeleton-bg);
-            border-radius: 12px;
-            height: 60px;
-            width: 100%;
-            background: linear-gradient(90deg, var(--skeleton-bg) 25%, var(--card-bg) 50%, var(--skeleton-bg) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1s infinite;
-            opacity: 0.5;
-        }
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        /* ===== زجاج خفيف ===== */
+        /* ---------- 3. الكروت والزجاج ---------- */
         .glass-card {
             background: var(--card-bg);
-            backdrop-filter: blur(8px) saturate(1.2);
-            -webkit-backdrop-filter: blur(8px) saturate(1.2);
+            backdrop-filter: blur(12px) saturate(1.3);
+            -webkit-backdrop-filter: blur(12px) saturate(1.3);
             border: 1px solid var(--glass-border);
-            border-radius: 14px;
+            border-radius: 16px;
             box-shadow: var(--shadow-glow);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
             will-change: transform;
         }
         .glass-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(184, 147, 75, 0.1), var(--shadow-glow);
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 12px 30px rgba(184, 147, 75, 0.12), var(--shadow-glow);
+        }
+        .glass-card:active {
+            transform: scale(0.97);
+            transition-duration: 0.08s;
         }
 
-        /* ===== Ripple ===== */
-        .ripple {
+        /* ---------- 4. المكونات الأساسية ---------- */
+        .container {
             position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-        .ripple-effect {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(212, 175, 103, 0.3);
-            transform: scale(0);
-            animation: rippleAnim 0.5s linear;
-            pointer-events: none;
-        }
-        @keyframes rippleAnim {
-            to { transform: scale(3); opacity: 0; }
+            z-index: 2;
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        /* ===== شريط الأدعية ===== */
         .top-bar {
             display: flex;
             align-items: center;
             gap: 8px;
             width: 100%;
-            max-width: 440px;
+            max-width: 480px;
         }
         .marquee-wrapper {
             flex: 1;
             background: var(--card-bg);
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(8px);
             border: 1px solid var(--glass-border);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 4px 0;
             overflow: hidden;
             mask-image: linear-gradient(to left, transparent, black 15%, black 85%, transparent);
@@ -193,11 +177,11 @@
 
         .top-action-btn {
             background: var(--card-bg);
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(8px);
             border: 1px solid var(--glass-border);
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -205,52 +189,53 @@
             font-size: 0.9rem;
             box-shadow: var(--shadow-glow);
             flex-shrink: 0;
-            transition: transform 0.15s;
+            transition: all 0.15s;
+            cursor: pointer;
         }
-        .top-action-btn:active { transform: scale(0.9); }
-
-        /* ===== شعار ===== */
-        .logo-container { 
-            display: flex; 
-            justify-content: center; 
-            margin-top: 2px; 
+        .top-action-btn:active { transform: scale(0.88); }
+        .top-action-btn .badge-gender {
+            font-size: 0.6rem;
+            font-weight: 800;
+            color: var(--emerald-dark);
+            background: rgba(184,147,75,0.15);
+            border-radius: 6px;
+            padding: 0 4px;
+            margin-right: 2px;
         }
 
-        /* --- التعديل الأساسي هنا --- */
+        .logo-container { display: flex; justify-content: center; margin-top: 2px; }
         .app-logo {
-            width: 95px;
-            height: 95px;
+            width: clamp(75px, 22vw, 100px);
+            height: clamp(75px, 22vw, 100px);
             border-radius: 50%;
-            object-fit: contain;          /* عرض الصورة كاملة دون قطع */
+            object-fit: contain;
             border: 3px solid var(--tab-active);
             background: var(--tab-active);
-            box-shadow: 0 8px 20px rgba(17, 51, 39, 0.1);
+            box-shadow: 0 8px 25px rgba(17, 51, 39, 0.15);
             display: block;
             max-width: 100%;
         }
-        /* ----------------------------- */
 
         .brand-header { text-align: center; }
         .main-title {
-            font-size: 1.4rem;
+            font-size: clamp(1.1rem, 4vw, 1.5rem);
             font-weight: 800;
             color: var(--emerald-dark);
             letter-spacing: 0.3px;
         }
         .main-title .gold-word { color: var(--gold); }
         .sub-title {
-            font-size: 0.8rem;
+            font-size: clamp(0.7rem, 2.2vw, 0.85rem);
             color: var(--text-muted);
             font-weight: 600;
             margin-top: -2px;
         }
-
         .live-date-box {
             display: inline-flex;
             align-items: center;
             gap: 6px;
             margin: 4px auto 0;
-            padding: 2px 14px;
+            padding: 2px 16px;
             background: var(--card-bg);
             backdrop-filter: blur(6px);
             border: 1px dashed var(--gold);
@@ -259,65 +244,8 @@
             font-weight: 700;
             color: var(--emerald-dark);
         }
-        .live-date-box i { color: var(--gold); }
 
-        /* ===== الإلهام ===== */
-        .inspiration-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(6px);
-            border-radius: 12px;
-            padding: 10px 14px;
-            border-right: 4px solid var(--gold);
-            box-shadow: var(--shadow-glow);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .inspire-icon { color: var(--gold); font-size: 1rem; }
-        .inspire-text {
-            font-size: 0.75rem;
-            font-weight: 700;
-            line-height: 1.5;
-            color: var(--text-primary);
-        }
-
-        /* ===== بنر الدليل ===== */
-        .banner-card {
-            background: linear-gradient(145deg, var(--card-bg), var(--tab-bg));
-            border-radius: 14px;
-            padding: 10px 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: var(--shadow-glow);
-            cursor: pointer;
-            border: 1px solid var(--glass-border);
-        }
-        .banner-icon {
-            background: linear-gradient(135deg, var(--emerald-dark), var(--emerald));
-            color: #fff;
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-        }
-        .banner-info h2 {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--emerald-dark);
-        }
-        .banner-info p {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-        .banner-arrow { color: var(--gold); font-size: 0.8rem; }
-
-        /* ===== تبويبات ===== */
+        /* ---------- 5. التبويبات ---------- */
         .tabs-container {
             position: relative;
             display: grid;
@@ -325,16 +253,16 @@
             gap: 4px;
             padding: 4px;
             background: var(--tab-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 14px;
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
             border: 1px solid var(--glass-border);
         }
         .tab-btn {
             background: transparent;
             border: none;
-            padding: 8px 2px;
-            border-radius: 8px;
-            font-size: 0.7rem;
+            padding: 10px 2px;
+            border-radius: 10px;
+            font-size: clamp(0.6rem, 2vw, 0.8rem);
             font-weight: 700;
             color: var(--text-muted);
             cursor: pointer;
@@ -342,12 +270,9 @@
             align-items: center;
             justify-content: center;
             gap: 4px;
-            transition: color 0.15s;
+            transition: all 0.2s;
             position: relative;
             z-index: 2;
-        }
-        @media(min-width: 380px) {
-            .tab-btn { font-size: 0.78rem; padding: 8px 6px; }
         }
         .tab-btn.active {
             color: var(--emerald-dark);
@@ -357,222 +282,50 @@
             position: absolute;
             bottom: 4px;
             height: 3px;
-            background: var(--gold);
+            background: linear-gradient(90deg, var(--gold-light), var(--gold));
             border-radius: 3px;
-            transition: left 0.25s ease, width 0.25s ease;
+            transition: left 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             z-index: 1;
-            box-shadow: 0 0 8px rgba(184, 147, 75, 0.3);
+            box-shadow: 0 0 12px rgba(184, 147, 75, 0.3);
         }
 
-        /* ===== بحث ===== */
+        /* ---------- 6. البحث ---------- */
         .search-bar {
             background: var(--card-bg);
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(8px);
             border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 0 14px;
+            border-radius: 14px;
+            padding: 0 16px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
-        .search-bar i { color: var(--gold); font-size: 0.8rem; }
+        .search-bar i { color: var(--gold); font-size: 0.9rem; }
         .search-bar input {
             flex: 1;
             background: transparent;
             border: none;
-            padding: 10px 0;
-            font-size: 0.8rem;
+            padding: 12px 0;
+            font-size: 0.85rem;
             font-weight: 600;
             color: var(--text-primary);
             outline: none;
         }
         .search-bar input::placeholder { color: var(--text-muted); font-weight: 500; }
 
-        /* ===== كروت القنوات ===== */
-        .channel-link {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-decoration: none;
-            color: var(--text-primary);
-            padding: 10px 12px;
-            background: var(--card-bg);
-            backdrop-filter: blur(6px);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            box-shadow: var(--shadow-glow);
-            transition: transform 0.15s, box-shadow 0.15s;
-            will-change: transform;
-        }
-        .channel-link:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(184, 147, 75, 0.08), var(--shadow-glow);
-        }
-        .channel-link .channel-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 90%;
-        }
-        .channel-avatar {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            background: var(--tab-active);
-            color: var(--emerald);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-            border: 1px solid var(--glass-border);
-        }
-        .channel-name {
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: var(--emerald-dark);
-        }
-        .channel-desc {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            font-weight: 500;
-            line-height: 1.3;
-        }
-        .telegram-arrow { color: var(--gold); font-size: 0.8rem; }
-        .pin-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 0.7rem;
-            padding: 0 2px;
-            transition: color 0.15s;
-        }
-        .pin-btn.pinned { color: var(--gold); }
-
-        /* ===== كناشتي ===== */
-        .konasha-section {
-            background: var(--card-bg);
-            backdrop-filter: blur(6px);
-            border-radius: 14px;
-            padding: 14px;
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--shadow-glow);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .section-title {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--emerald-dark);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .section-title i { color: var(--gold); }
-
-        .form-select, .form-control {
-            width: 100%;
-            padding: 8px 10px;
-            border-radius: 8px;
-            border: 1px solid var(--glass-border);
-            background: var(--input-bg);
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            outline: none;
-        }
-        textarea.form-control { resize: vertical; min-height: 70px; }
-
-        .btn-submit {
-            background: linear-gradient(135deg, var(--emerald-dark), var(--emerald));
-            color: #fff;
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: transform 0.1s;
-        }
-        .btn-submit:active { transform: scale(0.96); }
-
-        .benefit-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(4px);
-            border-radius: 12px;
-            padding: 12px;
-            border: 1px solid var(--glass-border);
-            border-right: 3px solid var(--gold);
-            position: relative;
-            margin-bottom: 8px;
-        }
-        .benefit-card.fav {
-            border-right-color: #f5c842;
-            background: rgba(212, 175, 103, 0.04);
-        }
-        .benefit-tag {
-            display: inline-block;
-            font-size: 0.65rem;
-            background: rgba(184, 147, 75, 0.08);
-            color: var(--emerald-dark);
-            padding: 1px 10px;
-            border-radius: 4px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        .benefit-text {
-            font-size: 0.8rem;
-            line-height: 1.5;
-            color: var(--text-primary);
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
-        .benefit-actions {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            display: flex;
-            gap: 6px;
-        }
-        .benefit-actions button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            transition: color 0.15s;
-        }
-        .benefit-actions .fav-btn.fav { color: #f5c842; }
-        .benefit-actions .delete-btn:hover { color: #c9184a; }
-
-        .empty-state {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px dashed var(--gold);
-        }
-
-        /* ===== تنبيهات مخصصة ===== */
+        /* ---------- 7. النوافذ والتنبيهات ---------- */
         .custom-alert-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(6px);
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2000;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.2s, visibility 0.2s;
+            transition: opacity 0.25s, visibility 0.25s;
         }
         .custom-alert-overlay.open {
             opacity: 1;
@@ -580,61 +333,55 @@
         }
         .custom-alert-box {
             background: var(--modal-bg);
-            border-radius: 16px;
-            padding: 20px 16px;
-            max-width: 300px;
+            border-radius: 20px;
+            padding: 24px 20px;
+            max-width: 320px;
             width: 90%;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
             border: 1px solid var(--glass-border);
             text-align: center;
-            transform: scale(0.95);
-            transition: transform 0.2s ease;
+            transform: scale(0.9);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .custom-alert-overlay.open .custom-alert-box {
-            transform: scale(1);
-        }
+        .custom-alert-overlay.open .custom-alert-box { transform: scale(1); }
         .custom-alert-box h3 {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--emerald-dark);
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
         .custom-alert-box p {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
-            margin-bottom: 14px;
-            line-height: 1.5;
+            margin-bottom: 18px;
+            line-height: 1.6;
         }
-        .custom-alert-box .alert-buttons {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-        }
-        .custom-alert-box .alert-btn {
-            padding: 6px 20px;
-            border-radius: 8px;
+        .alert-buttons { display: flex; gap: 10px; justify-content: center; }
+        .alert-btn {
+            padding: 8px 24px;
+            border-radius: 10px;
             border: none;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             cursor: pointer;
+            transition: transform 0.1s;
         }
+        .alert-btn:active { transform: scale(0.95); }
         .alert-btn.confirm { background: var(--emerald-dark); color: #fff; }
         .alert-btn.cancel { background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--glass-border); }
 
-        /* =============================================
-                   الدليل الشامل (تصميم محترف)
-                   ============================================= */
+        /* ---------- 8. الدليل الشامل ---------- */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(6px);
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(8px);
             display: flex;
             align-items: flex-end;
             justify-content: center;
             z-index: 1500;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.25s, visibility 0.25s;
+            transition: opacity 0.3s, visibility 0.3s;
         }
         .modal-overlay.open {
             opacity: 1;
@@ -643,17 +390,20 @@
         .modal-content {
             background: var(--modal-bg);
             width: 100%;
-            max-width: 440px;
-            max-height: 80vh;
-            border-radius: 20px 20px 0 0;
-            padding: 18px 14px 20px;
+            max-width: 480px;
+            max-height: 85vh;
+            border-radius: 24px 24px 0 0;
+            padding: 20px 16px 25px;
             overflow-y: auto;
             transform: translateY(100%);
-            transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold) transparent;
         }
-        .modal-overlay.open .modal-content {
-            transform: translateY(0);
-        }
+        .modal-content::-webkit-scrollbar { width: 4px; }
+        .modal-content::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 8px; }
+        .modal-overlay.open .modal-content { transform: translateY(0); }
+
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -671,187 +421,453 @@
             gap: 8px;
         }
         .modal-title i { color: var(--gold); }
-        .modal-title .gold-word { color: var(--gold); }
-
         .modal-close-btn {
             background: var(--card-bg);
             border: 1px solid var(--glass-border);
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-primary);
             cursor: pointer;
-            transition: transform 0.15s;
+            transition: 0.15s;
         }
-        .modal-close-btn:active { transform: scale(0.9); }
+        .modal-close-btn:active { transform: scale(0.85); }
+        .modal-body { font-size: 0.85rem; line-height: 1.8; color: var(--text-primary); text-align: justify; }
 
-        .modal-body {
-            font-size: 0.85rem;
-            line-height: 1.8;
+        /* ---------- 9. قنوات ---------- */
+        .channel-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
             color: var(--text-primary);
-            text-align: justify;
-        }
-
-        .modal-intro-card {
+            padding: 12px 14px;
             background: var(--card-bg);
-            backdrop-filter: blur(4px);
-            border-radius: 14px;
-            padding: 14px 16px;
-            margin-bottom: 16px;
+            backdrop-filter: blur(8px);
             border: 1px solid var(--glass-border);
-            border-right: 4px solid var(--gold);
+            border-radius: 14px;
             box-shadow: var(--shadow-glow);
+            transition: all 0.2s;
+            will-change: transform;
+            position: relative;
         }
-        .modal-intro-card p {
-            margin: 0;
-            font-weight: 500;
-            line-height: 1.9;
+        .channel-link:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(184, 147, 75, 0.08), var(--shadow-glow); }
+        .channel-link .channel-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 90%;
         }
-        .modal-intro-card .highlight {
-            color: var(--gold);
-            font-weight: 700;
-        }
-
-        .modal-section-title {
+        .channel-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: var(--tab-active);
+            color: var(--emerald);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 1rem;
-            font-weight: 800;
+            flex-shrink: 0;
+            border: 1px solid var(--glass-border);
+        }
+        .channel-name { font-size: 0.85rem; font-weight: 700; color: var(--emerald-dark); }
+        .channel-desc { font-size: 0.7rem; color: var(--text-muted); font-weight: 500; line-height: 1.3; }
+        .pin-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 0 4px;
+            transition: color 0.15s;
+        }
+        .pin-btn.pinned { color: var(--gold); }
+        .pin-btn:active { transform: scale(0.8); }
+
+        /* ---------- 10. الكناشة ---------- */
+        .konasha-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-glow);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: 700;
             color: var(--emerald-dark);
-            margin: 20px 0 10px;
             display: flex;
             align-items: center;
             gap: 8px;
-            border-right: 4px solid var(--gold);
-            padding-right: 10px;
         }
-        .modal-section-title i {
-            color: var(--gold);
-            font-size: 1.1rem;
-        }
-        .modal-section-title .gold-word {
-            color: var(--gold);
-        }
-
-        .modal-list {
-            list-style: none;
-            padding-right: 6px;
-            margin-bottom: 12px;
-        }
-        .modal-list li {
-            position: relative;
-            padding-right: 28px;
-            margin-bottom: 8px;
-            font-weight: 500;
-            line-height: 1.7;
-        }
-        .modal-list li::before {
-            content: "✦";
-            position: absolute;
-            right: 0;
-            top: 0;
-            color: var(--gold);
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .modal-info-box {
-            background: var(--card-bg);
-            backdrop-filter: blur(4px);
-            border-radius: 12px;
-            padding: 12px 14px;
-            margin-bottom: 10px;
+        .section-title i { color: var(--gold); }
+        .form-select, .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
             border: 1px solid var(--glass-border);
-            transition: background 0.2s;
-        }
-        .modal-info-box:hover {
-            background: var(--tab-active);
-        }
-        .modal-info-box strong {
-            display: block;
-            color: var(--emerald-dark);
-            font-size: 0.95rem;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-        .modal-info-box strong i {
-            color: var(--gold);
-            margin-left: 6px;
-        }
-        .modal-info-box p {
-            margin: 0;
-            font-weight: 500;
-            line-height: 1.7;
-            color: var(--text-muted);
-        }
-
-        .branches-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px 10px;
-            margin-top: 4px;
-        }
-        .branch-item {
-            background: var(--card-bg);
-            padding: 6px 10px;
-            border-radius: 8px;
-            border: 1px solid var(--glass-border);
-            font-size: 0.8rem;
+            background: var(--input-bg);
+            font-size: 0.85rem;
             font-weight: 600;
             color: var(--text-primary);
+            outline: none;
+            transition: border 0.2s;
+        }
+        .form-select:focus, .form-control:focus { border-color: var(--gold); }
+        textarea.form-control { resize: vertical; min-height: 80px; }
+        .btn-submit {
+            background: linear-gradient(135deg, var(--emerald-dark), var(--emerald));
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
-            gap: 4px;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.1s, box-shadow 0.2s;
         }
-        .branch-item i {
-            color: var(--gold);
-            font-size: 0.7rem;
-        }
-        .branch-item .sub {
-            font-weight: 400;
-            color: var(--text-muted);
-            font-size: 0.7rem;
-        }
+        .btn-submit:active { transform: scale(0.95); }
+        .btn-submit:hover { box-shadow: 0 4px 15px rgba(30, 82, 63, 0.3); }
 
-        .modal-divider {
-            border: none;
-            border-top: 2px dashed rgba(184, 147, 75, 0.2);
-            margin: 16px 0;
+        .benefit-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(6px);
+            border-radius: 14px;
+            padding: 14px;
+            border: 1px solid var(--glass-border);
+            border-right: 4px solid var(--gold);
+            position: relative;
+            margin-bottom: 10px;
+            transition: all 0.2s;
         }
-
-        /* ===== زخارف ===== */
-        .islamic-ornament {
+        .benefit-card.fav {
+            border-right-color: #f5c842;
+            background: rgba(212, 175, 103, 0.06);
+        }
+        .benefit-tag {
+            display: inline-block;
+            font-size: 0.65rem;
+            background: rgba(184, 147, 75, 0.1);
+            color: var(--emerald-dark);
+            padding: 2px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .benefit-text {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .benefit-actions {
             position: absolute;
-            font-size: 1.5rem;
-            color: rgba(184, 147, 75, 0.05);
-            pointer-events: none;
-            user-select: none;
-            line-height: 1;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            gap: 8px;
         }
-        .ornament-tl { top: 2px; left: 2px; }
-        .ornament-br { bottom: 2px; right: 2px; transform: rotate(180deg); }
+        .benefit-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: 0.15s;
+            padding: 4px;
+            border-radius: 6px;
+        }
+        .benefit-actions button:hover { background: var(--card-bg); }
+        .benefit-actions .fav-btn.fav { color: #f5c842; }
+        .benefit-actions .delete-btn:hover { color: #c9184a; }
 
-        /* ===== Lazy Animation ===== */
+        .empty-state {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            padding: 30px 20px;
+            border-radius: 14px;
+            border: 1px dashed var(--gold);
+        }
+
+        /* ---------- 11. نافذة اختيار الخلفيات ---------- */
+        .bg-picker-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1800;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .bg-picker-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .bg-picker-box {
+            background: var(--modal-bg);
+            border-radius: 24px;
+            padding: 24px 20px;
+            max-width: 400px;
+            width: 92%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 1px solid var(--glass-border);
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .bg-picker-overlay.open .bg-picker-box {
+            transform: scale(1) translateY(0);
+        }
+        .bg-picker-box h3 {
+            text-align: center;
+            color: var(--emerald-dark);
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .bg-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .bg-option {
+            aspect-ratio: 1 / 1;
+            border-radius: 16px;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background-size: cover !important;
+            background-position: center !important;
+            position: relative;
+        }
+        .bg-option:hover { transform: scale(1.05); }
+        .bg-option.active-bg {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(184, 147, 75, 0.2), 0 8px 25px rgba(0,0,0,0.2);
+        }
+        .bg-option .check-mark {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: var(--gold);
+            color: #fff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.2s;
+        }
+        .bg-option.active-bg .check-mark {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .bg-picker-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 8px;
+        }
+        .bg-picker-actions .btn {
+            padding: 8px 20px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .bg-picker-actions .btn:active { transform: scale(0.95); }
+        .bg-picker-actions .btn-primary { background: var(--emerald-dark); color: #fff; }
+        .bg-picker-actions .btn-secondary { background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--glass-border); }
+
+        /* ---------- 12. Toast إشعارات ---------- */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            pointer-events: none;
+            width: 90%;
+            max-width: 360px;
+        }
+        .toast {
+            background: var(--emerald-dark);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: auto;
+            width: 100%;
+            text-align: center;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .toast i { margin-left: 8px; }
+
+        /* ---------- 13. متفرقات ---------- */
+        .skeleton-wrapper { display: flex; flex-direction: column; gap: 10px; }
+        .skeleton-card {
+            background: var(--skeleton-bg);
+            border-radius: 14px;
+            height: 65px;
+            width: 100%;
+            background: linear-gradient(90deg, var(--skeleton-bg) 25%, var(--card-bg) 50%, var(--skeleton-bg) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.2s infinite;
+            opacity: 0.6;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
         .fade-up {
             opacity: 0;
-            transform: translateY(15px);
-            animation: fadeUp 0.3s ease forwards;
+            transform: translateY(20px);
+            animation: fadeUp 0.4s ease forwards;
         }
         @keyframes fadeUp {
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .islamic-ornament {
+            position: absolute;
+            font-size: 1.6rem;
+            color: rgba(184, 147, 75, 0.04);
+            pointer-events: none;
+            user-select: none;
+            line-height: 1;
+        }
+        .ornament-tl { top: 4px; left: 4px; }
+        .ornament-br { bottom: 4px; right: 4px; transform: rotate(180deg); }
+
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
         .visit-counter {
             font-size: 0.65rem;
             color: var(--text-muted);
             text-align: center;
-            margin-top: 2px;
-            opacity: 0.6;
+            margin-top: 4px;
+            opacity: 0.5;
+        }
+        .inspiration-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border-radius: 14px;
+            padding: 12px 16px;
+            border-right: 4px solid var(--gold);
+            box-shadow: var(--shadow-glow);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.2s;
+        }
+        .inspiration-card:active { transform: scale(0.98); }
+        .inspire-icon { color: var(--gold); font-size: 1.1rem; }
+        .inspire-text { font-size: 0.8rem; font-weight: 700; line-height: 1.6; color: var(--text-primary); }
+
+        .banner-card {
+            background: linear-gradient(145deg, var(--card-bg), var(--tab-bg));
+            border-radius: 16px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow-glow);
+            cursor: pointer;
+            border: 1px solid var(--glass-border);
+            transition: 0.2s;
+        }
+        .banner-card:active { transform: scale(0.98); }
+        .banner-icon {
+            background: linear-gradient(135deg, var(--emerald-dark), var(--emerald));
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .banner-info h2 { font-size: 0.9rem; font-weight: 700; color: var(--emerald-dark); }
+        .banner-info p { font-size: 0.7rem; color: var(--text-muted); font-weight: 500; }
+        .banner-arrow { color: var(--gold); font-size: 0.9rem; }
+
+        /* ---------- 14. التوافق ---------- */
+        @media (max-width: 380px) {
+            body { padding: 6px 4px; }
+            .container { gap: 8px; }
+            .top-action-btn { width: 32px; height: 32px; font-size: 0.8rem; }
+            .tab-btn { padding: 6px 2px; font-size: 0.6rem; }
+            .channel-link { padding: 8px 10px; }
+            .benefit-card { padding: 10px; }
+            .bg-grid { gap: 6px; }
+        }
+        @media (min-width: 600px) {
+            body { padding: 20px; }
+            .container { max-width: 560px; }
+            .modal-content { max-width: 560px; }
         }
     </style>
 </head>
 <body>
+
+    <!-- طبقة الخلفية المخصصة -->
+    <div class="custom-bg-layer" id="customBgLayer"></div>
+
+    <!-- جزيئات -->
     <canvas id="particles-canvas"></canvas>
 
     <div class="container" id="appContainer">
@@ -862,8 +878,15 @@
                     ✨ اللَّهُمَّ انْفَعْنَا بِمَا عَلَّمْتَنَا، وَعَلِّمْنَا مَا يَنْفَعُنَا، وَزِدْنَا عِلْمًا 🌺 رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي 🌟 اللَّهُمَّ فَقِّهْنَا فِي الدِّينِ وَعَلِّمْنَا التَّأْوِيلَ 🌱 يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ
                 </div>
             </div>
-            <button class="top-action-btn ripple" onclick="toggleTheme()" id="themeBtn" title="تغيير المظهر">
+            <button class="top-action-btn ripple" onclick="APP.UI.toggleTheme()" id="themeBtn" title="المظهر">
                 <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="top-action-btn ripple" onclick="APP.UI.openGenderPicker()" id="genderBtn" title="اختر الجنس">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span class="badge-gender" id="genderBadge">?</span>
+            </button>
+            <button class="top-action-btn ripple" onclick="APP.UI.shareApp()" title="مشاركة">
+                <i class="fa-solid fa-share-nodes"></i>
             </button>
         </div>
 
@@ -882,13 +905,13 @@
         </div>
 
         <!-- الإلهام -->
-        <div class="inspiration-card glass-card ripple" onclick="changeInspiration()">
+        <div class="inspiration-card glass-card ripple" onclick="APP.UI.changeInspiration()">
             <div class="inspire-icon"><i class="fa-solid fa-quote-right"></i></div>
             <div class="inspire-text" id="inspirationText">"وَمَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ"</div>
         </div>
 
         <!-- بنر الدليل -->
-        <div class="banner-card glass-card ripple" onclick="openModal()">
+        <div class="banner-card glass-card ripple" onclick="APP.UI.openModal()">
             <div class="banner-icon"><i class="fa-solid fa-compass"></i></div>
             <div class="banner-info">
                 <h2>الدليل الشامل للكلية والمنظومة</h2>
@@ -909,7 +932,7 @@
         <!-- بحث -->
         <div class="search-bar glass-card">
             <i class="fa-solid fa-search"></i>
-            <input type="text" id="searchInput" placeholder="ابحث عن قناة أو مجموعة..." oninput="debounceSearch()">
+            <input type="text" id="searchInput" placeholder="ابحث عن قناة أو مجموعة..." oninput="APP.UI.debounceSearch()">
         </div>
 
         <!-- المحتوى -->
@@ -925,257 +948,91 @@
             <h3 id="alertTitle">تأكيد</h3>
             <p id="alertMessage">هل أنت متأكد؟</p>
             <div class="alert-buttons">
-                <button class="alert-btn cancel" onclick="closeAlert()">إلغاء</button>
+                <button class="alert-btn cancel" onclick="APP.UI.closeAlert()">إلغاء</button>
                 <button class="alert-btn confirm" id="alertConfirmBtn">نعم</button>
             </div>
         </div>
     </div>
 
-    <!-- ===== الدليل الشامل ===== -->
-    <div id="guide-modal" class="modal-overlay" onclick="closeModalOutside(event)">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                    الدليل <span class="gold-word">الشامل</span>
-                </div>
-                <button class="modal-close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+    <!-- ===== نافذة اختيار الجنس والخلفيات ===== -->
+    <div class="bg-picker-overlay" id="bgPickerOverlay">
+        <div class="bg-picker-box">
+            <h3><i class="fa-solid fa-palette"></i> اختر خلفيتك</h3>
+            <div style="display:flex; gap:10px; justify-content:center; margin-bottom:12px;">
+                <button class="alert-btn confirm" style="background:var(--emerald-dark);color:#fff;" onclick="APP.UI.setGender('male')">👨‍🎓 طالب</button>
+                <button class="alert-btn cancel" style="border:1px solid var(--glass-border);" onclick="APP.UI.setGender('female')">👩‍🎓 طالبة</button>
             </div>
-            <div class="modal-body">
-
-                <div class="modal-intro-card">
-                    <p>
-                        <span class="highlight">كلية الإمام مالك</span> هي مؤسسة تعليمية دينية إسلامية ليبية مقرها في العاصمة طرابلس، و لها عدة فروع داخل مدينة طرابلس و خارجها. تتبع الكلية إدارياً إلى <span class="highlight">الهيئة العامة للأوقاف و الشؤون الإسلامية</span> في ليبيا.
-                    </p>
-                    <hr class="modal-divider">
-                    <p>
-                        تأسست الكلية بناءً على القرار رقم ( <span class="highlight">80</span> ) لسنة ( <span class="highlight">1432هـ – 2011م</span> ) من اللجنة الشعبية العامة سابقاً تحت اسم <span class="highlight">"الكلية السلفية العالية للإمامة والخطابة والإرشاد وعلوم القرآن"</span>، ثم أعيدت تسميتها بقرار مجلس الوزراء رقم ( <span class="highlight">238</span> ) لسنة ( <span class="highlight">1433هـ – 2012م</span> ) إلى <span class="highlight">"كلية علي بن زياد الطرابلسي العالي للإمامة والخطابة وعلوم الكتاب والسنة"</span>، وأصبحت تابعة لوزارة الأوقاف والشؤون الإسلامية.
-                    </p>
-                    <hr class="modal-divider">
-                    <p>
-                        أعيدت تسميتها للمرة الثالثة إلى <span class="highlight">"كلية الإمام مالك بن أنس العالي للإمامة والخطابة وعلوم الكتاب والسنة"</span> بإيحاء من رئيس الوزراء بحكومة الوحدة الوطنية.
-                    </p>
-                    <hr class="modal-divider">
-                    <p>
-                        <span class="highlight">و لكن لم يتم تفعيل الكلية خلال السنوات الماضية</span>، و كان التفعيل الرسمي لها من قبل الهيئة العامة للأوقاف والشؤون الإسلامية بفضل الله تعالى سنة <span class="highlight">( 1443هـ – 2022م )</span>.
-                    </p>
-                </div>
-
-                <div class="modal-section-title">
-                    <i class="fa-solid fa-bullseye"></i> الأهداف
-                </div>
-                <ul class="modal-list">
-                    <li>إعداد أشخاص متخصصين في مجالات متعددة كالعقيدة، والفقه، والحديث، والتفسير، والقراءات.</li>
-                    <li>إعداد أئمة، وخطباء، ووعاظ ذوي كفاءة علمية عالية.</li>
-                    <li>تلبية احتياجات المساجد في مجال الإمامة والخطابة والوعظ والإرشاد.</li>
-                    <li>تأهيل مدرسين ذوي كفاءة عالية في تدريس العلوم الشرعية، من أجل سد حاجات المجتمع في هذا المجال.</li>
-                    <li>نشر البحوث العلمية المختصة، وإقامة المؤتمرات والندوات في مجالات العلوم الشرعية.</li>
-                    <li>تنمية قدرات الدارسين بالتحليل الدقيق، والنقد البناء، والتواصل العلمي مع الآخر من خلال المحاضرات والتدريب العملي، بما يسهم في تكوين شخصية الإمام والخطيب والواعظ.</li>
-                    <li>تخريج مؤهلين ذوي كفاءة عالية في مجال الدراسات الإسلامية لمواصلة دراساتهم العليا والدقيقة.</li>
-                    <li>أن تكون الكلية منارة علمية يستضيء بها أبناء المسلمين داخل البلاد وخارجها.</li>
-                </ul>
-
-                <hr class="modal-divider">
-
-                <div class="modal-section-title">
-                    <i class="fa-solid fa-layer-group"></i> الأقسام العلمية
-                </div>
-
-                <div class="modal-info-box">
-                    <strong><i class="fa-solid fa-hand-holding-heart"></i> الدعوة و أصول الدين</strong>
-                    <p>إيجاد مخرجات علمية متخصصة وفق معايير الجودة الشاملة في مجالات التعليم و البحث، و تأهيل متخصصين متميزين في المجال الدعوي علمياً و فكرياً و سلوكياً، و إعداد دعاة يتمتعون بالكفاءة و الوعي، و تمكينهم من أداء دور فاعل في خدمة المجتمع في المجالات الدعوية النظرية و العملية بما يعكس صورة الإسلام الحق، مع التركيز على توظيف الأساليب الحديثة لمواجهة تحديات العصر و تحقيق التأثير الإيجابي في المجتمعات.</p>
-                </div>
-
-                <div class="modal-info-box">
-                    <strong><i class="fa-solid fa-scale-balanced"></i> علوم الشريعة</strong>
-                    <p>أن يكون قسم الشريعة مرجعاً أكاديمياً و مجتمعياً رائداً في إعداد علماء و فقهاء قادرين على الجمع بين الأصالة و المعاصرة، لتلبية احتياجات المجتمع و تعزيز القيم الإسلامية.</p>
-                </div>
-
-                <div class="modal-info-box">
-                    <strong><i class="fa-solid fa-quran"></i> علوم القراءات</strong>
-                    <p>تسعى شعبة القراءات إلى إعداد كوادر تربوية و تعليمية مؤهلة علمياً في مجال القراءات القرآنية و الدراسات الإسلامية، دعماً للعملية التعليمية و البحث العلمي، و تلبية لاحتياجات المجتمع من معلمي القرآن الكريم و علومه.</p>
-                </div>
-
-                <hr class="modal-divider">
-
-                <div class="modal-section-title">
-                    <i class="fa-solid fa-map-location-dot"></i> فروع الكلية
-                </div>
-
-                <div class="branches-grid">
-                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> طرابلس <span class="sub">(4 فروع)</span></div>
-                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> تاجوراء <span class="sub">(بنين)</span></div>
-                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> النوفليين <span class="sub">(بنات)</span></div>
-                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> النجيلة <span class="sub">(بنات)</span></div>
-                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> طريق المشتل <span class="sub">(بنات)</span></div>
-                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> السراج <span class="sub">(فرع واحد)</span></div>
-                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> الزاوية <span class="sub">(فرعان)</span></div>
-                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> مصراتة <span class="sub">(فرع واحد)</span></div>
-                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> ترهونة <span class="sub">(فرع واحد)</span></div>
-                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> الخمس <span class="sub">(فرع واحد)</span></div>
-                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> العجيلات <span class="sub">(فرع واحد)</span></div>
-                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> البيضاء <span class="sub">(فرع واحد)</span></div>
-                    <div class="branch-item"><i class="fa-solid fa-location-dot"></i> الزنتان <span class="sub">(مسجد علي بن أبي طالب)</span></div>
-                </div>
-
+            <div class="bg-grid" id="bgGrid"></div>
+            <div class="bg-picker-actions">
+                <button class="btn btn-secondary" onclick="APP.UI.closeGenderPicker()">إلغاء</button>
+                <button class="btn btn-primary" onclick="APP.UI.resetSettings()">إعادة ضبط</button>
             </div>
         </div>
     </div>
 
+    <!-- ===== الدليل الشامل ===== -->
+    <div id="guide-modal" class="modal-overlay" onclick="APP.UI.closeModalOutside(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fa-solid fa-graduation-cap"></i> الدليل <span class="gold-word">الشامل</span></div>
+                <button class="modal-close-btn" onclick="APP.UI.closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-intro-card" style="background:var(--card-bg);backdrop-filter:blur(4px);border-radius:14px;padding:14px 16px;margin-bottom:16px;border:1px solid var(--glass-border);border-right:4px solid var(--gold);">
+                    <p><span class="highlight" style="color:var(--gold);font-weight:700;">كلية الإمام مالك</span> هي مؤسسة تعليمية دينية إسلامية ليبية مقرها في العاصمة طرابلس، و لها عدة فروع داخل مدينة طرابلس و خارجها. تتبع الكلية إدارياً إلى <span class="highlight" style="color:var(--gold);font-weight:700;">الهيئة العامة للأوقاف و الشؤون الإسلامية</span> في ليبيا.</p>
+                    <hr style="border-top:2px dashed rgba(184,147,75,0.2);margin:14px 0;">
+                    <p>تأسست الكلية بناءً على القرار رقم ( <span class="highlight" style="color:var(--gold);font-weight:700;">80</span> ) لسنة ( <span class="highlight" style="color:var(--gold);font-weight:700;">1432هـ – 2011م</span> ) ...</p>
+                    <hr style="border-top:2px dashed rgba(184,147,75,0.2);margin:14px 0;">
+                    <p><span class="highlight" style="color:var(--gold);font-weight:700;">و لكن لم يتم تفعيل الكلية خلال السنوات الماضية</span>، و كان التفعيل الرسمي لها سنة <span class="highlight" style="color:var(--gold);font-weight:700;">( 1443هـ – 2022م )</span>.</p>
+                </div>
+                <div style="font-size:1rem;font-weight:800;color:var(--emerald-dark);margin:20px 0 10px;display:flex;align-items:center;gap:8px;border-right:4px solid var(--gold);padding-right:10px;"><i class="fa-solid fa-bullseye" style="color:var(--gold);"></i> الأهداف</div>
+                <ul style="list-style:none;padding-right:6px;margin-bottom:12px;">
+                    <li style="position:relative;padding-right:28px;margin-bottom:8px;font-weight:500;line-height:1.7;">✦ إعداد أشخاص متخصصين في مجالات متعددة كالعقيدة، والفقه، والحديث، والتفسير، والقراءات.</li>
+                    <li style="position:relative;padding-right:28px;margin-bottom:8px;font-weight:500;line-height:1.7;">✦ إعداد أئمة، وخطباء، ووعاظ ذوي كفاءة علمية عالية.</li>
+                    <li style="position:relative;padding-right:28px;margin-bottom:8px;font-weight:500;line-height:1.7;">✦ تلبية احتياجات المساجد في مجال الإمامة والخطابة والوعظ والإرشاد.</li>
+                    <li style="position:relative;padding-right:28px;margin-bottom:8px;font-weight:500;line-height:1.7;">✦ تأهيل مدرسين ذوي كفاءة عالية في تدريس العلوم الشرعية.</li>
+                    <li style="position:relative;padding-right:28px;margin-bottom:8px;font-weight:500;line-height:1.7;">✦ نشر البحوث العلمية المختصة، وإقامة المؤتمرات والندوات.</li>
+                    <li style="position:relative;padding-right:28px;margin-bottom:8px;font-weight:500;line-height:1.7;">✦ تنمية قدرات الدارسين بالتحليل الدقيق، والنقد البناء.</li>
+                    <li style="position:relative;padding-right:28px;margin-bottom:8px;font-weight:500;line-height:1.7;">✦ تخريج مؤهلين لمواصلة دراساتهم العليا والدقيقة.</li>
+                    <li style="position:relative;padding-right:28px;margin-bottom:8px;font-weight:500;line-height:1.7;">✦ أن تكون الكلية منارة علمية يستضيء بها أبناء المسلمين.</li>
+                </ul>
+                <hr style="border-top:2px dashed rgba(184,147,75,0.2);margin:16px 0;">
+                <div style="font-size:1rem;font-weight:800;color:var(--emerald-dark);margin:20px 0 10px;display:flex;align-items:center;gap:8px;border-right:4px solid var(--gold);padding-right:10px;"><i class="fa-solid fa-layer-group" style="color:var(--gold);"></i> الأقسام العلمية</div>
+                <div style="background:var(--card-bg);backdrop-filter:blur(4px);border-radius:12px;padding:12px 14px;margin-bottom:10px;border:1px solid var(--glass-border);"><strong style="display:block;color:var(--emerald-dark);font-size:0.95rem;font-weight:800;margin-bottom:4px;"><i class="fa-solid fa-hand-holding-heart" style="color:var(--gold);margin-left:6px;"></i> الدعوة و أصول الدين</strong><p style="margin:0;font-weight:500;line-height:1.7;color:var(--text-muted);">إيجاد مخرجات علمية متخصصة وفق معايير الجودة الشاملة ...</p></div>
+                <div style="background:var(--card-bg);backdrop-filter:blur(4px);border-radius:12px;padding:12px 14px;margin-bottom:10px;border:1px solid var(--glass-border);"><strong style="display:block;color:var(--emerald-dark);font-size:0.95rem;font-weight:800;margin-bottom:4px;"><i class="fa-solid fa-scale-balanced" style="color:var(--gold);margin-left:6px;"></i> علوم الشريعة</strong><p style="margin:0;font-weight:500;line-height:1.7;color:var(--text-muted);">أن يكون قسم الشريعة مرجعاً أكاديمياً و مجتمعياً رائداً ...</p></div>
+                <div style="background:var(--card-bg);backdrop-filter:blur(4px);border-radius:12px;padding:12px 14px;margin-bottom:10px;border:1px solid var(--glass-border);"><strong style="display:block;color:var(--emerald-dark);font-size:0.95rem;font-weight:800;margin-bottom:4px;"><i class="fa-solid fa-quran" style="color:var(--gold);margin-left:6px;"></i> علوم القراءات</strong><p style="margin:0;font-weight:500;line-height:1.7;color:var(--text-muted);">تسعى شعبة القراءات إلى إعداد كوادر تربوية و تعليمية مؤهلة ...</p></div>
+                <hr style="border-top:2px dashed rgba(184,147,75,0.2);margin:16px 0;">
+                <div style="font-size:1rem;font-weight:800;color:var(--emerald-dark);margin:20px 0 10px;display:flex;align-items:center;gap:8px;border-right:4px solid var(--gold);padding-right:10px;"><i class="fa-solid fa-map-location-dot" style="color:var(--gold);"></i> فروع الكلية</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:4px;">
+                    <div style="background:var(--card-bg);padding:6px 10px;border-radius:8px;border:1px solid var(--glass-border);font-size:0.8rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-location-dot" style="color:var(--gold);font-size:0.7rem;"></i> طرابلس <span style="font-weight:400;color:var(--text-muted);font-size:0.7rem;">(4 فروع)</span></div>
+                    <div style="background:var(--card-bg);padding:6px 10px;border-radius:8px;border:1px solid var(--glass-border);font-size:0.8rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-location-dot" style="color:var(--gold);font-size:0.7rem;"></i> تاجوراء <span style="font-weight:400;color:var(--text-muted);font-size:0.7rem;">(بنين)</span></div>
+                    <div style="background:var(--card-bg);padding:6px 10px;border-radius:8px;border:1px solid var(--glass-border);font-size:0.8rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-location-dot" style="color:var(--gold);font-size:0.7rem;"></i> النوفليين <span style="font-weight:400;color:var(--text-muted);font-size:0.7rem;">(بنات)</span></div>
+                    <div style="background:var(--card-bg);padding:6px 10px;border-radius:8px;border:1px solid var(--glass-border);font-size:0.8rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-location-dot" style="color:var(--gold);font-size:0.7rem;"></i> النجيلة <span style="font-weight:400;color:var(--text-muted);font-size:0.7rem;">(بنات)</span></div>
+                    <div style="background:var(--card-bg);padding:6px 10px;border-radius:8px;border:1px solid var(--glass-border);font-size:0.8rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-location-dot" style="color:var(--gold);font-size:0.7rem;"></i> طريق المشتل <span style="font-weight:400;color:var(--text-muted);font-size:0.7rem;">(بنات)</span></div>
+                    <div style="background:var(--card-bg);padding:6px 10px;border-radius:8px;border:1px solid var(--glass-border);font-size:0.8rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-location-dot" style="color:var(--gold);font-size:0.7rem;"></i> السراج <span style="font-weight:400;color:var(--text-muted);font-size:0.7rem;">(فرع واحد)</span></div>
+                    <div style="background:var(--card-bg);padding:6px 10px;border-radius:8px;border:1px solid var(--glass-border);font-size:0.8rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-location-dot" style="color:var(--gold);font-size:0.7rem;"></i> الزاوية <span style="font-weight:400;color:var(--text-muted);font-size:0.7rem;">(فرعان)</span></div>
+                    <div style="background:var(--card-bg);padding:6px 10px;border-radius:8px;border:1px solid var(--glass-border);font-size:0.8rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-location-dot" style="color:var(--gold);font-size:0.7rem;"></i> مصراتة <span style="font-weight:400;color:var(--text-muted);font-size:0.7rem;">(فرع واحد)</span></div>
+                    <div style="background:var(--card-bg);padding:6px 10px;border-radius:8px;border:1px solid var(--glass-border);font-size:0.8rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-location-dot" style="color:var(--gold);font-size:0.7rem;"></i> ترهونة <span style="font-weight:400;color:var(--text-muted);font-size:0.7rem;">(فرع واحد)</span></div>
+                    <div style="background:var(--card-bg);padding:6px 10px;border-radius:8px;border:1px solid var(--glass-border);font-size:0.8rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-location-dot" style="color:var(--gold);font-size:0.7rem;"></i> الخمس <span style="font-weight:400;color:var(--text-muted);font-size:0.7rem;">(فرع واحد)</span></div>
+                    <div style="background:var(--card-bg);padding:6px 10px;border-radius:8px;border:1px solid var(--glass-border);font-size:0.8rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-location-dot" style="color:var(--gold);font-size:0.7rem;"></i> العجيلات <span style="font-weight:400;color:var(--text-muted);font-size:0.7rem;">(فرع واحد)</span></div>
+                    <div style="background:var(--card-bg);padding:6px 10px;border-radius:8px;border:1px solid var(--glass-border);font-size:0.8rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-location-dot" style="color:var(--gold);font-size:0.7rem;"></i> البيضاء <span style="font-weight:400;color:var(--text-muted);font-size:0.7rem;">(فرع واحد)</span></div>
+                    <div style="background:var(--card-bg);padding:6px 10px;border-radius:8px;border:1px solid var(--glass-border);font-size:0.8rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-location-dot" style="color:var(--gold);font-size:0.7rem;"></i> الزنتان <span style="font-weight:400;color:var(--text-muted);font-size:0.7rem;">(مسجد علي)</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== حاوية التوست ===== -->
+    <div class="toast-container" id="toastContainer"></div>
+
     <script>
-        // ============================================================
-        //  تحسين الأداء: debounce للبحث
-        // ============================================================
-        let searchTimeout;
-        function debounceSearch() {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                filterChannels();
-            }, 300);
-        }
+        // ================================================================
+        //  تطبيق الإمام مالك - النسخة المطورة (وحدات)
+        //  جميع الوظائف القديمة محفوظة، مع إضافة ميزات جديدة
+        // ================================================================
 
-        // ============================================================
-        //  تفعيل Telegram
-        // ============================================================
-        if (window.Telegram?.WebApp) {
-            window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.expand();
-        }
-
-        // ============================================================
-        //  المظهر التلقائي
-        // ============================================================
-        function applyAutoTheme() {
-            const tg = window.Telegram?.WebApp;
-            let theme = 'light';
-            if (tg?.colorScheme) theme = tg.colorScheme === 'dark' ? 'dark' : 'light';
-            else theme = localStorage.getItem('app-theme') || 'light';
-            document.documentElement.setAttribute('data-theme', theme);
-            updateThemeButton(theme);
-        }
-
-        function toggleTheme() {
-            const current = document.documentElement.getAttribute('data-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', next);
-            localStorage.setItem('app-theme', next);
-            updateThemeButton(next);
-        }
-
-        function updateThemeButton(theme) {
-            document.getElementById('themeBtn').innerHTML = theme === 'dark' ?
-                '<i class="fa-solid fa-sun"></i>' :
-                '<i class="fa-solid fa-moon"></i>';
-        }
-
-        // ============================================================
-        //  التاريخ
-        // ============================================================
-        function loadLiveDate() {
-            const today = new Date();
-            const miladi = today.toLocaleDateString('ar-LY', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            const hijri = today.toLocaleDateString('ar-LY', { year: 'numeric', month: 'long', day: 'numeric', calendar: 'islamic-umalqura' });
-            document.getElementById('dateText').innerText = `${miladi} | ${hijri}`;
-        }
-
-        // ============================================================
-        //  جزيئات ذهبية (خفيفة جداً، 12 جزيئة، 30fps)
-        // ============================================================
-        (function initParticles() {
-            const canvas = document.getElementById('particles-canvas');
-            const ctx = canvas.getContext('2d');
-            let width, height;
-            let particles = [];
-            let frameSkip = 0;
-
-            function resize() {
-                width = window.innerWidth;
-                height = window.innerHeight;
-                canvas.width = width;
-                canvas.height = height;
-            }
-            window.addEventListener('resize', resize);
-            resize();
-
-            const count = 12;
-            for (let i = 0; i < count; i++) {
-                particles.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    r: Math.random() * 2.5 + 1,
-                    dx: (Math.random() - 0.5) * 0.2,
-                    dy: (Math.random() - 0.5) * 0.2,
-                    alpha: Math.random() * 0.4 + 0.15
-                });
-            }
-
-            function draw() {
-                frameSkip++;
-                if (frameSkip % 2 === 0) {
-                    ctx.clearRect(0, 0, width, height);
-                    for (let p of particles) {
-                        ctx.beginPath();
-                        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(184, 147, 75, ${p.alpha})`;
-                        ctx.fill();
-                        p.x += p.dx;
-                        p.y += p.dy;
-                        if (p.x < 0 || p.x > width) p.dx *= -1;
-                        if (p.y < 0 || p.y > height) p.dy *= -1;
-                    }
-                }
-                requestAnimationFrame(draw);
-            }
-            setTimeout(draw, 200);
-        })();
-
-        // ============================================================
-        //  الإلهام
-        // ============================================================
-        const quotes = [
-            '"وَمَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ"',
-            '"قُلْ هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ"',
-            'قال الإمام مالك: "إن هذا العلم دين، فانظروا عمن تأخذون دينكم"',
-            '"يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنْكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ"',
-            'قال الإمام مالك: "ليس العلم بكثرة الرواية، وإنما العلم نور يضعه الله في القلب"'
-        ];
-        function changeInspiration() {
-            const el = document.getElementById('inspirationText');
-            let next;
-            do {
-                next = quotes[Math.floor(Math.random() * quotes.length)];
-            } while (next === el.innerText && quotes.length > 1);
-            el.innerText = next;
-            if (window.Telegram?.WebApp?.HapticFeedback) {
-                window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
-            }
-        }
-
-        // ============================================================
-        //  التنبيهات المخصصة
-        // ============================================================
-        let alertCallback = null;
-
-        function showCustomAlert(title, message, onConfirm) {
-            document.getElementById('alertTitle').innerText = title;
-            document.getElementById('alertMessage').innerText = message;
-            document.getElementById('customAlert').classList.add('open');
-            alertCallback = onConfirm;
-            document.getElementById('alertConfirmBtn').onclick = () => {
-                if (alertCallback) alertCallback();
-                closeAlert();
-            };
-        }
-
-        function closeAlert() {
-            document.getElementById('customAlert').classList.remove('open');
-            alertCallback = null;
-        }
-
-        // ============================================================
-        //  البيانات الأساسية
-        // ============================================================
-        const baseData = {
+        // ---------- البيانات الأساسية ----------
+        const BASE_DATA = {
             college: [
                 { name: "قناة الإعلانات", desc: "آخر المستجدات والجداول والقرارات", url: "https://t.me/MALIKIST_0", icon: "fa-bullhorn" },
                 { name: "كناشة المتفقه (الفقه المالكي)", desc: "تقييد وتدارس أصول وفروع الفقه المالكي", url: "https://t.me/KONASHA_42", icon: "fa-book-open" },
@@ -1197,340 +1054,639 @@
             ]
         };
 
-        let pinnedItems = JSON.parse(localStorage.getItem('pinnedChannels')) || [];
-        let favBenefits = JSON.parse(localStorage.getItem('favBenefits')) || [];
+        const QUOTES = [
+            '"وَمَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ"',
+            '"قُلْ هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ"',
+            'قال الإمام مالك: "إن هذا العلم دين، فانظروا عمن تأخذون دينكم"',
+            '"يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنْكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ"',
+            'قال الإمام مالك: "ليس العلم بكثرة الرواية، وإنما العلم نور يضعه الله في القلب"'
+        ];
 
-        function getDataWithPins(tab) {
-            let list = baseData[tab] || [];
-            return list.map(item => {
-                const isPinned = pinnedItems.some(p => p.name === item.name && p.tab === tab);
-                return { ...item, pinned: isPinned };
-            }).sort((a, b) => (b.pinned - a.pinned));
-        }
+        // تعريف الخلفيات الخاصة
+        const BG_SETS = {
+            male: [
+                'linear-gradient(145deg, #0d1f17, #1a3b2e)',
+                'linear-gradient(145deg, #0b1a2e, #1d3a5c)',
+                'linear-gradient(145deg, #1a1108, #3d2b16)',
+                'linear-gradient(145deg, #0a0f14, #1f2a36)'
+            ],
+            female: [
+                'linear-gradient(145deg, #2d1824, #4d2a3a)',
+                'linear-gradient(145deg, #1f162b, #3b2d4f)',
+                'linear-gradient(145deg, #2d1b12, #543b28)',
+                'linear-gradient(145deg, #1e1e2a, #3b3b50)'
+            ]
+        };
 
-        // ============================================================
-        //  التبويب والمؤشر
-        // ============================================================
-        let currentTab = 'college';
-        let searchQuery = '';
+        // ---------- التطبيق الرئيسي (Modules) ----------
+        const APP = {
 
-        function switchTab(tabName) {
-            currentTab = tabName;
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.tab === tabName);
-            });
-            updateTabSlider();
-            renderContent();
-            incrementVisit(tabName);
-            document.getElementById('searchInput').blur();
-        }
+            // ---- الحالة الداخلية ----
+            state: {
+                currentTab: 'college',
+                searchQuery: '',
+                theme: 'light',
+                gender: null, // 'male' | 'female' | null
+                bgIndex: 0,
+                pinnedItems: [],
+                favBenefits: [],
+                alertCallback: null,
+                searchTimeout: null
+            },
 
-        function updateTabSlider() {
-            const activeBtn = document.querySelector(`.tab-btn[data-tab="${currentTab}"]`);
-            const slider = document.getElementById('tabSlider');
-            if (activeBtn) {
-                const rect = activeBtn.getBoundingClientRect();
-                const containerRect = document.getElementById('tabsContainer').getBoundingClientRect();
-                slider.style.left = (rect.left - containerRect.left + 4) + 'px';
-                slider.style.width = (rect.width - 8) + 'px';
-            }
-        }
-
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                switchTab(this.dataset.tab);
-            });
-        });
-
-        // ============================================================
-        //  البحث
-        // ============================================================
-        function filterChannels() {
-            searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
-            renderContent();
-        }
-
-        // ============================================================
-        //  عرض المحتوى
-        // ============================================================
-        function renderContent() {
-            const area = document.getElementById('content-area');
-            area.innerHTML = '';
-
-            if (currentTab === 'konasha') {
-                renderKonasha(area);
-                return;
-            }
-
-            area.innerHTML = `
-                <div class="skeleton-wrapper">
-                    <div class="skeleton-card"></div>
-                    <div class="skeleton-card"></div>
-                </div>
-            `;
-
-            setTimeout(() => {
-                const data = getDataWithPins(currentTab);
-                let filtered = data.filter(item =>
-                    item.name.includes(searchQuery) ||
-                    item.desc.includes(searchQuery)
-                );
-                if (searchQuery === '') filtered = data;
-
-                area.innerHTML = '';
-                if (filtered.length === 0) {
-                    area.innerHTML = `<div class="empty-state">لا توجد نتائج مطابقة للبحث</div>`;
-                    return;
+            // ---- وحدات التخزين ----
+            Storage: {
+                get(key, def) {
+                    try { const v = localStorage.getItem('imam_malik_' + key); return v ? JSON.parse(v) : def; } catch { return def; }
+                },
+                set(key, val) {
+                    localStorage.setItem('imam_malik_' + key, JSON.stringify(val));
+                },
+                getPinned() { return this.get('pinned', []); },
+                setPinned(p) { this.set('pinned', p); },
+                getFavBenefits() { return this.get('favBenefits', []); },
+                setFavBenefits(f) { this.set('favBenefits', f); },
+                getKonasha() { return this.get('konasha', []); },
+                setKonasha(k) { this.set('konasha', k); },
+                getVisits() { return this.get('visits', {}); },
+                setVisits(v) { this.set('visits', v); },
+                getSettings() {
+                    return {
+                        gender: this.get('gender', null),
+                        bgIndex: this.get('bgIndex', 0),
+                        theme: this.get('theme', 'light')
+                    };
+                },
+                setSettings(gender, bgIndex, theme) {
+                    if (gender !== undefined) this.set('gender', gender);
+                    if (bgIndex !== undefined) this.set('bgIndex', bgIndex);
+                    if (theme !== undefined) this.set('theme', theme);
                 }
+            },
 
-                filtered.forEach((item, index) => {
-                    const card = document.createElement('a');
-                    card.href = item.url;
-                    card.target = '_blank';
-                    card.className = 'channel-link glass-card fade-up';
-                    card.style.animationDelay = `${index * 30}ms`;
-                    card.innerHTML = `
-                        <div class="channel-right">
-                            <div class="channel-avatar"><i class="fa-solid ${item.icon}"></i></div>
-                            <div>
-                                <div class="channel-name">${item.name} ${item.pinned ? '📌' : ''}</div>
-                                <div class="channel-desc">${item.desc}</div>
-                            </div>
+            // ---- تهيئة التطبيق ----
+            init() {
+                // تحميل الإعدادات
+                const settings = this.Storage.getSettings();
+                this.state.theme = settings.theme || 'light';
+                this.state.gender = settings.gender || null;
+                this.state.bgIndex = settings.bgIndex || 0;
+                this.state.pinnedItems = this.Storage.getPinned();
+                this.state.favBenefits = this.Storage.getFavBenefits();
+
+                // تطبيق المظهر
+                this.UI.applyTheme(this.state.theme);
+                // تطبيق الخلفية المخصصة
+                this.UI.applyCustomBg();
+                // تحديث شارة الجنس
+                this.UI.updateGenderBadge();
+                // تحميل التاريخ
+                this.UI.loadLiveDate();
+                // تفعيل التبويب الأول
+                this.UI.switchTab('college');
+                // زيادة الزيارات
+                this.UI.incrementVisit('app');
+                // تحديث عداد الزيارات
+                this.UI.updateVisitCounter();
+                // جزيئات
+                this.Particles.init();
+                // تهيئة Ripple
+                this.UI.initRipple();
+
+                // مستمع تغيير حجم الشاشة لتحديث مؤشر التبويب
+                window.addEventListener('resize', () => this.UI.updateTabSlider());
+
+                // تفعيل Telegram
+                if (window.Telegram?.WebApp) {
+                    window.Telegram.WebApp.ready();
+                    window.Telegram.WebApp.expand();
+                }
+            },
+
+            // ---- وحدة الجزيئات (محفوظة ومحسنة) ----
+            Particles: {
+                init() {
+                    const canvas = document.getElementById('particles-canvas');
+                    const ctx = canvas.getContext('2d');
+                    let width, height, particles = [];
+                    let frameSkip = 0;
+
+                    function resize() {
+                        width = window.innerWidth;
+                        height = window.innerHeight;
+                        canvas.width = width;
+                        canvas.height = height;
+                    }
+                    window.addEventListener('resize', resize);
+                    resize();
+
+                    const count = 15;
+                    for (let i = 0; i < count; i++) {
+                        particles.push({
+                            x: Math.random() * width,
+                            y: Math.random() * height,
+                            r: Math.random() * 3 + 1.5,
+                            dx: (Math.random() - 0.5) * 0.25,
+                            dy: (Math.random() - 0.5) * 0.25,
+                            alpha: Math.random() * 0.5 + 0.15
+                        });
+                    }
+
+                    function draw() {
+                        frameSkip++;
+                        if (frameSkip % 2 === 0) {
+                            ctx.clearRect(0, 0, width, height);
+                            for (let p of particles) {
+                                ctx.beginPath();
+                                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                                ctx.fillStyle = `rgba(184, 147, 75, ${p.alpha})`;
+                                ctx.fill();
+                                p.x += p.dx;
+                                p.y += p.dy;
+                                if (p.x < 0 || p.x > width) p.dx *= -1;
+                                if (p.y < 0 || p.y > height) p.dy *= -1;
+                            }
+                        }
+                        requestAnimationFrame(draw);
+                    }
+                    setTimeout(draw, 200);
+                }
+            },
+
+            // ---- وحدة واجهة المستخدم (UI) ----
+            UI: {
+                // المظهر
+                applyTheme(theme) {
+                    document.documentElement.setAttribute('data-theme', theme);
+                    document.getElementById('themeBtn').innerHTML = theme === 'dark' ?
+                        '<i class="fa-solid fa-sun"></i>' :
+                        '<i class="fa-solid fa-moon"></i>';
+                },
+                toggleTheme() {
+                    const current = document.documentElement.getAttribute('data-theme');
+                    const next = current === 'dark' ? 'light' : 'dark';
+                    APP.state.theme = next;
+                    APP.Storage.setSettings(undefined, undefined, next);
+                    this.applyTheme(next);
+                    APP.UI.showToast('تم تغيير المظهر');
+                },
+
+                // الخلفيات المخصصة
+                applyCustomBg() {
+                    const gender = APP.state.gender;
+                    const index = APP.state.bgIndex;
+                    const layer = document.getElementById('customBgLayer');
+                    if (gender && BG_SETS[gender] && BG_SETS[gender][index]) {
+                        const bgVal = BG_SETS[gender][index];
+                        layer.style.background = bgVal;
+                        layer.style.opacity = '0.92';
+                        layer.style.pointerEvents = 'none';
+                        // تعديل body background blend
+                        document.body.style.setProperty('--custom-bg', bgVal);
+                        document.body.style.backgroundBlendMode = 'overlay, normal';
+                    } else {
+                        layer.style.background = 'transparent';
+                        layer.style.opacity = '0';
+                        document.body.style.setProperty('--custom-bg', 'transparent');
+                    }
+                },
+
+                updateGenderBadge() {
+                    const badge = document.getElementById('genderBadge');
+                    if (APP.state.gender === 'male') badge.textContent = '♂';
+                    else if (APP.state.gender === 'female') badge.textContent = '♀';
+                    else badge.textContent = '?';
+                },
+
+                openGenderPicker() {
+                    const overlay = document.getElementById('bgPickerOverlay');
+                    overlay.classList.add('open');
+                    this.renderBgOptions();
+                },
+
+                closeGenderPicker() {
+                    document.getElementById('bgPickerOverlay').classList.remove('open');
+                },
+
+                renderBgOptions() {
+                    const grid = document.getElementById('bgGrid');
+                    grid.innerHTML = '';
+                    const gender = APP.state.gender || 'male';
+                    const set = BG_SETS[gender] || BG_SETS.male;
+                    const currentIndex = APP.state.bgIndex;
+
+                    set.forEach((bg, idx) => {
+                        const div = document.createElement('div');
+                        div.className = `bg-option ${idx === currentIndex ? 'active-bg' : ''}`;
+                        div.style.background = bg;
+                        div.innerHTML = `<div class="check-mark"><i class="fa-solid fa-check"></i></div>`;
+                        div.onclick = () => {
+                            APP.state.bgIndex = idx;
+                            APP.Storage.setSettings(undefined, idx);
+                            APP.UI.applyCustomBg();
+                            APP.UI.renderBgOptions();
+                            APP.UI.showToast('تم تغيير الخلفية');
+                        };
+                        grid.appendChild(div);
+                    });
+                },
+
+                setGender(gender) {
+                    APP.state.gender = gender;
+                    APP.Storage.setSettings(gender);
+                    if (APP.state.bgIndex >= BG_SETS[gender].length) {
+                        APP.state.bgIndex = 0;
+                        APP.Storage.setSettings(undefined, 0);
+                    }
+                    APP.UI.applyCustomBg();
+                    APP.UI.updateGenderBadge();
+                    APP.UI.renderBgOptions();
+                    APP.UI.showToast(gender === 'male' ? 'تم اختيار طالب' : 'تم اختيار طالبة');
+                },
+
+                resetSettings() {
+                    APP.UI.showCustomAlert('إعادة ضبط', 'هل تريد إعادة ضبط الجنس والخلفية؟', () => {
+                        APP.state.gender = null;
+                        APP.state.bgIndex = 0;
+                        APP.Storage.setSettings(null, 0);
+                        APP.UI.applyCustomBg();
+                        APP.UI.updateGenderBadge();
+                        APP.UI.closeGenderPicker();
+                        APP.UI.showToast('تم إعادة الضبط');
+                        APP.UI.closeAlert();
+                    });
+                },
+
+                // التوست
+                showToast(message, icon = 'fa-circle-check') {
+                    const container = document.getElementById('toastContainer');
+                    const toast = document.createElement('div');
+                    toast.className = 'toast';
+                    toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${message}`;
+                    container.appendChild(toast);
+                    requestAnimationFrame(() => toast.classList.add('show'));
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                        setTimeout(() => toast.remove(), 400);
+                    }, 2800);
+                },
+
+                // التنبيهات المخصصة
+                showCustomAlert(title, message, onConfirm) {
+                    document.getElementById('alertTitle').innerText = title;
+                    document.getElementById('alertMessage').innerText = message;
+                    document.getElementById('customAlert').classList.add('open');
+                    APP.state.alertCallback = onConfirm;
+                    document.getElementById('alertConfirmBtn').onclick = () => {
+                        if (APP.state.alertCallback) APP.state.alertCallback();
+                        APP.UI.closeAlert();
+                    };
+                },
+                closeAlert() {
+                    document.getElementById('customAlert').classList.remove('open');
+                    APP.state.alertCallback = null;
+                },
+
+                // مشاركة
+                shareApp() {
+                    const url = window.location.href;
+                    if (navigator.share) {
+                        navigator.share({
+                            title: 'منصة الإمام مالك التعليمية',
+                            text: 'انضم إلى منصة الإمام مالك التعليمية',
+                            url: url
+                        }).catch(() => {});
+                    } else {
+                        navigator.clipboard.writeText(url).then(() => {
+                            APP.UI.showToast('تم نسخ رابط التطبيق', 'fa-link');
+                        }).catch(() => {
+                            APP.UI.showToast('رابط التطبيق: ' + url, 'fa-link');
+                        });
+                    }
+                },
+
+                // التاريخ
+                loadLiveDate() {
+                    const today = new Date();
+                    const miladi = today.toLocaleDateString('ar-LY', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                    const hijri = today.toLocaleDateString('ar-LY', { year: 'numeric', month: 'long', day: 'numeric', calendar: 'islamic-umalqura' });
+                    document.getElementById('dateText').innerText = `${miladi} | ${hijri}`;
+                },
+
+                // الإلهام
+                changeInspiration() {
+                    const el = document.getElementById('inspirationText');
+                    let next;
+                    do {
+                        next = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+                    } while (next === el.innerText && QUOTES.length > 1);
+                    el.innerText = next;
+                    if (window.Telegram?.WebApp?.HapticFeedback) {
+                        window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+                    }
+                },
+
+                // التبويبات
+                switchTab(tabName) {
+                    APP.state.currentTab = tabName;
+                    document.querySelectorAll('.tab-btn').forEach(btn => {
+                        btn.classList.toggle('active', btn.dataset.tab === tabName);
+                    });
+                    APP.UI.updateTabSlider();
+                    APP.UI.renderContent();
+                    APP.UI.incrementVisit(tabName);
+                    document.getElementById('searchInput').blur();
+                },
+
+                updateTabSlider() {
+                    const activeBtn = document.querySelector(`.tab-btn[data-tab="${APP.state.currentTab}"]`);
+                    const slider = document.getElementById('tabSlider');
+                    const container = document.getElementById('tabsContainer');
+                    if (activeBtn && container) {
+                        const rect = activeBtn.getBoundingClientRect();
+                        const containerRect = container.getBoundingClientRect();
+                        slider.style.left = (rect.left - containerRect.left + 4) + 'px';
+                        slider.style.width = (rect.width - 8) + 'px';
+                    }
+                },
+
+                // البحث
+                debounceSearch() {
+                    clearTimeout(APP.state.searchTimeout);
+                    APP.state.searchTimeout = setTimeout(() => {
+                        APP.state.searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+                        APP.UI.renderContent();
+                    }, 300);
+                },
+
+                // عرض المحتوى
+                renderContent() {
+                    const area = document.getElementById('content-area');
+                    area.innerHTML = '';
+
+                    if (APP.state.currentTab === 'konasha') {
+                        APP.Konasha.render(area);
+                        return;
+                    }
+
+                    area.innerHTML = `<div class="skeleton-wrapper"><div class="skeleton-card"></div><div class="skeleton-card"></div></div>`;
+                    setTimeout(() => {
+                        const data = APP.Channels.getDataWithPins(APP.state.currentTab);
+                        let filtered = data.filter(item =>
+                            item.name.includes(APP.state.searchQuery) ||
+                            item.desc.includes(APP.state.searchQuery)
+                        );
+                        if (APP.state.searchQuery === '') filtered = data;
+
+                        area.innerHTML = '';
+                        if (filtered.length === 0) {
+                            area.innerHTML = `<div class="empty-state">لا توجد نتائج مطابقة للبحث</div>`;
+                            return;
+                        }
+
+                        filtered.forEach((item, index) => {
+                            const card = document.createElement('a');
+                            card.href = item.url;
+                            card.target = '_blank';
+                            card.className = 'channel-link glass-card fade-up';
+                            card.style.animationDelay = `${index * 30}ms`;
+                            card.innerHTML = `
+                                <div class="channel-right">
+                                    <div class="channel-avatar"><i class="fa-solid ${item.icon}"></i></div>
+                                    <div>
+                                        <div class="channel-name">${item.name} ${item.pinned ? '📌' : ''}</div>
+                                        <div class="channel-desc">${item.desc}</div>
+                                    </div>
+                                </div>
+                                <div style="display:flex; align-items:center; gap:4px;">
+                                    <button class="pin-btn ${item.pinned ? 'pinned' : ''}" onclick="event.preventDefault(); event.stopPropagation(); APP.Channels.togglePin('${item.name}', '${APP.state.currentTab}')">
+                                        <i class="fa-solid fa-thumbtack"></i>
+                                    </button>
+                                    <div class="telegram-arrow" style="color:var(--gold);font-size:0.8rem;"><i class="fa-solid fa-chevron-left"></i></div>
+                                </div>
+                                <span class="islamic-ornament ornament-tl">ﷺ</span>
+                                <span class="islamic-ornament ornament-br">ﷺ</span>
+                            `;
+                            area.appendChild(card);
+                        });
+                    }, 200);
+                },
+
+                // عدادات الزيارات
+                incrementVisit(section = 'app') {
+                    let visits = APP.Storage.getVisits();
+                    visits[section] = (visits[section] || 0) + 1;
+                    APP.Storage.setVisits(visits);
+                    APP.UI.updateVisitCounter();
+                },
+                updateVisitCounter() {
+                    const visits = APP.Storage.getVisits();
+                    const total = visits.app || 0;
+                    document.getElementById('visitCounter').innerText = `👁️ زيارات التطبيق: ${total}`;
+                },
+
+                // فتح وإغلاق الدليل
+                openModal() { document.getElementById('guide-modal').classList.add('open'); },
+                closeModal() { document.getElementById('guide-modal').classList.remove('open'); },
+                closeModalOutside(event) {
+                    if (event.target === document.getElementById('guide-modal')) APP.UI.closeModal();
+                },
+
+                // تأثير Ripple
+                initRipple() {
+                    document.addEventListener('click', function(e) {
+                        const target = e.target.closest('.ripple');
+                        if (!target) return;
+                        const rect = target.getBoundingClientRect();
+                        const ripple = document.createElement('span');
+                        ripple.className = 'ripple-effect';
+                        const size = Math.max(rect.width, rect.height);
+                        ripple.style.width = ripple.style.height = size + 'px';
+                        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                        target.appendChild(ripple);
+                        setTimeout(() => ripple.remove(), 500);
+                    });
+                }
+            },
+
+            // ---- وحدة القنوات ----
+            Channels: {
+                getDataWithPins(tab) {
+                    let list = BASE_DATA[tab] || [];
+                    return list.map(item => {
+                        const isPinned = APP.state.pinnedItems.some(p => p.name === item.name && p.tab === tab);
+                        return { ...item, pinned: isPinned };
+                    }).sort((a, b) => (b.pinned - a.pinned));
+                },
+                togglePin(name, tab) {
+                    const idx = APP.state.pinnedItems.findIndex(p => p.name === name && p.tab === tab);
+                    if (idx > -1) APP.state.pinnedItems.splice(idx, 1);
+                    else APP.state.pinnedItems.push({ name, tab });
+                    APP.Storage.setPinned(APP.state.pinnedItems);
+                    APP.UI.renderContent();
+                }
+            },
+
+            // ---- وحدة الكناشة ----
+            Konasha: {
+                render(area) {
+                    const benefits = APP.Storage.getKonasha();
+                    area.innerHTML = `
+                        <div class="konasha-section glass-card">
+                            <div class="section-title"><i class="fa-solid fa-feather-pointed"></i> تقييد فوائد العلم</div>
+                            <select id="benefit-type" class="form-select">
+                                <option value="فائدة فقهية">📜 فائدة فقهية</option>
+                                <option value="في الحديث">✨ في الحديث</option>
+                                <option value="في اللغة">🖋️ في اللغة</option>
+                                <option value="في أصول الفقه">⚖️ في أصول الفقه</option>
+                                <option value="في التفسير">📖 في التفسير</option>
+                                <option value="فائدة عامة">💡 فائدة عامة</option>
+                            </select>
+                            <textarea id="benefit-text" class="form-control" placeholder="اكتب الفوائد العلمية هنا..."></textarea>
+                            <button onclick="APP.Konasha.saveBenefit()" class="btn-submit ripple"><i class="fa-solid fa-floppy-disk"></i> حفظ</button>
                         </div>
-                        <div style="display:flex; align-items:center; gap:4px;">
-                            <button class="pin-btn ${item.pinned ? 'pinned' : ''}" onclick="event.preventDefault(); event.stopPropagation(); togglePin('${item.name}', '${currentTab}')">
-                                <i class="fa-solid fa-thumbtack"></i>
-                            </button>
-                            <div class="telegram-arrow"><i class="fa-solid fa-chevron-left"></i></div>
-                        </div>
-                        <span class="islamic-ornament ornament-tl">ﷺ</span>
-                        <span class="islamic-ornament ornament-br">ﷺ</span>
+                        <div class="section-title" style="margin-top:6px;"><i class="fa-solid fa-box-archive"></i> كناشتي (${benefits.length})</div>
+                        <div id="saved-benefits"></div>
                     `;
-                    area.appendChild(card);
-                });
-            }, 200);
-        }
+                    APP.Konasha.loadBenefits();
+                },
 
-        // ============================================================
-        //  التثبيت
-        // ============================================================
-        function togglePin(name, tab) {
-            const index = pinnedItems.findIndex(p => p.name === name && p.tab === tab);
-            if (index > -1) {
-                pinnedItems.splice(index, 1);
-            } else {
-                pinnedItems.push({ name, tab });
+                loadBenefits() {
+                    const container = document.getElementById('saved-benefits');
+                    if (!container) return;
+                    let benefits = APP.Storage.getKonasha();
+                    const favs = APP.state.favBenefits;
+
+                    benefits.sort((a, b) => {
+                        const aFav = favs.includes(a.id) ? 1 : 0;
+                        const bFav = favs.includes(b.id) ? 1 : 0;
+                        return bFav - aFav;
+                    });
+
+                    container.innerHTML = '';
+                    if (benefits.length === 0) {
+                        container.innerHTML = `<div class="empty-state">لم تقم بتقييد أي فائدة بعد.</div>`;
+                        return;
+                    }
+
+                    benefits.forEach(b => {
+                        const isFav = favs.includes(b.id);
+                        const card = document.createElement('div');
+                        card.className = `benefit-card ${isFav ? 'fav' : ''} fade-up`;
+                        card.style.animationDelay = '0ms';
+                        card.innerHTML = `
+                            <div class="benefit-tag">${b.benefit_type}</div>
+                            <div class="benefit-text">${APP.Utils.escapeHtml(b.benefit_text)}</div>
+                            <div style="font-size:0.6rem;color:var(--text-muted);margin-top:4px;">${new Date(b.date).toLocaleDateString('ar-LY')}</div>
+                            <div class="benefit-actions">
+                                <button class="fav-btn ${isFav ? 'fav' : ''}" onclick="APP.Konasha.toggleFav('${b.id}')" title="مفضلة">
+                                    <i class="fa-solid fa-star"></i>
+                                </button>
+                                <button onclick="APP.Konasha.copyBenefit('${APP.Utils.escapeHtml(b.benefit_text)}')" title="نسخ">
+                                    <i class="fa-solid fa-copy"></i>
+                                </button>
+                                <button class="delete-btn" onclick="APP.Konasha.deleteBenefit('${b.id}')" title="حذف">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                            <span class="islamic-ornament ornament-tl">ﷺ</span>
+                            <span class="islamic-ornament ornament-br">ﷺ</span>
+                        `;
+                        container.appendChild(card);
+                    });
+                },
+
+                saveBenefit() {
+                    const type = document.getElementById('benefit-type').value;
+                    const text = document.getElementById('benefit-text').value.trim();
+                    if (!text) {
+                        APP.UI.showCustomAlert('تنبيه', 'برجاء كتابة الفائدة أولاً.', () => APP.UI.closeAlert());
+                        return;
+                    }
+                    let benefits = APP.Storage.getKonasha();
+                    const newBenefit = {
+                        id: 'b_' + Date.now(),
+                        benefit_type: type,
+                        benefit_text: text,
+                        date: new Date().toISOString()
+                    };
+                    benefits.unshift(newBenefit);
+                    APP.Storage.setKonasha(benefits);
+                    document.getElementById('benefit-text').value = '';
+                    APP.Konasha.loadBenefits();
+                    APP.UI.showToast('تم تقييد الفائدة بنجاح');
+                },
+
+                deleteBenefit(id) {
+                    APP.UI.showCustomAlert('حذف الفائدة', 'هل أنت متأكد؟', () => {
+                        let benefits = APP.Storage.getKonasha();
+                        benefits = benefits.filter(b => b.id !== id);
+                        APP.Storage.setKonasha(benefits);
+                        APP.state.favBenefits = APP.state.favBenefits.filter(f => f !== id);
+                        APP.Storage.setFavBenefits(APP.state.favBenefits);
+                        APP.Konasha.loadBenefits();
+                        APP.UI.closeAlert();
+                        APP.UI.showToast('تم حذف الفائدة');
+                    });
+                },
+
+                toggleFav(id) {
+                    const idx = APP.state.favBenefits.indexOf(id);
+                    if (idx > -1) APP.state.favBenefits.splice(idx, 1);
+                    else APP.state.favBenefits.push(id);
+                    APP.Storage.setFavBenefits(APP.state.favBenefits);
+                    APP.Konasha.loadBenefits();
+                },
+
+                copyBenefit(text) {
+                    const plainText = text.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#039;/g, "'");
+                    navigator.clipboard.writeText(plainText).then(() => {
+                        APP.UI.showToast('تم نسخ الفائدة', 'fa-copy');
+                    }).catch(() => {
+                        const ta = document.createElement('textarea');
+                        ta.value = plainText;
+                        document.body.appendChild(ta);
+                        ta.select();
+                        document.execCommand('copy');
+                        ta.remove();
+                        APP.UI.showToast('تم نسخ الفائدة', 'fa-copy');
+                    });
+                }
+            },
+
+            // ---- أدوات مساعدة ----
+            Utils: {
+                escapeHtml(text) {
+                    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+                }
             }
-            localStorage.setItem('pinnedChannels', JSON.stringify(pinnedItems));
-            renderContent();
-        }
+        };
 
-        // ============================================================
-        //  كناشتي
-        // ============================================================
-        function renderKonasha(area) {
-            const stored = localStorage.getItem('imam_malik_konasha');
-            const benefits = stored ? JSON.parse(stored) : [];
-
-            area.innerHTML = `
-                <div class="konasha-section glass-card">
-                    <div class="section-title"><i class="fa-solid fa-feather-pointed"></i> تقييد فوائد العلم</div>
-                    <select id="benefit-type" class="form-select">
-                        <option value="فائدة فقهية">📜 فائدة فقهية</option>
-                        <option value="في الحديث">✨ في الحديث</option>
-                        <option value="في اللغة">🖋️ في اللغة</option>
-                        <option value="في أصول الفقه">⚖️ في أصول الفقه</option>
-                        <option value="في التفسير">📖 في التفسير</option>
-                        <option value="فائدة عامة">💡 فائدة عامة</option>
-                    </select>
-                    <textarea id="benefit-text" class="form-control" placeholder="اكتب الفوائد العلمية هنا..."></textarea>
-                    <button onclick="saveBenefit()" class="btn-submit ripple"><i class="fa-solid fa-floppy-disk"></i> حفظ</button>
-                </div>
-                <div class="section-title" style="margin-top:6px;"><i class="fa-solid fa-box-archive"></i> كناشتي (${benefits.length})</div>
-                <div id="saved-benefits"></div>
-            `;
-            loadBenefits();
-        }
-
-        function loadBenefits() {
-            const container = document.getElementById('saved-benefits');
-            if (!container) return;
-            const stored = localStorage.getItem('imam_malik_konasha');
-            let benefits = stored ? JSON.parse(stored) : [];
-
-            benefits.sort((a, b) => {
-                const aFav = favBenefits.includes(a.id) ? 1 : 0;
-                const bFav = favBenefits.includes(b.id) ? 1 : 0;
-                return bFav - aFav;
-            });
-
-            container.innerHTML = '';
-            if (benefits.length === 0) {
-                container.innerHTML = `<div class="empty-state">لم تقم بتقييد أي فائدة بعد.</div>`;
-                return;
-            }
-
-            benefits.forEach(b => {
-                const isFav = favBenefits.includes(b.id);
-                const card = document.createElement('div');
-                card.className = `benefit-card ${isFav ? 'fav' : ''} fade-up`;
-                card.style.animationDelay = '0ms';
-                card.innerHTML = `
-                    <div class="benefit-tag">${b.benefit_type}</div>
-                    <div class="benefit-text">${escapeHtml(b.benefit_text)}</div>
-                    <div class="benefit-actions">
-                        <button class="fav-btn ${isFav ? 'fav' : ''}" onclick="toggleFav('${b.id}')" title="مفضلة">
-                            <i class="fa-solid fa-star"></i>
-                        </button>
-                        <button onclick="copyBenefit('${escapeHtml(b.benefit_text)}')" title="نسخ">
-                            <i class="fa-solid fa-copy"></i>
-                        </button>
-                        <button class="delete-btn" onclick="deleteBenefit('${b.id}')" title="حذف">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </div>
-                    <span class="islamic-ornament ornament-tl">ﷺ</span>
-                    <span class="islamic-ornament ornament-br">ﷺ</span>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function saveBenefit() {
-            const type = document.getElementById('benefit-type').value;
-            const text = document.getElementById('benefit-text').value.trim();
-            if (!text) {
-                showCustomAlert('تنبيه', 'برجاء كتابة الفائدة أولاً.', closeAlert);
-                return;
-            }
-            const stored = localStorage.getItem('imam_malik_konasha');
-            let benefits = stored ? JSON.parse(stored) : [];
-            const newBenefit = {
-                id: 'b_' + Date.now(),
-                benefit_type: type,
-                benefit_text: text,
-                date: new Date().toISOString()
-            };
-            benefits.unshift(newBenefit);
-            localStorage.setItem('imam_malik_konasha', JSON.stringify(benefits));
-            document.getElementById('benefit-text').value = '';
-            loadBenefits();
-            showCustomAlert('تم الحفظ', 'تم تقييد الفائدة بنجاح.', closeAlert);
-        }
-
-        function deleteBenefit(id) {
-            showCustomAlert('حذف الفائدة', 'هل أنت متأكد؟', () => {
-                const stored = localStorage.getItem('imam_malik_konasha');
-                let benefits = stored ? JSON.parse(stored) : [];
-                benefits = benefits.filter(b => b.id !== id);
-                localStorage.setItem('imam_malik_konasha', JSON.stringify(benefits));
-                favBenefits = favBenefits.filter(f => f !== id);
-                localStorage.setItem('favBenefits', JSON.stringify(favBenefits));
-                loadBenefits();
-                closeAlert();
-            });
-        }
-
-        function toggleFav(id) {
-            const idx = favBenefits.indexOf(id);
-            if (idx > -1) favBenefits.splice(idx, 1);
-            else favBenefits.push(id);
-            localStorage.setItem('favBenefits', JSON.stringify(favBenefits));
-            loadBenefits();
-        }
-
-        function copyBenefit(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showCustomAlert('تم النسخ', 'تم نسخ الفائدة.', closeAlert);
-            }).catch(() => {
-                const ta = document.createElement('textarea');
-                ta.value = text;
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand('copy');
-                ta.remove();
-                showCustomAlert('تم النسخ', 'تم نسخ الفائدة.', closeAlert);
-            });
-        }
-
-        function escapeHtml(text) {
-            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        }
-
-        // ============================================================
-        //  عدادات الزيارات
-        // ============================================================
-        function incrementVisit(section = 'app') {
-            let visits = JSON.parse(localStorage.getItem('visitCounts')) || {};
-            visits[section] = (visits[section] || 0) + 1;
-            localStorage.setItem('visitCounts', JSON.stringify(visits));
-            updateVisitCounter();
-        }
-
-        function updateVisitCounter() {
-            const visits = JSON.parse(localStorage.getItem('visitCounts')) || {};
-            const total = visits.app || 0;
-            document.getElementById('visitCounter').innerText = `👁️ زيارات التطبيق: ${total}`;
-        }
-
-        // ============================================================
-        //  فتح وإغلاق الدليل
-        // ============================================================
-        function openModal() {
-            document.getElementById('guide-modal').classList.add('open');
-        }
-        function closeModal() {
-            document.getElementById('guide-modal').classList.remove('open');
-        }
-        function closeModalOutside(event) {
-            if (event.target === document.getElementById('guide-modal')) closeModal();
-        }
-
-        // ============================================================
-        //  Ripple
-        // ============================================================
-        document.addEventListener('click', function(e) {
-            const target = e.target.closest('.ripple');
-            if (!target) return;
-            const rect = target.getBoundingClientRect();
-            const ripple = document.createElement('span');
-            ripple.className = 'ripple-effect';
-            const size = Math.max(rect.width, rect.height);
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
-            ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
-            target.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 500);
+        // ================================================================
+        //  بدء التطبيق
+        // ================================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            APP.init();
+            // ربط الدوال القديمة بالنافذة (للتوافق مع onclick القديم)
+            window.APP = APP;
+            // تصدير بعض الدوال القديمة مباشرة للحفاظ على التوافق (إن وجدت)
+            window.switchTab = (t) => APP.UI.switchTab(t);
+            window.toggleTheme = () => APP.UI.toggleTheme();
+            window.changeInspiration = () => APP.UI.changeInspiration();
+            window.filterChannels = () => APP.UI.debounceSearch();
+            window.debounceSearch = () => APP.UI.debounceSearch();
+            window.togglePin = (n, t) => APP.Channels.togglePin(n, t);
+            window.saveBenefit = () => APP.Konasha.saveBenefit();
+            window.deleteBenefit = (id) => APP.Konasha.deleteBenefit(id);
+            window.toggleFav = (id) => APP.Konasha.toggleFav(id);
+            window.copyBenefit = (t) => APP.Konasha.copyBenefit(t);
+            window.openModal = () => APP.UI.openModal();
+            window.closeModal = () => APP.UI.closeModal();
+            window.closeModalOutside = (e) => APP.UI.closeModalOutside(e);
+            window.showCustomAlert = (t, m, c) => APP.UI.showCustomAlert(t, m, c);
+            window.closeAlert = () => APP.UI.closeAlert();
         });
-
-        // ============================================================
-        //  التهيئة النهائية
-        // ============================================================
-        window.addEventListener('load', function() {
-            applyAutoTheme();
-            loadLiveDate();
-            switchTab('college');
-            incrementVisit('app');
-            setTimeout(updateTabSlider, 100);
-            window.addEventListener('resize', updateTabSlider);
-        });
-
-        // تصدير الدوال
-        window.switchTab = switchTab;
-        window.toggleTheme = toggleTheme;
-        window.changeInspiration = changeInspiration;
-        window.filterChannels = filterChannels;
-        window.debounceSearch = debounceSearch;
-        window.togglePin = togglePin;
-        window.saveBenefit = saveBenefit;
-        window.deleteBenefit = deleteBenefit;
-        window.toggleFav = toggleFav;
-        window.copyBenefit = copyBenefit;
-        window.openModal = openModal;
-        window.closeModal = closeModal;
-        window.closeModalOutside = closeModalOutside;
-        window.showCustomAlert = showCustomAlert;
-        window.closeAlert = closeAlert;
     </script>
 </body>
 </html>
