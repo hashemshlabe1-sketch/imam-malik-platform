@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title> منصة الإمام مالك التعليمية </title>
+    <title>منصة الإمام مالك التعليمية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -29,7 +29,7 @@
             --bg-1: #fcf9f3;
             --bg-2: #f5efe6;
             --bg-3: #e9e0d3;
-            --card-bg: rgba(255, 252, 248, 0.65);
+            --card-bg: rgba(255, 252, 248, 0.70);
             --glass-border: rgba(184, 147, 75, 0.15);
             --text-primary: #1f2a24;
             --text-muted: #5e6a62;
@@ -51,7 +51,7 @@
             --bg-1: #080f0d;
             --bg-2: #0c1a16;
             --bg-3: #122620;
-            --card-bg: rgba(20, 36, 31, 0.7);
+            --card-bg: rgba(20, 36, 31, 0.75);
             --glass-border: rgba(212, 175, 103, 0.15);
             --text-primary: #f0f5f2;
             --text-muted: #a0b0aa;
@@ -95,7 +95,6 @@
             100% { opacity: 1; transform: scale(1); }
         }
 
-        /* خلفية خاصة فوقية لتطبيق الاختيار */
         .custom-bg-layer {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -104,12 +103,9 @@
             transition: background 0.7s cubic-bezier(0.23, 1, 0.32, 1);
             pointer-events: none;
         }
-        .custom-bg-layer.active {
-            opacity: 1;
-        }
 
-        /* ---------- 2. الخلفيات الخاصة (أنماط داخلية) ---------- */
-        /* يتم تطبيقها عبر JS كـ style على body أو الطبقة */
+        /* ---------- 2. الخلفيات الخاصة (ألوان فاتحة) ---------- */
+        /* سيتم تطبيقها عبر JS */
 
         /* ---------- 3. الكروت والزجاج ---------- */
         .glass-card {
@@ -657,7 +653,7 @@
             border: 3px solid transparent;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             background-size: cover !important;
             background-position: center !important;
             position: relative;
@@ -665,7 +661,7 @@
         .bg-option:hover { transform: scale(1.05); }
         .bg-option.active-bg {
             border-color: var(--gold);
-            box-shadow: 0 0 0 4px rgba(184, 147, 75, 0.2), 0 8px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 0 0 4px rgba(184, 147, 75, 0.2), 0 8px 25px rgba(0,0,0,0.1);
         }
         .bg-option .check-mark {
             position: absolute;
@@ -790,15 +786,9 @@
             height: 100%;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.6;
-        }
-        .visit-counter {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            text-align: center;
-            margin-top: 4px;
             opacity: 0.5;
         }
+
         .inspiration-card {
             background: var(--card-bg);
             backdrop-filter: blur(8px);
@@ -938,8 +928,6 @@
         <!-- المحتوى -->
         <div id="content-area" class="dynamic-content"></div>
 
-        <!-- عداد الزيارات -->
-        <div class="visit-counter" id="visitCounter"></div>
     </div>
 
     <!-- ===== تنبيه مخصص ===== -->
@@ -1062,19 +1050,19 @@
             'قال الإمام مالك: "ليس العلم بكثرة الرواية، وإنما العلم نور يضعه الله في القلب"'
         ];
 
-        // تعريف الخلفيات الخاصة
+        // تعريف الخلفيات الخاصة - ألوان فاتحة وجميلة
         const BG_SETS = {
             male: [
-                'linear-gradient(145deg, #0d1f17, #1a3b2e)',
-                'linear-gradient(145deg, #0b1a2e, #1d3a5c)',
-                'linear-gradient(145deg, #1a1108, #3d2b16)',
-                'linear-gradient(145deg, #0a0f14, #1f2a36)'
+                'linear-gradient(145deg, #e8f0fe, #d4e2f7)',   // أزرق سماوي فاتح
+                'linear-gradient(145deg, #f0f7ee, #dce8da)',   // أخضر نعناعي فاتح
+                'linear-gradient(145deg, #fcf6f0, #f5ebe0)',   // بيج دافئ
+                'linear-gradient(145deg, #eaeef3, #d5dce6)'    // رمادي مزرق فاتح
             ],
             female: [
-                'linear-gradient(145deg, #2d1824, #4d2a3a)',
-                'linear-gradient(145deg, #1f162b, #3b2d4f)',
-                'linear-gradient(145deg, #2d1b12, #543b28)',
-                'linear-gradient(145deg, #1e1e2a, #3b3b50)'
+                'linear-gradient(145deg, #fdeff2, #fadbe0)',   // وردي فاتح
+                'linear-gradient(145deg, #f0edf7, #e3def0)',   // لافندر
+                'linear-gradient(145deg, #fef3e8, #fce4d6)',   // خوخي
+                'linear-gradient(145deg, #e8f4f8, #d4ecf2)'    // أزرق ثلجي
             ]
         };
 
@@ -1108,8 +1096,6 @@
                 setFavBenefits(f) { this.set('favBenefits', f); },
                 getKonasha() { return this.get('konasha', []); },
                 setKonasha(k) { this.set('konasha', k); },
-                getVisits() { return this.get('visits', {}); },
-                setVisits(v) { this.set('visits', v); },
                 getSettings() {
                     return {
                         gender: this.get('gender', null),
@@ -1144,10 +1130,6 @@
                 this.UI.loadLiveDate();
                 // تفعيل التبويب الأول
                 this.UI.switchTab('college');
-                // زيادة الزيارات
-                this.UI.incrementVisit('app');
-                // تحديث عداد الزيارات
-                this.UI.updateVisitCounter();
                 // جزيئات
                 this.Particles.init();
                 // تهيئة Ripple
@@ -1161,6 +1143,14 @@
                     window.Telegram.WebApp.ready();
                     window.Telegram.WebApp.expand();
                 }
+
+                // ربط أزرار التبويب يدوياً (لضمان العمل)
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const tab = btn.dataset.tab;
+                        if (tab) APP.UI.switchTab(tab);
+                    });
+                });
             },
 
             // ---- وحدة الجزيئات (محفوظة ومحسنة) ----
@@ -1239,9 +1229,8 @@
                     if (gender && BG_SETS[gender] && BG_SETS[gender][index]) {
                         const bgVal = BG_SETS[gender][index];
                         layer.style.background = bgVal;
-                        layer.style.opacity = '0.92';
+                        layer.style.opacity = '0.85'; // شفافية عالية للحفاظ على وضوح النصوص
                         layer.style.pointerEvents = 'none';
-                        // تعديل body background blend
                         document.body.style.setProperty('--custom-bg', bgVal);
                         document.body.style.backgroundBlendMode = 'overlay, normal';
                     } else {
@@ -1394,7 +1383,6 @@
                     });
                     APP.UI.updateTabSlider();
                     APP.UI.renderContent();
-                    APP.UI.incrementVisit(tabName);
                     document.getElementById('searchInput').blur();
                 },
 
@@ -1470,26 +1458,6 @@
                             area.appendChild(card);
                         });
                     }, 200);
-                },
-
-                // عدادات الزيارات
-                incrementVisit(section = 'app') {
-                    let visits = APP.Storage.getVisits();
-                    visits[section] = (visits[section] || 0) + 1;
-                    APP.Storage.setVisits(visits);
-                    APP.UI.updateVisitCounter();
-                },
-                updateVisitCounter() {
-                    const visits = APP.Storage.getVisits();
-                    const total = visits.app || 0;
-                    document.getElementById('visitCounter').innerText = `👁️ زيارات التطبيق: ${total}`;
-                },
-
-                // فتح وإغلاق الدليل
-                openModal() { document.getElementById('guide-modal').classList.add('open'); },
-                closeModal() { document.getElementById('guide-modal').classList.remove('open'); },
-                closeModalOutside(event) {
-                    if (event.target === document.getElementById('guide-modal')) APP.UI.closeModal();
                 },
 
                 // تأثير Ripple
@@ -1670,7 +1638,6 @@
             APP.init();
             // ربط الدوال القديمة بالنافذة (للتوافق مع onclick القديم)
             window.APP = APP;
-            // تصدير بعض الدوال القديمة مباشرة للحفاظ على التوافق (إن وجدت)
             window.switchTab = (t) => APP.UI.switchTab(t);
             window.toggleTheme = () => APP.UI.toggleTheme();
             window.changeInspiration = () => APP.UI.changeInspiration();
